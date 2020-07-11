@@ -13,7 +13,9 @@ namespace SoccerStatistics.Database.Entities
         public string Nationality { get; set; }
         public string Dominant_leg { get; set; }
         public string Nick { get; set; }
+        
         public int Number { get; set; }
+        public string Player_position { get; set; }
         [ForeignKey("Team")]
         public int Team_id { get; set; }
         public virtual Team Team { get; set; }

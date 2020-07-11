@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -12,6 +13,7 @@ namespace SoccerStatistics.Api.Database.Entities
         [ForeignKey("Round")]
         public int Round_id { get; set; }
         public virtual Round Round { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
         [ForeignKey("Team1")]
         public virtual Team Team1{ get; set; }
@@ -22,5 +24,6 @@ namespace SoccerStatistics.Api.Database.Entities
         [ForeignKey("Activity")]
         public int Activity_id { get; set; }
         public virtual ICollection<Activity> Activities { get; set; }
+        public virtual ICollection<Interaction_between_players> Interactions_between_players { get; set; }
     }
 }

@@ -3,18 +3,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
-    public class Activity
+    public class Interaction_between_players
     {
         public int Id { get; set; }
-        public string Activity_type { get; set; } //enum?
+        public string Interaction_type { get; set; } //enum?
+
         [DataType(DataType.Time)]
-        public DateTime Time_At { get; set; } 
+        public DateTime Time_at { get; set; } 
         public string Description { get; set; }
-        [ForeignKey("Player")]
-        public int Player_id { get; set; }
-        public virtual Player Player { get; set; }
         [ForeignKey("Match")]
         public int Match_id { get; set; }
         public virtual Match Match { get; set; }
+        [ForeignKey("Player1")]
+        public virtual Player Player1 { get; set; }
+        [ForeignKey("Player2")]
+        public virtual Player Player2 { get; set; }
+
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SoccerStatistics.Api.Database.Entities
+﻿namespace SoccerStatistics.Api.Database.Entities
 {
     public class Team_in_match_stats
     {

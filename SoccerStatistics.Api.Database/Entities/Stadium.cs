@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -8,6 +9,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Name { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Built_At { get; set; }
         public int Capacity { get; set; }
         public string Field_size { get; set; }

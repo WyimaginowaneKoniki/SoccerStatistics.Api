@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -10,17 +11,17 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Country { get; set; }
         public string City { get; set; }
         [DataType(DataType.Date)]
-        public DateTime Built_At { get; set; }
-        public int Capacity { get; set; }
-        public string Field_size { get; set; }
-        public int Cost { get; set; }
-        public int Vip_Capacity { get; set; }
-        public bool Is_For_Disabled { get; set; }
-        public int Lighting { get; set; } 
+        public DateTime BuiltAt { get; set; }
+        public uint Capacity { get; set; }
+        public string FieldSize { get; set; }
+        public decimal Cost { get; set; }
+        public uint VipCapacity { get; set; }
+        public bool IsForDisabled { get; set; }
+        public uint Lighting { get; set; } 
         public string Architect { get; set; }
-        public bool Is_National { get; set; }
+        public bool IsNational { get; set; }
         [ForeignKey("Team")]
-        public int Team_id { get; set; }
+        public int TeamId { get; set; }
         public virtual Team Team { get; set; }
     }
 }

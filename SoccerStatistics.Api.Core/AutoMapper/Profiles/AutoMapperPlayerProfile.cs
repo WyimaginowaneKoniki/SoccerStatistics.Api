@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
 {
-    class AutoMapperPlayerProfile : Profile
+    public class AutoMapperPlayerProfile : Profile
     {
         public AutoMapperPlayerProfile()
         {

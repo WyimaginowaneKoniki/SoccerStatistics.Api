@@ -24,7 +24,7 @@ namespace SoccerStatistics.Api.Core.Services
         public async Task<PlayerDTO> GetByIdAsync(uint id)
         {
             var player = await _playerRepository.GetByIdAsync(id);
-            return _mapper.Map<Player, PlayerDTO>(player);
+            return _mapper.Map<PlayerDTO>(player);
         }
     }
 }

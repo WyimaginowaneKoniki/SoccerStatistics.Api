@@ -17,7 +17,6 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Nationality { get; set; }
         public string DominantLeg { get; set; }
         public string Nick { get; set; }
-        
         public uint Number { get; set; }
 
         [ForeignKey("Team")]
@@ -27,5 +26,4 @@ namespace SoccerStatistics.Api.Database.Entities
         [ForeignKey("Interactions_between_players")]
         public virtual ICollection<InteractionBetweenPlayers> InteractionsBetweenPlayers { get; set; }
     }
-    
 }

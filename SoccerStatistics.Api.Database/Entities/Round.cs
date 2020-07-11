@@ -6,6 +6,6 @@
         public string Name { get; set; }
         [ForeignKey("League")]
         public int League_id { get; set; }
-        public League League { get; set; }
+        public virtual League League { get; set; }
     }
 }

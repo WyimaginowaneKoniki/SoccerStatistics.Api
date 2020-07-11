@@ -19,6 +19,6 @@ namespace SoccerStatistics.Database.Entities
         public bool Is_National { get; set; }
         [ForeignKey("Team")]
         public int Team_id { get; set; }
-        public Team Team { get; set; }
+        public virtual Team Team { get; set; }
     }
 }

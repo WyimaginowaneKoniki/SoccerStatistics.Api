@@ -14,6 +14,6 @@ namespace SoccerStatistics.Database.Entities
         public virtual ICollection<Player> Players { get; set; }
         [ForeignKey("Stadium")]
         public int Stadium_id { get; set; }
-        public Stadium Stadium { get; set; }
+        public virtual  Stadium Stadium { get; set; }
     }
 }

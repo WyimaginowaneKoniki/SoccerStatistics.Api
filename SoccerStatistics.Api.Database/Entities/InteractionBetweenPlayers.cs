@@ -4,16 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
-    public class Interaction_between_players
+    public class InteractionBetweenPlayers
     {
         public int Id { get; set; }
-        public string Interaction_type { get; set; } //enum?
+        public InteractionType InteractionType { get; set; }
 
-        [DataType(DataType.Time)]
-        public DateTime Time_at { get; set; } 
+        public uint TimeAt { get; set; } 
         public string Description { get; set; }
         [ForeignKey("Match")]
-        public int Match_id { get; set; }
         public virtual Match Match { get; set; }
         [ForeignKey("Player1")]
         public virtual Player Player1 { get; set; }
@@ -21,4 +19,5 @@ namespace SoccerStatistics.Api.Database.Entities
         public virtual Player Player2 { get; set; }
 
     }
+
 }

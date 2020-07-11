@@ -10,24 +10,22 @@ namespace SoccerStatistics.Api.Database.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public int Height { get; set; }
-        public int Weight { get; set; }
+        public uint Height { get; set; }
+        public uint Weight { get; set; }
         [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
         public string Nationality { get; set; }
-        public string Dominant_leg { get; set; }
+        public string DominantLeg { get; set; }
         public string Nick { get; set; }
         
-        public int Number { get; set; }
-        public string Player_position { get; set; }
+        public uint Number { get; set; }
+        public PlayerPosition PlayerPosition { get; set; }
         [ForeignKey("Team")]
-        public int Team_id { get; set; }
         public virtual Team Team { get; set; }
         [ForeignKey("Activities")]
-        public int Activity_id { get; set; }
         public virtual ICollection<Activity> Activities { get; set; }
         [ForeignKey("Interactions_between_players")]
-        public int Interactions_between_players_id { get; set; }
-        public virtual ICollection<Interaction_between_players> Interactions_between_players { get; set; }
+        public virtual ICollection<InteractionBetweenPlayers> InteractionsBetweenPlayers { get; set; }
     }
+    
 }

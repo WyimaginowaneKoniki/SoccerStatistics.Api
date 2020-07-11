@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SoccerStatistics.Database.Entities
+namespace SoccerStatistics.Api.Database.Entities
 {
     public class Team
     {
@@ -15,5 +15,6 @@ namespace SoccerStatistics.Database.Entities
         [ForeignKey("Stadium")]
         public int Stadium_id { get; set; }
         public virtual  Stadium Stadium { get; set; }
+        public virtual ICollection<Transfer> Transfers { get; set; }
     }
 }

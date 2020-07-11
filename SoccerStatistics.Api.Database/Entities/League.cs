@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SoccerStatistics.Database.Entities
+namespace SoccerStatistics.Api.Database.Entities
 {
     public class League
     {

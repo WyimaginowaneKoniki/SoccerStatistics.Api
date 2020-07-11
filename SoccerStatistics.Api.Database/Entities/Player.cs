@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -19,5 +20,8 @@ namespace SoccerStatistics.Api.Database.Entities
         [ForeignKey("Team")]
         public int Team_id { get; set; }
         public virtual Team Team { get; set; }
+        [ForeignKey("Activities")]
+        public int Activity_id { get; set; }
+        public virtual ICollection<Activity> Activities { get; set; }
     }
 }

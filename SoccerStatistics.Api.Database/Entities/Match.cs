@@ -16,5 +16,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public virtual Team Team1{ get; set; }
         [ForeignKey("Team2")]
         public virtual Team Team2 { get; set; }
+        [ForeignKey("Team_in_match_stats")]
+        public virtual Team_in_match_stats Team_in_match_stats { get; set; }
     }
 }

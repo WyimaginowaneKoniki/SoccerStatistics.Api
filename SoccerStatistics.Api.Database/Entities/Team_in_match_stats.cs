@@ -1,4 +1,6 @@
-﻿namespace SoccerStatistics.Api.Database.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SoccerStatistics.Api.Database.Entities
 {
     public class Team_in_match_stats
     {

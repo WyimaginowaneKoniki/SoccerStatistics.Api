@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SoccerStatistics.Api.Database;
 
 namespace SoccerStatistics.Api.WebApi
 {
@@ -19,7 +20,7 @@ namespace SoccerStatistics.Api.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -35,6 +36,8 @@ namespace SoccerStatistics.Api.WebApi
                     await context.Response.WriteAsync("Hello World!");
                 });
             });
+           // serviceProvider.GetService<SoccerStatisticsDbContext>().Database.Migrate();
+
         }
     }
 }

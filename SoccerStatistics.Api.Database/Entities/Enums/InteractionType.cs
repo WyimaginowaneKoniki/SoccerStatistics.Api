@@ -2,6 +2,9 @@
 {
     public enum InteractionType
     {
-
+        Goal,
+        Change,
+        Foal,
+        ShootOnGoal,
     }
 }

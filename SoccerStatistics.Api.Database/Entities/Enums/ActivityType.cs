@@ -2,6 +2,15 @@
 {
     public enum ActivityType
     {
-
+        MissedShot,
+        RedCard,
+        YellowCard,
+        Substituitons,
+        Injury,
+        CornerKick,
+        PenaltyKick,
+        FreeKick,
+        Offside,
+        Clearances
     }
 }

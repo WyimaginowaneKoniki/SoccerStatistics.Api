@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerStatistics.Api.Database", "SoccerStatistics.Api.Database\SoccerStatistics.Api.Database.csproj", "{090A6441-AAD2-4224-9D35-E29C52BEF620}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerStatistics.Api.Database", "SoccerStatistics.Api.Database\SoccerStatistics.Api.Database.csproj", "{090A6441-AAD2-4224-9D35-E29C52BEF620}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerStatistics.Api.Core", "SoccerStatistics.Api.Core\SoccerStatistics.Api.Core.csproj", "{806EB254-B036-4CCB-8B20-969FAE33AC68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerStatistics.Api.Core", "SoccerStatistics.Api.Core\SoccerStatistics.Api.Core.csproj", "{806EB254-B036-4CCB-8B20-969FAE33AC68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerStatistics.Api.WebApi", "SoccerStatistics.Api.WebApi\SoccerStatistics.Api.WebApi.csproj", "{7D406C19-DF22-4F2A-A5A8-8FE706A8BE29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerStatistics.Api.WebApi", "SoccerStatistics.Api.WebApi\SoccerStatistics.Api.WebApi.csproj", "{7D406C19-DF22-4F2A-A5A8-8FE706A8BE29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerStatistics.Api.Application", "Application\SoccerStatistics.Api.Application.csproj", "{439C524D-5448-460F-9248-891782F3C51B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{7D406C19-DF22-4F2A-A5A8-8FE706A8BE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D406C19-DF22-4F2A-A5A8-8FE706A8BE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D406C19-DF22-4F2A-A5A8-8FE706A8BE29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{439C524D-5448-460F-9248-891782F3C51B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{439C524D-5448-460F-9248-891782F3C51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{439C524D-5448-460F-9248-891782F3C51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{439C524D-5448-460F-9248-891782F3C51B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

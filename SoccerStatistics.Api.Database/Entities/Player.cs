@@ -19,7 +19,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Nick { get; set; }
         
         public uint Number { get; set; }
-        public PlayerPosition PlayerPosition { get; set; }
+
         [ForeignKey("Team")]
         public virtual Team Team { get; set; }
         [ForeignKey("Activities")]

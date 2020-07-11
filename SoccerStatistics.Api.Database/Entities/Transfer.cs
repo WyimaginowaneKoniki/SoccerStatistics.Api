@@ -8,6 +8,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public int Id { get; set; }
         public decimal Price { get; set; }
         public DateTime Date { get; set; }
+        public PlayerPosition PlayerPosition { get; set; }
         [ForeignKey("Player")]
         public virtual Player Player { get; set; }
         [ForeignKey("DestTeam")]

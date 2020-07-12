@@ -2,6 +2,7 @@
 {
     public enum PlayerPosition
     {
+        Undefined,
         Goalkeeper,
         Centreback,
         Sweeper,

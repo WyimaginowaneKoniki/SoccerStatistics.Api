@@ -7,9 +7,7 @@ namespace SoccerStatistics.Api.Database.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
         public virtual League League { get; set; }
-
         public virtual IEnumerable<Match> Matches { get; set; }
     }
 }

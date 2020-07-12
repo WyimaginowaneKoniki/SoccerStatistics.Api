@@ -17,12 +17,8 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Nationality { get; set; }
         public string DominantLeg { get; set; }
         public string Nick { get; set; }
-        
         public uint Number { get; set; }
-
-
         public virtual Team Team { get; set; }
-
         public virtual IEnumerable<Activity> Activities { get; set; }
         [InverseProperty("Player1")]
         public virtual IEnumerable<InteractionBetweenPlayers> InteractionsBetweenPlayer1 { get; set; }

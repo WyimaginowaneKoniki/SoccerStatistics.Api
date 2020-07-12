@@ -11,7 +11,6 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Formation { get; set; }
         [ForeignKey("MatchId")]
         public virtual Match Match { get; set; }
-
         public virtual Team Team { get; set; }
 
     }

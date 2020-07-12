@@ -4,7 +4,7 @@
     {
         Goal,
         Change,
-        Foal,
+        Foul,
         ShootOnGoal,
     }
 }

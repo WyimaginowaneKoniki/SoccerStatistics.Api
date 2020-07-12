@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerStatistics.Api.Database.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SoccerStatistics.Api.Database
 {
@@ -22,5 +19,6 @@ namespace SoccerStatistics.Api.Database
         {
 
         }
+
     }
 }

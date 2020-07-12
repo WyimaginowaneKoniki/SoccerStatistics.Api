@@ -9,9 +9,8 @@ namespace SoccerStatistics.Api.Database.Entities
         public uint PassSuccess { get; set; }
         public uint BallPossesion { get; set; }
         public string Formation { get; set; }
-        [ForeignKey("Match")]
+        [ForeignKey("MatchId")]
         public virtual Match Match { get; set; }
-        [ForeignKey("Team")]
         public virtual Team Team { get; set; }
 
     }

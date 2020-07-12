@@ -11,11 +11,11 @@ namespace SoccerStatistics.Api.Database.Entities
 
         public uint TimeAt { get; set; } 
         public string Description { get; set; }
-        [ForeignKey("Match")]
+
         public virtual Match Match { get; set; }
-        [ForeignKey("Player1")]
+        [ForeignKey("InteractionsBetweenPlayer1")]
         public virtual Player Player1 { get; set; }
-        [ForeignKey("Player2")]
+        [ForeignKey("InteractionsBetweenPlayer2")]
         public virtual Player Player2 { get; set; }
 
     }

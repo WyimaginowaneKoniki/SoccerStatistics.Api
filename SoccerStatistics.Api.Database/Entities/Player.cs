@@ -20,12 +20,14 @@ namespace SoccerStatistics.Api.Database.Entities
         
         public uint Number { get; set; }
 
-        [ForeignKey("Team")]
+
         public virtual Team Team { get; set; }
-        [ForeignKey("Activities")]
-        public virtual ICollection<Activity> Activities { get; set; }
-        [ForeignKey("Interactions_between_players")]
-        public virtual ICollection<InteractionBetweenPlayers> InteractionsBetweenPlayers { get; set; }
+
+        public virtual IEnumerable<Activity> Activities { get; set; }
+        [InverseProperty("Player1")]
+        public virtual IEnumerable<InteractionBetweenPlayers> InteractionsBetweenPlayer1 { get; set; }
+        [InverseProperty("Player2")]
+        public virtual IEnumerable<InteractionBetweenPlayers> InteractionsBetweenPlayer2 { get; set; }
     }
     
 }

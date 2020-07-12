@@ -22,5 +22,9 @@ namespace SoccerStatistics.Api.Database
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+          
+        }
     }
 }

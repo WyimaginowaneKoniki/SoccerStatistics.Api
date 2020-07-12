@@ -15,12 +15,18 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Coach { get; set; }
         public string City { get; set; }
         public virtual IEnumerable<Player> Players { get; set; }
-        [ForeignKey("Stadium")]
-        public int Stadium_id { get; set; }
+
         public virtual  Stadium Stadium { get; set; }
-        [ForeignKey("League")]
+  
         public virtual League League { get; set; }
-        public virtual IEnumerable<Transfer> Transfers { get; set; }
-        public virtual IEnumerable<Match> Matches { get; set; }
+        [InverseProperty("DestTeam")]
+        public virtual IEnumerable<Transfer> Transfer1 { get; set; }
+        [InverseProperty("SourceTeam")]
+        public virtual IEnumerable<Transfer> Transfer2 { get; set; }
+
+        [InverseProperty("MatchTeam1")]
+        public virtual IEnumerable<Match> TeamId1 { get; set; }
+        [InverseProperty("MatchTeam2")]
+        public virtual IEnumerable<Match> TeamId2 { get; set; }
     }
 }

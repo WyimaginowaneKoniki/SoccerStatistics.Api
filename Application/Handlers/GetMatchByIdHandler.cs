@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SoccerStatistics.Api.Application.Queries;
 using SoccerStatistics.Api.Core.DTO;
-using SoccerStatistics.Api.Core.Services;
+using SoccerStatistics.Api.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Application.Handlers
 {
-    class GetMatchByIdHandler : IRequestHandler<GetMatchByIdQuery, MatchDTO>
+    public class GetMatchByIdHandler : IRequestHandler<GetMatchByIdQuery, MatchDTO>
     {
-        private readonly MatchService _service;
+        private readonly IMatchService _service;
 
-        public GetMatchByIdHandler(MatchService service)
+        public GetMatchByIdHandler(IMatchService service)
         {
             _service = service;
         }

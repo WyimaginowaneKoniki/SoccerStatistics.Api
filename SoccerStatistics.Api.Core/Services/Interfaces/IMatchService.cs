@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Core.Services.Interfaces
 {
-    interface IMatchService
+    public interface IMatchService
     {
         Task<MatchDTO> GetByIdAsync(uint id);
     }

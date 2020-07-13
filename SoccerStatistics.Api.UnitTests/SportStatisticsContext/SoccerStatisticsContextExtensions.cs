@@ -138,6 +138,5 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             dbContext.SaveChanges();
         }
-
     }
 }

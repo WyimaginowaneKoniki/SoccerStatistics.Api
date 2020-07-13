@@ -37,5 +37,16 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             return new TeamRepository(soccerStatisticsDbContext);
         }
+        public static ITeamRepository GetInMemoryTeamRepository(string dbName)
+        {
+            var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
+                                .UseInMemoryDatabase(databaseName: dbName)
+                                .Options;
+
+            var soccerStatisticsDbContext = new SoccerStatisticsDbContext(options);
+            soccerStatisticsDbContext.FillDatabaseWithTeams();
+
+            return new TeamRepository(soccerStatisticsDbContext);
+        }
     }
 }

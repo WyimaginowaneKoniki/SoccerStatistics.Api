@@ -64,7 +64,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     FullName = "Manchester United Football Club",
                     ShortName = "Manchester United",
                     City= "Stretford",
-                    CreatedAt = new DateTime(1878, 1, 1),
+                    CreatedAt = 1878,
                     Coach = "Ole Gunnar Solskjær"
                 });
 
@@ -75,7 +75,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     FullName = "Real Madrid Club de Futbol",
                     ShortName = "Real Madrid",
                     City = "Madrid",
-                    CreatedAt = new DateTime(1902, 3, 6),
+                    CreatedAt = 1902,
                     Coach = "Zinedine Zidane"
                 });
 
@@ -86,7 +86,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     FullName = "Futbol Club Barcelona",
                     ShortName = "FC Barcelona",
                     City = "Barcelona",
-                    CreatedAt = new DateTime(1899, 11, 29),
+                    CreatedAt = 1899,
                     Coach = "Quique Setien"
                 });
 

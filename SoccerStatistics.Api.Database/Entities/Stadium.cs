@@ -6,11 +6,10 @@ namespace SoccerStatistics.Api.Database.Entities
 {
     public class Stadium
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
         public string Name { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
-        [DataType(DataType.Date)]
         public uint BuiltAt { get; set; }
         public uint Capacity { get; set; }
         public string FieldSize { get; set; }
@@ -20,7 +19,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public uint Lighting { get; set; } 
         public string Architect { get; set; }
         public bool IsNational { get; set; }
-        public int TeamId { get; set; }
+        public uint TeamId { get; set; }
         public virtual Team Team { get; set; }
     }
 }

@@ -36,13 +36,14 @@ namespace SoccerStatistics.Api.WebApi
                     });
 
             services.AddMediatR(typeof(GetPlayerByIdHandler));
-            services.AddMediatR(typeof(GetMatchByIdHandler));
             services.AddSingleton(AutoMapperConfig.Initialize());
 
-            
 
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IPlayerService, PlayerService>();
+
+            services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<ITeamService, TeamService>();
 
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IMatchService, MatchService>();

@@ -5,10 +5,7 @@ using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
-using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services

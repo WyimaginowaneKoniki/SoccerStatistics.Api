@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Database.Entities;
-using System.Xml;
 
 namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
 {

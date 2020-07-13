@@ -2,9 +2,6 @@
 using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 {
@@ -20,6 +17,17 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
             soccerStatisticsDbContext.FillDatabaseWithPlayers();
 
             return new PlayerRepository(soccerStatisticsDbContext);
+        }
+        public static ITeamRepository GetInMemoryTeamRepository(string dbName)
+        {
+            var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
+                                .UseInMemoryDatabase(databaseName: dbName)
+                                .Options;
+
+            var soccerStatisticsDbContext = new SoccerStatisticsDbContext(options);
+            soccerStatisticsDbContext.FillDatabaseWithTeams();
+
+            return new TeamRepository(soccerStatisticsDbContext);
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 {
@@ -53,6 +51,43 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     DominantLeg = "",
                     Nick = "Priest",
                     Number = 22
+                });
+
+            dbContext.SaveChanges();
+        }
+        public static void FillDatabaseWithTeams(this SoccerStatisticsDbContext dbContext)
+        {
+            dbContext.Teams.Add(
+                new Team()
+                {
+                    Id = 1,
+                    FullName = "Manchester United Football Club",
+                    ShortName = "Manchester United",
+                    City= "Stretford",
+                    CreatedAt = new DateTime(1878, 1, 1),
+                    Coach = "Ole Gunnar Solskjær"
+                });
+
+            dbContext.Teams.Add(
+                new Team()
+                {
+                    Id = 2,
+                    FullName = "Real Madrid Club de Futbol",
+                    ShortName = "Real Madrid",
+                    City = "Madrid",
+                    CreatedAt = new DateTime(1902, 3, 6),
+                    Coach = "Zinedine Zidane"
+                });
+
+            dbContext.Teams.Add(
+                new Team()
+                {
+                    Id = 3,
+                    FullName = "Futbol Club Barcelona",
+                    ShortName = "FC Barcelona",
+                    City = "Barcelona",
+                    CreatedAt = new DateTime(1899, 11, 29),
+                    Coach = "Quique Setien"
                 });
 
             dbContext.SaveChanges();

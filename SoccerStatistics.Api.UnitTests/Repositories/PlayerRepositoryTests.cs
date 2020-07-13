@@ -1,12 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Moq;
-using SoccerStatistics.Api.Database;
-using SoccerStatistics.Api.Database.Entities;
-using SoccerStatistics.Api.Database.Repositories;
+﻿using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

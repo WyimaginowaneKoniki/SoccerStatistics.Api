@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using SoccerStatistics.Api.Core.AutoMapper.Profiles;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SoccerStatistics.Api.Core.AutoMapper
 {
@@ -12,6 +9,8 @@ namespace SoccerStatistics.Api.Core.AutoMapper
             => new MapperConfiguration(cfg =>
            {
                cfg.AddProfile<AutoMapperPlayerProfile>();
+               cfg.AddProfile<AutoMapperTeamProfile>();
            }).CreateMapper();
+
     }
 }

@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Database.Repositories
 {
-    public class PlayerRepository : IPlayerRepository
+    public class TeamRepository : ITeamRepository
     {
         private readonly SoccerStatisticsDbContext _context;
 
-        public PlayerRepository(SoccerStatisticsDbContext context)
+        public TeamRepository(SoccerStatisticsDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Player> GetByIdAsync(uint id)
-            => await _context.Players.SingleOrDefaultAsync(x => x.Id == id);
+        public async Task<Team> GetByIdAsync(uint id)
+            => await _context.Teams.SingleOrDefaultAsync(x => x.Id == id);
     }
 }

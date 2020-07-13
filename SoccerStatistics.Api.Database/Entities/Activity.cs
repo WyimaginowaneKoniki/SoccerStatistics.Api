@@ -2,7 +2,7 @@
 {
     public class Activity
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
         public ActivityType ActivityType { get; set; } //enum?
         public uint TimeAt { get; set; } 
         public string Description { get; set; }

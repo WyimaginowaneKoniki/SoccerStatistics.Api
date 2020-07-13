@@ -7,7 +7,7 @@ namespace SoccerStatistics.Api.Database.Entities
 {
     public class Match
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
         public virtual Stadium Stadium { get; set; }
         public uint AmountOfFans { get; set; }
         public virtual Round Round { get; set; }

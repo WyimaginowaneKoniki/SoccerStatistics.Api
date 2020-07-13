@@ -12,9 +12,9 @@ namespace SoccerStatistics.Api.WebApi.Controllers
     {
         public TeamController(IMediator mediator) : base(mediator) { }
 
-        // GET: api/Player/{id}
+        // GET: api/Team/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPlayerById([FromRoute] GetTeamByIdQuery query)
+        public async Task<IActionResult> GetTeamById([FromRoute] GetTeamByIdQuery query)
         {
             var team = await CommandAsync(query);
 

@@ -4,7 +4,7 @@ namespace SoccerStatistics.Api.Database.Entities
 {
     public class InteractionBetweenPlayers
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
         public InteractionType InteractionType { get; set; }
         public uint TimeAt { get; set; } 
         public string Description { get; set; }

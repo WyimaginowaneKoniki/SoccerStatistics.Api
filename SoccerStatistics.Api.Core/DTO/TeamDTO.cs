@@ -8,7 +8,7 @@ namespace SoccerStatistics.Api.Core.DTO
         public int Id { get; set; }
         public string FullName { get; set; }
         public string ShortName { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public uint CreatedAt { get; set; }
         public string Coach { get; set; }
         public string City { get; set; }
         public virtual IEnumerable<PlayerDTO> Players { get; set; }

@@ -20,7 +20,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                 FullName = "Manchester United Football Club",
                 ShortName = "Manchester United",
                 City = "Stretford",
-                CreatedAt = new DateTime(1878, 1, 1),
+                CreatedAt = 1878,
                 Coach = "Ole Gunnar Solskjær"
             };
 

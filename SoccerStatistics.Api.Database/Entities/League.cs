@@ -4,7 +4,7 @@ namespace SoccerStatistics.Api.Database.Entities
 {
     public class League
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
         public string Name { get; set; }
         public string Shortname { get; set; }
         public string Season { get; set; }

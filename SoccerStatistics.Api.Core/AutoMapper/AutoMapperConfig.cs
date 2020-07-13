@@ -9,6 +9,7 @@ namespace SoccerStatistics.Api.Core.AutoMapper
             => new MapperConfiguration(cfg =>
            {
                cfg.AddProfile<AutoMapperPlayerProfile>();
+               cfg.AddProfile<AutoMapperMatchProfile>();
                cfg.AddProfile<AutoMapperTeamProfile>();
            }).CreateMapper();
 

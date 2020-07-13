@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SoccerStatistics.Api.Core.DTO
 {
-    class MatchDTO
+    public class MatchDTO
     {
         public uint StadiumId { get; set; }
         public uint AmountOfFans { get; set; }

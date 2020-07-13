@@ -2,7 +2,7 @@
 
 namespace SoccerStatistics.Api.Core.DTO
 {
-    class ActivityDTO
+    public class ActivityDTO
     {
         public ActivityType ActivityType { get; set; }
         public uint TimeAt { get; set; }

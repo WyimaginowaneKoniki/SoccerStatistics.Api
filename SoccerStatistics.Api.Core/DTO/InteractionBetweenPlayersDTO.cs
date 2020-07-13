@@ -2,7 +2,7 @@
 
 namespace SoccerStatistics.Api.Core.DTO
 {
-    class InteractionBetweenPlayersDTO
+    public class InteractionBetweenPlayersDTO
     {
         public InteractionType InteractionType { get; set; }
         public uint TimeAt { get; set; }

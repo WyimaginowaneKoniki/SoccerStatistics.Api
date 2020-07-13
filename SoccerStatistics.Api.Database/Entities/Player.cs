@@ -25,5 +25,4 @@ namespace SoccerStatistics.Api.Database.Entities
         [InverseProperty("Player2")]
         public virtual IEnumerable<InteractionBetweenPlayers> InteractionsBetweenPlayer2 { get; set; }
     }
-    
 }

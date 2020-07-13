@@ -57,5 +57,52 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             dbContext.SaveChanges();
         }
+
+        public static void FillDatabaseWithMatches(this SoccerStatisticsDbContext dbContext)
+        {
+            var stadium = new Stadium
+            {
+                Id = 1,
+                Name = "Old Trafford",
+                Country = "England",
+                City = "Manchester",
+                BuiltAt = 1910,
+                Capacity = 75_797,
+                FieldSize = "105:68",
+                Cost = 151_233M,
+                VipCapacity = 4000,
+                IsForDisabled = true,
+                Lighting = 100_000,
+                Architect = "Archibald Leitch",
+                IsNational = false
+            };
+
+            var team = new Team() { Id = 1, FullName = "Manchester United FC" };
+
+            dbContext.Add(
+                new Match
+                {
+                    Id = 1,
+                    Stadium = stadium,
+                    AmountOfFans = 60_123,
+                    Date = new DateTime(2015, 3, 4),
+                    MatchTeam1 = team,
+                    MatchTeam2 = new Team() { Id = 2, FullName = "FC Trampkarze" }
+                });
+
+            dbContext.Add(
+                new Match
+                {
+                    Id = 2,
+                    Stadium = stadium,
+                    AmountOfFans = 58_123,
+                    Date = new DateTime(2015, 3, 14),
+                    MatchTeam1 = new Team() { Id = 3, FullName = "Coco Jambo" },
+                    MatchTeam2 = team
+                });
+
+            dbContext.SaveChanges();
+        }
+
     }
 }

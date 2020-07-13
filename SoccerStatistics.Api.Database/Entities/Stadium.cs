@@ -11,7 +11,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Country { get; set; }
         public string City { get; set; }
         [DataType(DataType.Date)]
-        public DateTime BuiltAt { get; set; }
+        public uint BuiltAt { get; set; }
         public uint Capacity { get; set; }
         public string FieldSize { get; set; }
         public decimal Cost { get; set; }

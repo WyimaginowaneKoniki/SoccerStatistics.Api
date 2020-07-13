@@ -4,7 +4,7 @@ using SoccerStatistics.Api.Database.Entities;
 
 namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
 {
-    class AutoMapperMatchProfile : Profile
+    public class AutoMapperMatchProfile : Profile
     {
         public AutoMapperMatchProfile()
         {

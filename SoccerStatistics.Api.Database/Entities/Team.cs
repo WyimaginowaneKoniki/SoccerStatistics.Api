@@ -10,8 +10,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public int Id { get; set; }
         public string FullName { get; set; }
         public string ShortName { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime CreatedAt { get; set; }
+        public uint CreatedAt { get; set; }
         public string Coach { get; set; }
         public string City { get; set; }
         public virtual IEnumerable<Player> Players { get; set; }

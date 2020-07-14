@@ -23,19 +23,20 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
             return new MatchRepository(soccerStatisticsDbContext);
         }
 
-        private static SoccerStatisticsDbContext InitSoccerstatisticsDbContext(string dbName)
-        {
-            var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
-                                .UseInMemoryDatabase(databaseName: dbName)
-                                .Options;
-            return new SoccerStatisticsDbContext(options);
-        }
+      
         public static ITeamRepository GetInMemoryTeamRepository(string dbName)
         {
             var soccerStatisticsDbContext = InitSoccerstatisticsDbContext(dbName);
             soccerStatisticsDbContext.FillDatabaseWithTeams();
 
             return new TeamRepository(soccerStatisticsDbContext);
+        }
+        private static SoccerStatisticsDbContext InitSoccerstatisticsDbContext(string dbName)
+        {
+            var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
+                                .UseInMemoryDatabase(databaseName: dbName)
+                                .Options;
+            return new SoccerStatisticsDbContext(options);
         }
     }
 }

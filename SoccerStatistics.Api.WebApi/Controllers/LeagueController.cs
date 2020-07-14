@@ -1,10 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SoccerStatistics.Api.Application.Queries;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
@@ -14,11 +11,11 @@ namespace SoccerStatistics.Api.WebApi.Controllers
     public class LeagueController : BaseController
     {
         public LeagueController(IMediator mediator) : base(mediator) { }
-        // GET: api/League
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        // GET: api/League/all
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll([FromRoute] GetAllLeaguesQuery request)
         {
-            var leagues = await GetAll();
+            var leagues = await CommandAsync(request);
 
             if (leagues == null)
             {

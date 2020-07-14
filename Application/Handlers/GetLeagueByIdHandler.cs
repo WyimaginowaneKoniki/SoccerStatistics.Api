@@ -2,6 +2,7 @@
 using SoccerStatistics.Api.Application.Queries;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace SoccerStatistics.Api.Application.Handlers
             _service = service;
         }
         public async Task<LeagueDTO> Handle(GetLeagueByIdQuery query, CancellationToken cancellationToken)
-       => await _service.GetByIdAsync(query.Id);
+        => await _service.GetByIdAsync(query.Id);
 
     }
 }

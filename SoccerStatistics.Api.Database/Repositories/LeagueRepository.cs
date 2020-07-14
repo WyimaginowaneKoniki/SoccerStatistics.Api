@@ -14,13 +14,9 @@ namespace SoccerStatistics.Api.Database.Repositories
         {
             _context = context;
         }
+
         public async Task<IEnumerable<League>> GetAllAsync()
-        {
-            var result = _context.Leagues;
-            return await result.ToListAsync();
-
-        }
-
+           => await _context.Leagues.ToListAsync();
 
 
         public async Task<League> GetByIdAsync(uint id)

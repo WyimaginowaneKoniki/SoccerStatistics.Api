@@ -2,6 +2,8 @@
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services.Interfaces;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Core.Services
@@ -15,6 +17,12 @@ namespace SoccerStatistics.Api.Core.Services
         {
             _teamRepository = teamRepository;
             _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<TeamInListDTO>> GetAllAsync()
+        {
+            var teams = await _teamRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<TeamInListDTO>>(teams);
         }
 
         public async Task<TeamDTO> GetByIdAsync(uint id)

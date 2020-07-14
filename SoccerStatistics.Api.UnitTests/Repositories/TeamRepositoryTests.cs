@@ -1,6 +1,5 @@
 ﻿using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -39,7 +38,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.Equal(expectedTeam.City, testTeam.City);
             Assert.Equal(expectedTeam.CreatedAt, testTeam.CreatedAt);
             Assert.Equal(expectedTeam.Coach, testTeam.Coach);
-         
+
         }
 
         [Fact]

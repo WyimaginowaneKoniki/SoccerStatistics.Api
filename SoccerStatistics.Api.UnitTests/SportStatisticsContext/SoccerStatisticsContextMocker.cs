@@ -9,7 +9,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
     {
         public static IPlayerRepository GetInMemoryPlayerRepository(string dbName)
         {
-            var soccerStatisticsDbContext = InitSoccerstatisticsDbContext(dbName);
+            var soccerStatisticsDbContext = InitSoccerStatisticsDbContext(dbName);
             soccerStatisticsDbContext.FillDatabaseWithPlayers();
 
             return new PlayerRepository(soccerStatisticsDbContext);
@@ -17,7 +17,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
         public static IMatchRepository GetInMemoryMatchRepository(string dbName)
         {
-            var soccerStatisticsDbContext = InitSoccerstatisticsDbContext(dbName);
+            var soccerStatisticsDbContext = InitSoccerStatisticsDbContext(dbName);
             soccerStatisticsDbContext.FillDatabaseWithMatches();
 
             return new MatchRepository(soccerStatisticsDbContext);
@@ -26,12 +26,12 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
       
         public static ITeamRepository GetInMemoryTeamRepository(string dbName)
         {
-            var soccerStatisticsDbContext = InitSoccerstatisticsDbContext(dbName);
+            var soccerStatisticsDbContext = InitSoccerStatisticsDbContext(dbName);
             soccerStatisticsDbContext.FillDatabaseWithTeams();
 
             return new TeamRepository(soccerStatisticsDbContext);
         }
-        private static SoccerStatisticsDbContext InitSoccerstatisticsDbContext(string dbName)
+        private static SoccerStatisticsDbContext InitSoccerStatisticsDbContext(string dbName)
         {
             var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
                                 .UseInMemoryDatabase(databaseName: dbName)

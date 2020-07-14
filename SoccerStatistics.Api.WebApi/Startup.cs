@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SoccerStatistics.Api.Application.Handlers;
@@ -27,7 +20,6 @@ namespace SoccerStatistics.Api.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SoccerStatisticsDbContext>();
-
             services.AddControllers()
                     .AddJsonOptions(x =>
                     {
@@ -64,5 +56,6 @@ namespace SoccerStatistics.Api.WebApi
                 endpoints.MapControllers();
             });
         }
+
     }
 }

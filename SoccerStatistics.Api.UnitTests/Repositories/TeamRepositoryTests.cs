@@ -43,7 +43,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         }
 
         [Fact]
-        public async Task ReturnNullWhenPlayerDoNotExistsInDbByGivenId()
+        public async Task ReturnNullWhenTeamDoNotExistsInDbByGivenId()
         {
             // Arrange
             var repository = SoccerStatisticsContextMocker.GetInMemoryTeamRepository("GetTeamByIdReturnNull");

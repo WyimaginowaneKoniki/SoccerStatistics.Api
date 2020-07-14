@@ -8,9 +8,11 @@ namespace SoccerStatistics.Api.Database.Entities
     public class Match
     {
         public uint Id { get; set; }
+        [Required]
         public virtual Stadium Stadium { get; set; }
         public uint AmountOfFans { get; set; }
         public virtual Round Round { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
         public virtual TeamInMatchStats TeamInMatchStats { get; set; }

@@ -29,6 +29,10 @@ namespace SoccerStatistics.Api.WebApi
 
             services.AddMediatR(typeof(GetPlayerByIdHandler));
             services.AddMediatR(typeof(GetAllTeamsHandler));
+            services.AddMediatR(typeof(GetMatchByIdHandler));
+            services.AddMediatR(typeof(GetTeamByIdHandler));
+            services.AddMediatR(typeof(GetPlayerByIdHandler));
+            
             services.AddSingleton(AutoMapperConfig.Initialize());
 
 

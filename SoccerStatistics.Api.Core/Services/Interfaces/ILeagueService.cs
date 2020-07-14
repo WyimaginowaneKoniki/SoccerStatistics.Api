@@ -7,7 +7,7 @@ namespace SoccerStatistics.Api.Core.Services
 {
     public interface ILeagueService
     {
-        IQueryable<LeagueDTO> GetAll();
+        IAsyncEnumerable<LeagueDTO> GetAllAsync();
         Task<LeagueDTO> GetByIdAsync(uint id);
     }
 }

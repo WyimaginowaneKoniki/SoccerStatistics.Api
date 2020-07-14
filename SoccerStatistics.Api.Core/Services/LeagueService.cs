@@ -20,10 +20,10 @@ namespace SoccerStatistics.Api.Core.Services
             _leagueRepository = leagueRepository;
             _mapper = mapper;
         }
-        public IQueryable<LeagueDTO> GetAll()
+        public IAsyncEnumerable<LeagueDTO> GetAllAsync()
         {
-            var leagues = _leagueRepository.GetAll();
-            return _mapper.Map<IQueryable<LeagueDTO>>(leagues);
+            var leagues = _leagueRepository.GetAllAsync();
+            return _mapper.Map<IAsyncEnumerable<LeagueDTO>>(leagues);
         }
         public async Task<LeagueDTO> GetByIdAsync(uint id)
         {

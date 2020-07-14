@@ -27,9 +27,9 @@ namespace SoccerStatistics.Api.WebApi.Controllers
 
             return Ok(leagues);
         }
-        
-            // GET: api/League/{id}
-            [HttpGet("{id}")]
+
+        // GET: api/League/{id}
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetLeagueById([FromRoute] GetLeagueByIdQuery query)
         {
             var league = await CommandAsync(query);
@@ -41,6 +41,6 @@ namespace SoccerStatistics.Api.WebApi.Controllers
 
             return Ok(league);
         }
-       
+
     }
 }

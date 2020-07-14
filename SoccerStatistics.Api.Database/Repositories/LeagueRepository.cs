@@ -18,10 +18,13 @@ namespace SoccerStatistics.Api.Database.Repositories
         {
             _context = context;
         }
-        public IQueryable<League> GetAll()
+        public IAsyncEnumerable<League> GetAllAsync()
             => _context.Leagues;
+
 
         public async Task<League> GetByIdAsync(uint id)
             => await _context.Leagues.SingleOrDefaultAsync(x => x.Id == id);
+
+      
     }
 }

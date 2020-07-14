@@ -23,13 +23,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
             return new MatchRepository(soccerStatisticsDbContext);
         }
 
-        private static SoccerStatisticsDbContext InitSoccerstatisticsDbContext(string dbName)
-        {
-            var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
-                                .UseInMemoryDatabase(databaseName: dbName)
-                                .Options;
-            return new SoccerStatisticsDbContext(options);
-        }
+      
         public static ITeamRepository GetInMemoryTeamRepository(string dbName)
         {
             var soccerStatisticsDbContext = InitSoccerstatisticsDbContext(dbName);
@@ -37,16 +31,12 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             return new TeamRepository(soccerStatisticsDbContext);
         }
-        public static ITeamRepository GetInMemoryTeamRepository(string dbName)
+        private static SoccerStatisticsDbContext InitSoccerstatisticsDbContext(string dbName)
         {
             var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
                                 .UseInMemoryDatabase(databaseName: dbName)
                                 .Options;
-
-            var soccerStatisticsDbContext = new SoccerStatisticsDbContext(options);
-            soccerStatisticsDbContext.FillDatabaseWithTeams();
-
-            return new TeamRepository(soccerStatisticsDbContext);
+            return new SoccerStatisticsDbContext(options);
         }
     }
 }

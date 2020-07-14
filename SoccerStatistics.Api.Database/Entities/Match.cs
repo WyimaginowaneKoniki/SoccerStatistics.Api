@@ -11,6 +11,7 @@ namespace SoccerStatistics.Api.Database.Entities
         [Required]
         public virtual Stadium Stadium { get; set; }
         public uint AmountOfFans { get; set; }
+        [Required]
         public virtual Round Round { get; set; }
         [Required]
         [DataType(DataType.Date)]
@@ -18,8 +19,10 @@ namespace SoccerStatistics.Api.Database.Entities
         public virtual TeamInMatchStats TeamInMatchStats { get; set; }
         public virtual IEnumerable<Activity> Activities { get; set; }
         public virtual IEnumerable<InteractionBetweenPlayers> InteractionBetweenPlayers { get; set; }
+        [Required]
         [ForeignKey("TeamId1")]
         public virtual Team MatchTeam1 { get; set; }
+        [Required]
         [ForeignKey("TeamId2")]
         public virtual Team MatchTeam2 { get; set; }
     }

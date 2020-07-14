@@ -12,7 +12,9 @@ namespace SoccerStatistics.Api.Database.Entities
         public DateTime Date { get; set; }
         [Required]
         public PlayerPosition PlayerPosition { get; set; }
+        [Required]
         public virtual Player Player { get; set; }
+        [Required]
         [ForeignKey("Transfer1")]
         public virtual Team DestTeam { get; set; }
         [ForeignKey("Transfer2")]

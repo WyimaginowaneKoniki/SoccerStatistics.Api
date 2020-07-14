@@ -28,8 +28,8 @@ namespace SoccerStatistics.Api.Database.Entities
         public uint Lighting { get; set; }
         [StringLength(50)]
         public string Architect { get; set; }
+        [Required]
         public bool IsNational { get; set; }
-        public uint TeamId { get; set; }
         public virtual Team Team { get; set; }
     }
 }

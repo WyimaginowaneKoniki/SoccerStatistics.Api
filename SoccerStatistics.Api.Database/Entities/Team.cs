@@ -18,8 +18,10 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Coach { get; set; }
         [StringLength(50)]
         public string City { get; set; }
+        [Required]
         public virtual IEnumerable<Player> Players { get; set; }
         public virtual Stadium Stadium { get; set; }
+        [NotMapped]
         public virtual League League { get; set; }
         [NotMapped]
         [InverseProperty("DestTeam")]

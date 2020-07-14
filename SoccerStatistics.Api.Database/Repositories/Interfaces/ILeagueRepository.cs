@@ -6,7 +6,7 @@ namespace SoccerStatistics.Api.Database.Repositories
 {
     public interface ILeagueRepository
     {
-        IAsyncEnumerable<League> GetAllAsync();
+        Task<IEnumerable<League>> GetAllAsync();
         Task<League> GetByIdAsync(uint id);
     }
 }

@@ -63,7 +63,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Id = 1,
                     FullName = "Manchester United Football Club",
                     ShortName = "Manchester United",
-                    City= "Stretford",
+                    City = "Stretford",
                     CreatedAt = 1878,
                     Coach = "Ole Gunnar Solskjær"
                 });
@@ -143,13 +143,15 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
             dbContext.Leagues.Add(
                 new League()
                 {
-                  Id = 1,
-                  Name = "Primera Division",
-                  Country = "Spain",
-                  Season = "2018/2019",
-                  MVP = "Lionel Messi",
-                  Winner = "FC Barcelona",
-                  });
+                    Id = 1,
+                    Name = "Primera Division",
+                    Country = "Spain",
+                    Season = "2018/2019",
+                    MVP = "Lionel Messi",
+                    Winner = "FC Barcelona",
+                    Rounds = null,
+                    Teams = null
+                });
 
             dbContext.Leagues.Add(
                  new League()
@@ -160,6 +162,8 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                      Season = "2017/2018",
                      MVP = "Mauro Icardi",
                      Winner = "Juventus",
+                     Rounds = null,
+                     Teams = null
                  });
 
 
@@ -172,6 +176,8 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                      Season = "2018/2019",
                      MVP = "Igor Angulo",
                      Winner = "Piast Gliwice",
+                     Rounds = null,
+                     Teams = null
                  });
 
 

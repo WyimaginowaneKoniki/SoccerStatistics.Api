@@ -1,6 +1,5 @@
 ﻿using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 

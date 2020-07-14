@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using SoccerStatistics.Api.Core.DTO;
-using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Core.Services
@@ -20,10 +16,10 @@ namespace SoccerStatistics.Api.Core.Services
             _leagueRepository = leagueRepository;
             _mapper = mapper;
         }
-        public IAsyncEnumerable<LeagueDTO> GetAllAsync()
+        public async Task<IEnumerable<LeagueDTO>> GetAllAsync()
         {
-            var leagues = _leagueRepository.GetAllAsync();
-            return _mapper.Map<IAsyncEnumerable<LeagueDTO>>(leagues);
+            var leagues = await _leagueRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<LeagueDTO>>(leagues);
         }
         public async Task<LeagueDTO> GetByIdAsync(uint id)
         {

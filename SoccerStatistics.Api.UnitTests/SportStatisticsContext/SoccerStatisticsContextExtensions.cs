@@ -138,5 +138,44 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             dbContext.SaveChanges();
         }
+        public static void FillDatabaseWithLeagues(this SoccerStatisticsDbContext dbContext)
+        {
+            dbContext.Leagues.Add(
+                new League()
+                {
+                  Id = 1,
+                  Name = "Primera Division",
+                  Country = "Spain",
+                  Season = "2018/2019",
+                  MVP = "Lionel Messi",
+                  Winner = "FC Barcelona",
+                  });
+
+            dbContext.Leagues.Add(
+                 new League()
+                 {
+                     Id = 2,
+                     Name = "Serie A",
+                     Country = "Italia",
+                     Season = "2017/2018",
+                     MVP = "Mauro Icardi",
+                     Winner = "Juventus",
+                 });
+
+
+            dbContext.Leagues.Add(
+                 new League()
+                 {
+                     Id = 3,
+                     Name = "Lotto Ekstraklasa",
+                     Country = "Poland",
+                     Season = "2018/2019",
+                     MVP = "Igor Angulo",
+                     Winner = "Piast Gliwice",
+                 });
+
+
+            dbContext.SaveChanges();
+        }
     }
 }

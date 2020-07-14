@@ -11,6 +11,7 @@ namespace SoccerStatistics.Api.Core.AutoMapper
                cfg.AddProfile<AutoMapperPlayerProfile>();
                cfg.AddProfile<AutoMapperMatchProfile>();
                cfg.AddProfile<AutoMapperTeamProfile>();
+               cfg.AddProfile<AutoMapperLeagueProfile>();
            }).CreateMapper();
 
     }

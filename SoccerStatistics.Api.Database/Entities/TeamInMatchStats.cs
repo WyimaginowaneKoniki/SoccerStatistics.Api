@@ -15,11 +15,13 @@ namespace SoccerStatistics.Api.Database.Entities
         [Required]
         [StringLength(20)]
         public string Formation { get; set; }
-        [Required]
-        [ForeignKey("MatchId")]
-        public virtual Match Match { get; set; }
-        [Required]
-        public virtual Team Team { get; set; }
+        [NotMapped]
+        [InverseProperty("Team1")]
+        public virtual Match MatchTeam1 { get; set; }
+        [NotMapped]
+        [InverseProperty("Team2")]
+        public virtual Match MatchTeam2 { get; set; }
+
 
     }
 }

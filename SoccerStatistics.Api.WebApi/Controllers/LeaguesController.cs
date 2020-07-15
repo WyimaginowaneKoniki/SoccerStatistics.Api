@@ -13,6 +13,7 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         public LeaguesController(IMediator mediator) : base(mediator) { }
 
         // GET: api/Leagues
+        [HttpGet]
         public async Task<IActionResult> GetAll([FromRoute] GetAllLeaguesQuery request)
         {
             var leagues = await CommandAsync(request);

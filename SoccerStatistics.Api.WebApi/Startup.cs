@@ -28,13 +28,17 @@ namespace SoccerStatistics.Api.WebApi
                     });
 
             services.AddMediatR(typeof(GetPlayerByIdHandler));
-            services.AddMediatR(typeof(GetAllTeamsHandler));
-            services.AddMediatR(typeof(GetMatchByIdHandler));
             services.AddMediatR(typeof(GetTeamByIdHandler));
-            services.AddMediatR(typeof(GetPlayerByIdHandler));
-            
+            services.AddMediatR(typeof(GetLeagueByIdHandler));
+            services.AddMediatR(typeof(GetAllLeaguesHandler));
+            services.AddMediatR(typeof(GetAllTeamsHandler));
+            services.AddMediatR(typeof(GetRoundByIdHandler));
+            services.AddMediatR(typeof(GetMatchByIdHandler));
+
             services.AddSingleton(AutoMapperConfig.Initialize());
 
+            services.AddScoped<ILeagueRepository, LeagueRepository>();
+            services.AddScoped<ILeagueService, LeagueService>();
 
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IPlayerService, PlayerService>();
@@ -44,6 +48,9 @@ namespace SoccerStatistics.Api.WebApi
 
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped<IMatchService, MatchService>();
+
+            services.AddScoped<IRoundRepository, RoundRepository>();
+            services.AddScoped<IRoundService, RoundService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

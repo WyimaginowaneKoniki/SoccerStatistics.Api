@@ -8,7 +8,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
     public class TeamRepositoryTests
     {
         [Fact]
-        public async Task ReturnTeamWhoExistsInDbByGivenId()
+        public async Task ReturnTeamWhichExistsInDbByGivenId()
         {
             // Arrange
             var repository = SoccerStatisticsContextMocker.GetInMemoryTeamRepository("GetTeamByIdReturnTeam");

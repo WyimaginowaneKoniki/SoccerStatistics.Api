@@ -31,6 +31,22 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             return new TeamRepository(soccerStatisticsDbContext);
         }
+
+        public static ILeagueRepository GetInMemoryLeagueRepository(string dbName)
+        {
+            var soccerStatisticsDbContext = InitSoccerStatisticsDbContext(dbName);
+            soccerStatisticsDbContext.FillDatabaseWithLeagues();
+
+            return new LeagueRepository(soccerStatisticsDbContext);
+        }
+        public static IRoundRepository GetInMemoryRoundRepository(string dbName)
+        {
+            var soccerStatisticsDbContext = InitSoccerStatisticsDbContext(dbName);
+            soccerStatisticsDbContext.FillDatabaseWithRounds();
+
+            return new RoundRepository(soccerStatisticsDbContext);
+        }
+
         private static SoccerStatisticsDbContext InitSoccerStatisticsDbContext(string dbName)
         {
             var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()

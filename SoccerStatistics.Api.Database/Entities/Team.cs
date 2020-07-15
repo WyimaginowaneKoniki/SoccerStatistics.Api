@@ -20,6 +20,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public string City { get; set; }
         [Required]
         public virtual IEnumerable<Player> Players { get; set; }
+        [ForeignKey("StadiumId")]
         public virtual Stadium Stadium { get; set; }
         [NotMapped]
         public virtual League League { get; set; }
@@ -29,11 +30,6 @@ namespace SoccerStatistics.Api.Database.Entities
         [NotMapped]
         [InverseProperty("SourceTeam")]
         public virtual IEnumerable<Transfer> Transfer2 { get; set; }
-        [NotMapped]
-        [InverseProperty("MatchTeam1")]
-        public virtual IEnumerable<Match> TeamId1 { get; set; }
-        [NotMapped]
-        [InverseProperty("MatchTeam2")]
-        public virtual IEnumerable<Match> TeamId2 { get; set; }
+
     }
 }

@@ -55,6 +55,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             dbContext.SaveChanges();
         }
+
         public static void FillDatabaseWithTeams(this SoccerStatisticsDbContext dbContext)
         {
             dbContext.Teams.Add(
@@ -63,7 +64,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Id = 1,
                     FullName = "Manchester United Football Club",
                     ShortName = "Manchester United",
-                    City= "Stretford",
+                    City = "Stretford",
                     CreatedAt = 1878,
                     Coach = "Ole Gunnar Solskjær"
                 });
@@ -121,8 +122,6 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Stadium = stadium,
                     AmountOfFans = 60_123,
                     Date = new DateTime(2015, 3, 4),
-                    MatchTeam1 = team,
-                    MatchTeam2 = new Team() { Id = 2, FullName = "FC Trampkarze" }
                 });
 
             dbContext.Add(
@@ -131,10 +130,83 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Id = 2,
                     Stadium = stadium,
                     AmountOfFans = 58_123,
-                    Date = new DateTime(2015, 3, 14),
-                    MatchTeam1 = new Team() { Id = 3, FullName = "Coco Jambo" },
-                    MatchTeam2 = team
+                    Date = new DateTime(2015, 3, 14)
                 });
+
+            dbContext.SaveChanges();
+        }
+
+        public static void FillDatabaseWithLeagues(this SoccerStatisticsDbContext dbContext)
+        {
+            dbContext.Leagues.Add(
+                new League()
+                {
+                    Id = 1,
+                    Name = "Primera Division",
+                    Country = "Spain",
+                    Season = "2018/2019",
+                    MVP = "Lionel Messi",
+                    Winner = "FC Barcelona",
+                    Rounds = null,
+                    Teams = null
+                });
+
+            dbContext.Leagues.Add(
+                 new League()
+                 {
+                     Id = 2,
+                     Name = "Serie A",
+                     Country = "Italia",
+                     Season = "2017/2018",
+                     MVP = "Mauro Icardi",
+                     Winner = "Juventus",
+                     Rounds = null,
+                     Teams = null
+                 });
+
+
+            dbContext.Leagues.Add(
+                 new League()
+                 {
+                     Id = 3,
+                     Name = "Lotto Ekstraklasa",
+                     Country = "Poland",
+                     Season = "2018/2019",
+                     MVP = "Igor Angulo",
+                     Winner = "Piast Gliwice",
+                     Rounds = null,
+                     Teams = null
+                 });
+
+
+            dbContext.SaveChanges();
+        }
+
+        public static void FillDatabaseWithRounds(this SoccerStatisticsDbContext dbContext)
+        {
+            dbContext.Rounds.Add(
+                new Round()
+                {
+                   Id = 1,
+                   Name = "Round 1",
+                   
+                });
+
+            dbContext.Rounds.Add(
+                 new Round()
+                 {
+                     Id = 2,
+                     Name = "Round 15",
+                 });
+
+
+            dbContext.Rounds.Add(
+                 new Round()
+                 {
+                     Id = 3,
+                     Name = "Round 4",
+                 });
+
 
             dbContext.SaveChanges();
         }

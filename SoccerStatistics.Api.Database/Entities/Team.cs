@@ -20,6 +20,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public string City { get; set; }
         [Required]
         public virtual IEnumerable<Player> Players { get; set; }
+        [ForeignKey("StadiumId")]
         public virtual Stadium Stadium { get; set; }
         [NotMapped]
         public virtual League League { get; set; }

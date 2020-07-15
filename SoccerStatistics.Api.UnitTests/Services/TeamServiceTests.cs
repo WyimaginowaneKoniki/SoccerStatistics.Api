@@ -13,7 +13,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
     public class TeamServiceTests
     {
         [Fact]
-        public async void ReturnTeamWhoExistsInDbByGivenId()
+        public async void ReturnTeamWhichExistsInDbByGivenId()
         {
             // Assert
             var team = new Team()
@@ -55,7 +55,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
             Assert.Equal(expectedTeam.CreatedAt, expectedTeam.CreatedAt);
             Assert.Equal(expectedTeam.Coach, expectedTeam.Coach);
         }
-
 
         [Fact]
         public async void ReturnNullWhenTeamDoNotExistsInDbByGivenId()

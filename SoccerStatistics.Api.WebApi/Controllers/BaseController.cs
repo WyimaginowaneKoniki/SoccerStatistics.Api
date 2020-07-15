@@ -23,5 +23,6 @@ namespace SoccerStatistics.Api.WebApi.Controllers
 
         protected async Task<TResult> CommandAsync<TResult>(IRequest<TResult> command)
             => await _mediator.Send(command);
+
     }
 }

@@ -28,7 +28,11 @@ namespace SoccerStatistics.Api.WebApi
                     });
 
             services.AddMediatR(typeof(GetPlayerByIdHandler));
+            services.AddMediatR(typeof(GetAllLeaguesHandler));
             services.AddSingleton(AutoMapperConfig.Initialize());
+
+            services.AddScoped<ILeagueRepository, LeagueRepository>();
+            services.AddScoped<ILeagueService, LeagueService>();
 
 
             services.AddScoped<IPlayerRepository, PlayerRepository>();

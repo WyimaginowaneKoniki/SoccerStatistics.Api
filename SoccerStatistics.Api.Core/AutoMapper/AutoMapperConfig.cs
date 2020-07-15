@@ -13,6 +13,7 @@ namespace SoccerStatistics.Api.Core.AutoMapper
                cfg.AddProfile<AutoMapperTeamInMatchStatsProfile>();
                cfg.AddProfile<AutoMapperStadiumProfile>();
                cfg.AddProfile<AutoMapperRoundProfile>();
+               cfg.AddProfile<AutoMapperInteractionsBetweenPlayers>();
            }).CreateMapper();
 
     }

@@ -9,13 +9,15 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using SoccerStatistics.Api.Core.Services;
+using System.Linq;
+using KellermanSoftware.CompareNetObjects;
 
 namespace SoccerStatistics.Api.UnitTests.Services
 {
     public class MatchServiceTests
     {
         [Fact]
-        public async void ReturnMatchWhicExistsInDbByGivenId()
+        public async void ReturnMatchWhichExistsInDbByGivenId()
         {
             // Arrange
             var match = new Database.Entities.Match()
@@ -45,18 +47,56 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             MatchDTO testMatch = null;
 
-            var repositoryMock = new Mock<IMatchRepository>();
-            repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(match);
+            List<TeamInMatchStats> teamInMatchStats = new List<TeamInMatchStats>()
+            {
+                new TeamInMatchStats()
+                {
+                    Id = 1,
+                    Pass = 20,
+                    Match = match
+                },
+                new TeamInMatchStats()
+                {
+                    Id = 2,
+                    Pass = 40,
+                    Match = match
+                }
+            };
 
-            var configuration = new MapperConfiguration(cfg
-               => cfg.AddProfile<AutoMapperMatchProfile>());
+            var matchRepositoryMock = new Mock<IMatchRepository>();
+            matchRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
+            matchRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(match);
+
+            var teamInMatchStatsRepositoryMock = new Mock<ITeamInMatchStatsRepository>();
+            teamInMatchStatsRepositoryMock.Setup(r => r.GetAllByMatchIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
+            teamInMatchStatsRepositoryMock.Setup(r => r.GetAllByMatchIdAsync(1)).ReturnsAsync(teamInMatchStats.AsEnumerable());
+
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperPlayerProfile>();
+                cfg.AddProfile<AutoMapperTeamProfile>();
+                cfg.AddProfile<AutoMapperTeamInMatchStatsProfile>();
+                cfg.AddProfile<AutoMapperStadiumProfile>();
+                cfg.AddProfile<AutoMapperRoundProfile>();
+                cfg.AddProfile<AutoMapperInteractionsBetweenPlayers>();
+            });
 
             var mapper = new Mapper(configuration);
 
-            var expectedMatch = mapper.Map<MatchDTO>(match);
+            var expectedMatch = new MatchDTO()
+            {
+                Id = match.Id,
+                Stadium = mapper.Map<StadiumDTO>(match.Stadium),
+                AmountOfFans = match.AmountOfFans,
+                Round = mapper.Map<RoundDTO>(match.Round),
+                Date = match.Date,
+                TeamInMatchStats1 = mapper.Map<TeamInMatchStatsDTO>(teamInMatchStats.ElementAtOrDefault(0)),
+                TeamInMatchStats2 = mapper.Map<TeamInMatchStatsDTO>(teamInMatchStats.ElementAtOrDefault(1)),
+                Activities = mapper.Map<IEnumerable<ActivityDTO>>(match.Activities),
+                InteractionsBetweenPlayers = mapper.Map<IEnumerable<InteractionBetweenPlayersDTO>>(match.InteractionsBetweenPlayers)
+            };
 
-            var service = new MatchService(repositoryMock.Object, mapper);
+            var service = new MatchService(matchRepositoryMock.Object, teamInMatchStatsRepositoryMock.Object, mapper);
 
             //Act
             var err = await Record.ExceptionAsync(async () => testMatch = await service.GetByIdAsync(1));
@@ -64,11 +104,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Assert
             Assert.Null(err);
             Assert.NotNull(testMatch);
-            Assert.Equal(expectedMatch.StadiumId, testMatch.StadiumId);
-            Assert.Equal(expectedMatch.AmountOfFans, testMatch.AmountOfFans);
-            Assert.Equal(expectedMatch.Date, testMatch.Date);
-            //Assert.Equal(expectedMatch.MatchTeam1Id, testMatch.MatchTeam1Id);
-            //Assert.Equal(expectedMatch.MatchTeam2Id, testMatch.MatchTeam2Id);
+
+            var compareLogic = new CompareLogic();
+            Assert.True(compareLogic.Compare(expectedMatch, testMatch).AreEqual);
         }
 
         [Fact]
@@ -77,21 +115,29 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Assert
             MatchDTO testMatch = null;
 
-            var repositoryMock = new Mock<IMatchRepository>();
-            repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Database.Entities.Match)null);
+            var matchRepositoryMock = new Mock<IMatchRepository>();
+            matchRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Database.Entities.Match)null);
+
+            var teamInMatchStatsRepositoryMock = new Mock<ITeamInMatchStatsRepository>();
+            teamInMatchStatsRepositoryMock.Setup(r => r.GetAllByMatchIdAsync(It.IsAny<uint>())).ReturnsAsync((IEnumerable<TeamInMatchStats>)null);
 
 
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperMatchProfile>());
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperPlayerProfile>();
+                cfg.AddProfile<AutoMapperTeamProfile>();
+                cfg.AddProfile<AutoMapperTeamInMatchStatsProfile>();
+                cfg.AddProfile<AutoMapperStadiumProfile>();
+                cfg.AddProfile<AutoMapperRoundProfile>();
+            });
 
             var mapper = new Mapper(configuration);
 
-            var service = new MatchService(repositoryMock.Object, mapper);
+            var service = new MatchService(matchRepositoryMock.Object, teamInMatchStatsRepositoryMock.Object, mapper);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testMatch = await service.GetByIdAsync(1));
-
+                        () => testMatch = await service.GetByIdAsync(125215));
             // Arrange
             Assert.Null(err);
             Assert.Null(testMatch);

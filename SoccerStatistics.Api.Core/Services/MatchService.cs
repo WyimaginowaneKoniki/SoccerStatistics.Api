@@ -29,6 +29,9 @@ namespace SoccerStatistics.Api.Core.Services
             Match match = await _matchRepository.GetByIdAsync(id);
             IEnumerable<TeamInMatchStats> teamsStats = await _teamInMatchStatsRepository.GetAllByMatchIdAsync(id);
 
+            if (match is null)
+                return null;
+
             return new MatchDTO()
             {
                 Id = match.Id,

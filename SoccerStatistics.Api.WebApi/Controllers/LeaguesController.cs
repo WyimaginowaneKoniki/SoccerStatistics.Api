@@ -8,11 +8,11 @@ namespace SoccerStatistics.Api.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LeagueController : BaseController
+    public class LeaguesController : BaseController
     {
-        public LeagueController(IMediator mediator) : base(mediator) { }
-        // GET: api/League/all
-        [HttpGet("all")]
+        public LeaguesController(IMediator mediator) : base(mediator) { }
+
+        // GET: api/Leagues
         public async Task<IActionResult> GetAll([FromRoute] GetAllLeaguesQuery request)
         {
             var leagues = await CommandAsync(request);
@@ -25,7 +25,7 @@ namespace SoccerStatistics.Api.WebApi.Controllers
             return Ok(leagues);
         }
 
-        // GET: api/League/{id}
+        // GET: api/Leagues/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLeagueById([FromRoute] GetLeagueByIdQuery query)
         {

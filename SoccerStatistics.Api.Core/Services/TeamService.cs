@@ -19,10 +19,10 @@ namespace SoccerStatistics.Api.Core.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<TeamInListDTO>> GetAllAsync()
+        public async Task<IEnumerable<TeamBasicDTO>> GetAllAsync()
         {
             var teams = await _teamRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<TeamInListDTO>>(teams);
+            return _mapper.Map<IEnumerable<TeamBasicDTO>>(teams);
         }
 
         public async Task<TeamDTO> GetByIdAsync(uint id)

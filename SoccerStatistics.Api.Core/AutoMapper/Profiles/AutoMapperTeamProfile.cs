@@ -12,7 +12,7 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
                 .ForMember(dto => dto.LeagueId, e => e.MapFrom(p => p.League.Id))
                 .ForMember(dto => dto.StadiumId, e => e.MapFrom(p => p.Stadium.Id));
 
-            CreateMap<Team, TeamInListDTO>();
+            CreateMap<Team, TeamBasicDTO>();
 
         }
     }

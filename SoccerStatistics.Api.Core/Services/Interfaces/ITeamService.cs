@@ -6,7 +6,7 @@ namespace SoccerStatistics.Api.Core.Services.Interfaces
 {
     public interface ITeamService
     {
-        Task<IEnumerable<TeamInListDTO>> GetAllAsync();
+        Task<IEnumerable<TeamBasicDTO>> GetAllAsync();
         Task<TeamDTO> GetByIdAsync(uint id);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SoccerStatistics.Api.Core.DTO
 {
@@ -12,8 +11,8 @@ namespace SoccerStatistics.Api.Core.DTO
         public string Coach { get; set; }
         public string City { get; set; }
         public virtual IEnumerable<PlayerDTO> Players { get; set; }
-        public virtual uint StadiumId { get; set; }
-        public virtual uint LeagueId { get; set; }
+        public  uint StadiumId { get; set; }
+        public  uint LeagueId { get; set; }
 
     }
 }

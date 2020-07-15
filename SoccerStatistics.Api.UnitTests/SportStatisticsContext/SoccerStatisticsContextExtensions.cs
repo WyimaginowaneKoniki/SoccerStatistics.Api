@@ -55,6 +55,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             dbContext.SaveChanges();
         }
+
         public static void FillDatabaseWithTeams(this SoccerStatisticsDbContext dbContext)
         {
             dbContext.Teams.Add(
@@ -138,6 +139,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             dbContext.SaveChanges();
         }
+
         public static void FillDatabaseWithLeagues(this SoccerStatisticsDbContext dbContext)
         {
             dbContext.Leagues.Add(
@@ -178,6 +180,35 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                      Winner = "Piast Gliwice",
                      Rounds = null,
                      Teams = null
+                 });
+
+
+            dbContext.SaveChanges();
+        }
+
+        public static void FillDatabaseWithRounds(this SoccerStatisticsDbContext dbContext)
+        {
+            dbContext.Rounds.Add(
+                new Round()
+                {
+                   Id = 1,
+                   Name = "Round 1",
+                   
+                });
+
+            dbContext.Rounds.Add(
+                 new Round()
+                 {
+                     Id = 2,
+                     Name = "Round 15",
+                 });
+
+
+            dbContext.Rounds.Add(
+                 new Round()
+                 {
+                     Id = 3,
+                     Name = "Round 4",
                  });
 
 

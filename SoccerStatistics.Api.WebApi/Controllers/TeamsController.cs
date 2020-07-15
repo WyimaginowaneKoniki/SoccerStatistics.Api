@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
-    public class TeamController : BaseController
+    public class TeamsController : BaseController
     {
-        public TeamController(IMediator mediator) : base(mediator) { }
+        public TeamsController(IMediator mediator) : base(mediator) { }
 
-        // GET: api/Team/all
-        [HttpGet("all")]
+        // GET: api/Teams
+        [HttpGet]
         public async Task<IActionResult> GetAllTeams([FromRoute] GetAllTeamsQuery query)
         {
             var teams = await CommandAsync(query);
-
 
             if (teams == null)
             {

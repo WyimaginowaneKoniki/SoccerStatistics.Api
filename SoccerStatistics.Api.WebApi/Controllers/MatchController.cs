@@ -8,9 +8,7 @@ using SoccerStatistics.Api.Core.DTO;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MatchController : BaseController
+    public class MatchController : ApiControllerBase
     {
         public MatchController(IMediator mediator) : base(mediator) { }
 

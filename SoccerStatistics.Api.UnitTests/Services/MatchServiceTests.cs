@@ -39,8 +39,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 },
                 AmountOfFans = 60_123,
                 Date = new DateTime(2015, 3, 4),
-                MatchTeam1 = new Team() { Id = 1, FullName = "Manchester United FC" },
-                MatchTeam2 = new Team() { Id = 2, FullName = "FC Trampkarze" }
             };
 
             MatchDTO testMatch = null;

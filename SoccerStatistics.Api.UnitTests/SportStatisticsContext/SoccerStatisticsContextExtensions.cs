@@ -122,8 +122,6 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Stadium = stadium,
                     AmountOfFans = 60_123,
                     Date = new DateTime(2015, 3, 4),
-                    MatchTeam1 = team,
-                    MatchTeam2 = new Team() { Id = 2, FullName = "FC Trampkarze" }
                 });
 
             dbContext.Add(
@@ -132,9 +130,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Id = 2,
                     Stadium = stadium,
                     AmountOfFans = 58_123,
-                    Date = new DateTime(2015, 3, 14),
-                    MatchTeam1 = new Team() { Id = 3, FullName = "Coco Jambo" },
-                    MatchTeam2 = team
+                    Date = new DateTime(2015, 3, 14)
                 });
 
             dbContext.SaveChanges();

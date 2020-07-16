@@ -9,7 +9,7 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
     {
         public AutoMapperInteractionBetweenPlayersProfile()
         {
-            CreateMap<IEnumerable<InteractionBetweenPlayers>, IEnumerable<InteractionBetweenPlayersDTO>>();
+            CreateMap<InteractionBetweenPlayers, InteractionBetweenPlayersDTO>();
         }
     }
 }

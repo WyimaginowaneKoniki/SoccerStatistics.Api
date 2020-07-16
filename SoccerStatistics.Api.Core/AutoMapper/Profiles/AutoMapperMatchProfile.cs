@@ -8,7 +8,9 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
     {
         public AutoMapperMatchProfile()
         {
-            CreateMap<Match, MatchDTO>();
+            CreateMap<Match, MatchDTO>()
+                .ForMember(dto => dto.TeamInMatchStats1, e => e.Ignore())
+                .ForMember(dto => dto.TeamInMatchStats2, e => e.Ignore());
         }
     }
 }

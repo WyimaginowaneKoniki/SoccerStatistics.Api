@@ -49,13 +49,13 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
         public static IStadiumRepository GetInMemoryStadiumRepository(string dbName)
         {
-            var soccerStatisticsDbContext = InitSoccerstatisticsDbContext(dbName);
+            var soccerStatisticsDbContext = InitSoccerStatisticsDbContext(dbName);
             soccerStatisticsDbContext.FillDatabaseWithStadiums();
 
             return new StadiumRepository(soccerStatisticsDbContext);
         }
 
-        private static SoccerStatisticsDbContext InitSoccerstatisticsDbContext(string dbName)
+        private static SoccerStatisticsDbContext InitSoccerStatisticsDbContext(string dbName)
         {
             var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
                                 .UseInMemoryDatabase(databaseName: dbName)

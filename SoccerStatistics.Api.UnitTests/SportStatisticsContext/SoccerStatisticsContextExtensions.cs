@@ -210,5 +210,61 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             dbContext.SaveChanges();
         }
+
+        public static void FillDatabaseWithStadiums(this SoccerStatisticsDbContext dbContext)
+        {
+            dbContext.Stadiums.Add(
+                 new Stadium
+                 {
+                     Id = 1,
+                     Name = "Old Trafford",
+                     Country = "England",
+                     City = "Manchester",
+                     BuiltAt = 1910,
+                     Capacity = 75_797,
+                     FieldSize = "105:68",
+                     VipCapacity = 4000,
+                     IsForDisabled = true,
+                     Lighting = 100_000,
+                     Architect = "Archibald Leitch",
+                     IsNational = false
+                 });
+
+            dbContext.Stadiums.Add(
+               new Stadium
+               {
+                   Id = 2,
+                   Name = "Camp Nou",
+                   Country = "Spain",
+                   City = "Barcelona",
+                   BuiltAt = 1957,
+                   Capacity = 99_354,
+                   FieldSize = "105:68",
+                   VipCapacity = 400,
+                   IsForDisabled = false,
+                   Lighting = 1770,
+                   Architect = "Francesc Mijtans-Miro",
+                   IsNational = false
+               });
+
+            dbContext.Stadiums.Add(
+               new Stadium
+               {
+                   Id = 3,
+                   Name = "Estadio Nacional de Brasilia Mane Garrincha",
+                   Country = "Brasilia",
+                   City = "Brasilia",
+                   BuiltAt = 2013,
+                   Capacity = 72_888,
+                   FieldSize = "105:68",
+                   VipCapacity = 110,
+                   IsForDisabled = true,
+                   Lighting = 1770,
+                   Architect = "Castro Mello Architects",
+                   IsNational = true
+               });
+
+            dbContext.SaveChanges();
+        }
     }
 }

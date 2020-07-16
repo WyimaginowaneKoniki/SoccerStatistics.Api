@@ -12,11 +12,11 @@ namespace SoccerStatistics.Api.WebApi.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public abstract class BaseController : ControllerBase
+    public abstract class ApiControllerBase : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        protected BaseController(IMediator mediator)
+        protected ApiControllerBase(IMediator mediator)
         {
             _mediator = mediator;
         }

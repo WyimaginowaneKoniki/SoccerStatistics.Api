@@ -8,7 +8,7 @@ using SoccerStatistics.Api.Application.Queries;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
-    public class PlayerController : BaseController
+    public class PlayerController : ApiControllerBase
     {
         public PlayerController(IMediator mediator) : base(mediator) { }
 

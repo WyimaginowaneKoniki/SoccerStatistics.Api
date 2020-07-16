@@ -1,10 +1,12 @@
 ﻿using SoccerStatistics.Api.Core.DTO;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Core.Services
 {
     public interface IStadiumService
     {
-        System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<StadiumDTO>> GetAllAsync();
-        System.Threading.Tasks.Task<StadiumDTO> GetByIdAsync(uint id);
+       Task<IEnumerable<StadiumDTO>> GetAllAsync();
+       Task<StadiumDTO> GetByIdAsync(uint id);
     }
 }

@@ -24,7 +24,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 Name = "Round 1"
             };
 
-            RoundDTO testRound = null;
+            RoundBasicDTO testRound = null;
 
             var repositoryMock = new Mock<IRoundRepository>();
             repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
@@ -36,7 +36,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             var mapper = new Mapper(configuration);
 
-            var expectedRound = mapper.Map<RoundDTO>(round);
+            var expectedRound = mapper.Map<RoundBasicDTO>(round);
 
             var service = new RoundService(repositoryMock.Object, mapper);
 
@@ -57,7 +57,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
         public async void ReturnNullWhenRoundDoNotExistsInDbByGivenId()
         {
             // Assert
-            RoundDTO testRound = null;
+            RoundBasicDTO testRound = null;
 
             var repositoryMock = new Mock<IRoundRepository>();
             repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Round)null);

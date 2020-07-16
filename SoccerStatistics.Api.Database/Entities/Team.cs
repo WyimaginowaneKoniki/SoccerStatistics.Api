@@ -23,6 +23,8 @@ namespace SoccerStatistics.Api.Database.Entities
         [ForeignKey("StadiumId")]
         public virtual Stadium Stadium { get; set; }
         [NotMapped]
+        public virtual TeamInMatchStats TeamInMatchStats { get; set; }
+        [NotMapped]
         public virtual League League { get; set; }
         [NotMapped]
         [InverseProperty("DestTeam")]

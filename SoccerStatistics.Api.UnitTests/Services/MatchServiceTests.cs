@@ -65,10 +65,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
             matchRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
             matchRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(match);
 
-            var teamInMatchStatsRepositoryMock = new Mock<ITeamInMatchStatsRepository>();
-            teamInMatchStatsRepositoryMock.Setup(r => r.GetAllByMatchIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            teamInMatchStatsRepositoryMock.Setup(r => r.GetAllByMatchIdAsync(1)).ReturnsAsync(teamInMatchStats.AsEnumerable());
-
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<AutoMapperPlayerProfile>();
@@ -81,20 +77,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             var mapper = new Mapper(configuration);
 
-            var expectedMatch = new MatchDTO()
-            {
-                Id = match.Id,
-                Stadium = mapper.Map<StadiumDTO>(match.Stadium),
-                AmountOfFans = match.AmountOfFans,
-                Round = mapper.Map<RoundDTO>(match.Round),
-                Date = match.Date,
-                TeamInMatchStats1 = mapper.Map<TeamInMatchStatsDTO>(teamInMatchStats.ElementAtOrDefault(0)),
-                TeamInMatchStats2 = mapper.Map<TeamInMatchStatsDTO>(teamInMatchStats.ElementAtOrDefault(1)),
-                Activities = mapper.Map<IEnumerable<ActivityDTO>>(match.Activities),
-                InteractionsBetweenPlayers = mapper.Map<IEnumerable<InteractionBetweenPlayersDTO>>(match.InteractionsBetweenPlayers)
-            };
+            var expectedMatch = mapper.Map<MatchDTO>(match); 
 
-            var service = new MatchService(matchRepositoryMock.Object, teamInMatchStatsRepositoryMock.Object, mapper);
+            var service = new MatchService(matchRepositoryMock.Object, mapper);
 
             //Act
             var err = await Record.ExceptionAsync(async () => testMatch = await service.GetByIdAsync(1));
@@ -116,10 +101,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
             var matchRepositoryMock = new Mock<IMatchRepository>();
             matchRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Database.Entities.Match)null);
 
-            var teamInMatchStatsRepositoryMock = new Mock<ITeamInMatchStatsRepository>();
-            teamInMatchStatsRepositoryMock.Setup(r => r.GetAllByMatchIdAsync(It.IsAny<uint>())).ReturnsAsync((IEnumerable<TeamInMatchStats>)null);
-
-
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<AutoMapperPlayerProfile>();
@@ -131,7 +112,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             var mapper = new Mapper(configuration);
 
-            var service = new MatchService(matchRepositoryMock.Object, teamInMatchStatsRepositoryMock.Object, mapper);
+            var service = new MatchService(matchRepositoryMock.Object, mapper);
 
             // Act
             var err = await Record.ExceptionAsync(async

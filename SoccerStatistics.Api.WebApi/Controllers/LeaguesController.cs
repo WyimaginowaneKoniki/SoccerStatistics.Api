@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class LeaguesController : BaseController
+    public class LeaguesController : ApiControllerBase
     {
         public LeaguesController(IMediator mediator) : base(mediator) { }
 
         // GET: api/Leagues
+        [HttpGet]
         public async Task<IActionResult> GetAll([FromRoute] GetAllLeaguesQuery request)
         {
             var leagues = await CommandAsync(request);

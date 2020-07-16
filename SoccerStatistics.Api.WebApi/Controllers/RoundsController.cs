@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
-    public class RoundsController : BaseController
+    public class RoundsController : ApiControllerBase
     {
         public RoundsController(IMediator mediator) : base(mediator) { }
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KellermanSoftware.CompareNetObjects;
 using Moq;
 using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
@@ -8,13 +9,27 @@ using SoccerStatistics.Api.Database.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services
 {
     public class StadiumServiceTests
     {
+        private readonly CompareLogic _compareLogic;
+        private readonly IMapper _mapper;
+        private readonly Mock<IStadiumRepository> _repositoryMock;
+        private readonly IStadiumService _service;
+
+        public StadiumServiceTests()
+        {
+            var configuration = new MapperConfiguration(cfg
+                => cfg.AddProfile<AutoMapperStadiumProfile>());
+
+            _mapper = new Mapper(configuration);
+            _compareLogic = new CompareLogic();
+            _repositoryMock = new Mock<IStadiumRepository>();
+            _service = new StadiumService(_repositoryMock.Object, _mapper);
+        }
 
         [Fact]
         public async void ReturnAllStadiumsWhichExistsInDb()
@@ -72,97 +87,65 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             IEnumerable<StadiumDTO> testStadiums = null;
 
+            _repositoryMock.Reset();
+            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(stadiums);
 
-            var repositoryMock = new Mock<IStadiumRepository>();
-            repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(stadiums);
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperStadiumProfile>());
-
-            var mapper = new Mapper(configuration);
-
-            var expectedStadium = mapper.Map<IEnumerable<StadiumDTO>>(stadiums);
-
-            var service = new StadiumService(repositoryMock.Object, mapper);
+            var expectedStadium = _mapper.Map<IEnumerable<StadiumDTO>>(stadiums);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testStadiums = await service.GetAllAsync());
+                        () => testStadiums = await _service.GetAllAsync());
 
             // Arrange
             Assert.Null(err);
             Assert.NotNull(testStadiums);
             Assert.Equal(expectedStadium.Count(), testStadiums.Count());
+
             for (int i = 0; i < expectedStadium.Count(); i++)
             {
-                Assert.Equal(expectedStadium.ElementAt(i).Id, testStadiums.ElementAt(i).Id);
-                Assert.Equal(expectedStadium.ElementAt(i).Name, testStadiums.ElementAt(i).Name);
-                Assert.Equal(expectedStadium.ElementAt(i).Country, testStadiums.ElementAt(i).Country);
-                Assert.Equal(expectedStadium.ElementAt(i).City, testStadiums.ElementAt(i).City);
-                Assert.Equal(expectedStadium.ElementAt(i).Capacity, testStadiums.ElementAt(i).Capacity);
-                Assert.Equal(expectedStadium.ElementAt(i).VipCapacity, testStadiums.ElementAt(i).VipCapacity);
-                Assert.Equal(expectedStadium.ElementAt(i).Architect, testStadiums.ElementAt(i).Architect);
-                Assert.Equal(expectedStadium.ElementAt(i).BuiltAt, testStadiums.ElementAt(i).BuiltAt);
-                Assert.Equal(expectedStadium.ElementAt(i).IsForDisabled, testStadiums.ElementAt(i).IsForDisabled);
-                Assert.Equal(expectedStadium.ElementAt(i).IsNational, testStadiums.ElementAt(i).IsNational);
-                Assert.Equal(expectedStadium.ElementAt(i).Lighting, testStadiums.ElementAt(i).Lighting);
-                Assert.Equal(expectedStadium.ElementAt(i).FieldSize, testStadiums.ElementAt(i).FieldSize);
+                Assert.True(_compareLogic.Compare(expectedStadium.ElementAt(i), testStadiums.ElementAt(i)).AreEqual);
             }
 
 
         }
+
         [Fact]
         public async void ReturnStadiumWhichExistsInDbByGivenId()
         {
             // Assert
             var stadium = new Stadium()
             {
-                     Id = 1,
-                     Name = "Old Trafford",
-                     Country = "England",
-                     City = "Manchester",
-                     BuiltAt = 1910,
-                     Capacity = 75_797,
-                     FieldSize = "105:68",
-                     VipCapacity = 4000,
-                     IsForDisabled = true,
-                     Lighting = 100_000,
-                     Architect = "Archibald Leitch",
-                     IsNational = false
+                Id = 1,
+                Name = "Old Trafford",
+                Country = "England",
+                City = "Manchester",
+                BuiltAt = 1910,
+                Capacity = 75_797,
+                FieldSize = "105:68",
+                VipCapacity = 4000,
+                IsForDisabled = true,
+                Lighting = 100_000,
+                Architect = "Archibald Leitch",
+                IsNational = false
             };
 
             StadiumDTO testStadium = null;
 
-            var repositoryMock = new Mock<IStadiumRepository>();
-            repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(stadium);
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperStadiumProfile>());
+            _repositoryMock.Reset();
+            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
+            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(stadium);
 
-            var mapper = new Mapper(configuration);
-
-            var expectedStadium = mapper.Map<StadiumDTO>(stadium);
-
-            var service = new StadiumService(repositoryMock.Object, mapper);
+            var expectedStadium = _mapper.Map<StadiumDTO>(stadium);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testStadium = await service.GetByIdAsync(1));
+                        () => testStadium = await _service.GetByIdAsync(1));
 
             // Arrange
             Assert.Null(err);
             Assert.NotNull(testStadium);
-            Assert.Equal(expectedStadium.Id, testStadium.Id);
-            Assert.Equal(expectedStadium.Name, testStadium.Name);
-            Assert.Equal(expectedStadium.Country, testStadium.Country);
-            Assert.Equal(expectedStadium.City, testStadium.City);
-            Assert.Equal(expectedStadium.Capacity, testStadium.Capacity);
-            Assert.Equal(expectedStadium.VipCapacity, testStadium.VipCapacity);
-            Assert.Equal(expectedStadium.Architect, testStadium.Architect);
-            Assert.Equal(expectedStadium.BuiltAt, testStadium.BuiltAt);
-            Assert.Equal(expectedStadium.IsForDisabled, testStadium.IsForDisabled);
-            Assert.Equal(expectedStadium.IsNational, testStadium.IsNational);
-            Assert.Equal(expectedStadium.Lighting, testStadium.Lighting);
-            Assert.Equal(expectedStadium.FieldSize, testStadium.FieldSize);
+
+            Assert.True(_compareLogic.Compare(expectedStadium, testStadium).AreEqual);
         }
 
 
@@ -172,26 +155,16 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Assert
             StadiumDTO testStadium = null;
 
-            var repositoryMock = new Mock<IStadiumRepository>();
-            repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Stadium)null);
-
-
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperStadiumProfile>());
-
-            var mapper = new Mapper(configuration);
-
-
-            var service = new StadiumService(repositoryMock.Object, mapper);
+            _repositoryMock.Reset();
+            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Stadium)null);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testStadium = await service.GetByIdAsync(1));
+                        () => testStadium = await _service.GetByIdAsync(1));
 
             // Arrange
             Assert.Null(err);
             Assert.Null(testStadium);
         }
-
     }
 }

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using KellermanSoftware.CompareNetObjects;
 using Moq;
 using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services;
+using SoccerStatistics.Api.Core.Services.Interfaces;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System;
@@ -14,10 +16,26 @@ namespace SoccerStatistics.Api.UnitTests.Services
 {
     public class TeamServiceTests
     {
+        private readonly CompareLogic _compareLogic;
+        private readonly IMapper _mapper;
+        private readonly Mock<ITeamRepository> _repositoryMock;
+        private readonly ITeamService _service;
+
+        public TeamServiceTests()
+        {
+            var configuration = new MapperConfiguration(cfg
+                => cfg.AddProfile<AutoMapperTeamProfile>());
+
+            _mapper = new Mapper(configuration);
+            _compareLogic = new CompareLogic();
+            _repositoryMock = new Mock<ITeamRepository>();
+            _service = new TeamService(_repositoryMock.Object, _mapper);
+        }
+
         [Fact]
         public async void ReturnAllTeamsFromDb()
         {
-            IEnumerable<Team> returnedTeams = new List<Team>
+            IEnumerable<Team> teams = new List<Team>
             {
                 new Team()
                 {
@@ -73,59 +91,41 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 }
             };
 
-            IEnumerable<TeamBasicDTO> teams = null;
+            IEnumerable<TeamBasicDTO> testTeams = null;
 
-
-            var repositoryMock = new Mock<ITeamRepository>();
-            repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(returnedTeams);
-
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperTeamProfile>());
-
-            var mapper = new Mapper(configuration);
-
-            var service = new TeamService(repositoryMock.Object, mapper);
+            _repositoryMock.Reset();
+            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(teams);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => teams = await service.GetAllAsync());
+                        () => testTeams = await _service.GetAllAsync());
 
             // Arrange
             Assert.Null(err);
-            Assert.NotNull(teams);
+            Assert.NotNull(testTeams);
             Assert.Equal(expectedTeams.Count(), teams.Count());
 
             for (int i = 0; i < expectedTeams.Count(); i++)
             {
-                Assert.Equal(expectedTeams.ElementAt(i).Id, teams.ElementAt(i).Id);
-                Assert.Equal(expectedTeams.ElementAt(i).FullName, teams.ElementAt(i).FullName);
-                Assert.Equal(expectedTeams.ElementAt(i).ShortName, teams.ElementAt(i).ShortName);
-                Assert.Equal(expectedTeams.ElementAt(i).City, teams.ElementAt(i).City);
+                Assert.True(_compareLogic.Compare(expectedTeams.ElementAt(i), testTeams.ElementAt(i)).AreEqual);
             }
         }
 
         [Fact]
         public async void ReturnNullCollectionWhenDbDoesNotContainsAnyTeam()
         {
-            IEnumerable<TeamBasicDTO> teams = null;
+            IEnumerable<TeamBasicDTO> testTeams = null;
 
-            var repositoryMock = new Mock<ITeamRepository>();
-            repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync((IEnumerable<Team>)null);
-
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperTeamProfile>());
-
-            var mapper = new Mapper(configuration);
-
-            var service = new TeamService(repositoryMock.Object, mapper);
+            _repositoryMock.Reset();
+            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync((IEnumerable<Team>)null);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => teams = await service.GetAllAsync());
+                        () => testTeams = await _service.GetAllAsync());
 
             // Arrange
             Assert.Null(err);
-            Assert.Equal(Enumerable.Empty<TeamBasicDTO>(),  teams);
+            Assert.Equal(Enumerable.Empty<TeamBasicDTO>(), testTeams);
         }
 
         [Fact]
@@ -144,32 +144,21 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             TeamDTO testTeam = null;
 
-            var repositoryMock = new Mock<ITeamRepository>();
-            repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(team);
+            _repositoryMock.Reset();
+            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
+            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(team);
 
-
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperTeamProfile>());
-
-            var mapper = new Mapper(configuration);
-
-            var expectedTeam = mapper.Map<TeamDTO>(team);
-
-            var service = new TeamService(repositoryMock.Object, mapper);
+            var expectedTeam = _mapper.Map<TeamDTO>(team);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testTeam = await service.GetByIdAsync(1));
+                        () => testTeam = await _service.GetByIdAsync(1));
 
             // Arrange
             Assert.Null(err);
             Assert.NotNull(testTeam);
-            Assert.Equal(expectedTeam.FullName, testTeam.FullName);
-            Assert.Equal(expectedTeam.ShortName, testTeam.ShortName);
-            Assert.Equal(expectedTeam.City, expectedTeam.City);
-            Assert.Equal(expectedTeam.CreatedAt, expectedTeam.CreatedAt);
-            Assert.Equal(expectedTeam.Coach, expectedTeam.Coach);
+
+            Assert.True(_compareLogic.Compare(expectedTeam, testTeam).AreEqual);
         }
 
         [Fact]
@@ -178,21 +167,12 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Assert
             TeamDTO testTeam = null;
 
-            var repositoryMock = new Mock<ITeamRepository>();
-            repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Team)null);
-
-
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperTeamProfile>());
-
-            var mapper = new Mapper(configuration);
-
-
-            var service = new TeamService(repositoryMock.Object, mapper);
+            _repositoryMock.Reset();
+            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Team)null);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testTeam = await service.GetByIdAsync(1));
+                        () => testTeam = await _service.GetByIdAsync(1));
 
             // Arrange
             Assert.Null(err);

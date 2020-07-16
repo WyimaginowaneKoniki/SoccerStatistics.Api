@@ -1,4 +1,4 @@
-﻿using SoccerStatistics.Api.Core.DTO;
+﻿using KellermanSoftware.CompareNetObjects;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
@@ -10,12 +10,22 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class MatchRepositoryTests
     {
+        private readonly CompareLogic _compareLogic;
+        private IMatchRepository _matchRepository;
+
+        public MatchRepositoryTests()
+        {
+            _compareLogic = new CompareLogic();
+            _matchRepository = null;
+        }
+
         [Fact]
         public async void ReturnMatchWhicExistsInDbByGivenId()
         {
-            // Arange
-            IMatchRepository repository = SoccerStatisticsContextMocker.GetInMemoryMatchRepository("GetMatchByIdReturnMatch");
-            var expectedMatch = new Database.Entities.Match()
+            // Arrange
+            _matchRepository = SoccerStatisticsContextMocker.GetInMemoryMatchRepository("GetMatchByIdReturnMatch");
+
+            var expectedMatch = new Match()
             {
                 Id = 1,
                 Stadium = new Stadium
@@ -41,38 +51,26 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Match testMatch = null;
 
             //Act
-            var err = await Record.ExceptionAsync(async () => testMatch = await repository.GetByIdAsync(1));
+            var err = await Record.ExceptionAsync(async () => testMatch = await _matchRepository.GetByIdAsync(1));
 
             // Assert
             Assert.Null(err);
             Assert.NotNull(testMatch);
-            Assert.Equal(expectedMatch.Stadium.Name, testMatch.Stadium.Name);
-            Assert.Equal(expectedMatch.Stadium.Country, testMatch.Stadium.Country);
-            Assert.Equal(expectedMatch.Stadium.City, testMatch.Stadium.City);
-            Assert.Equal(expectedMatch.Stadium.BuiltAt, testMatch.Stadium.BuiltAt);
-            Assert.Equal(expectedMatch.Stadium.Capacity, testMatch.Stadium.Capacity);
-            Assert.Equal(expectedMatch.Stadium.FieldSize, testMatch.Stadium.FieldSize);
-            Assert.Equal(expectedMatch.Stadium.Cost, testMatch.Stadium.Cost);
-            Assert.Equal(expectedMatch.Stadium.VipCapacity, testMatch.Stadium.VipCapacity);
-            Assert.Equal(expectedMatch.Stadium.IsForDisabled, testMatch.Stadium.IsForDisabled);
-            Assert.Equal(expectedMatch.Stadium.Lighting, testMatch.Stadium.Lighting);
-            Assert.Equal(expectedMatch.Stadium.Architect, testMatch.Stadium.Architect);
-            Assert.Equal(expectedMatch.Stadium.IsNational, testMatch.Stadium.IsNational);
-            Assert.Equal(expectedMatch.AmountOfFans, testMatch.AmountOfFans);
-            Assert.Equal(expectedMatch.Date, testMatch.Date);
+
+            Assert.True(_compareLogic.Compare(expectedMatch, testMatch).AreEqual);
         }
 
         [Fact]
         public async Task ReturnNullWhenMatchDoNotExistsInDbByGivenId()
         {
             // Arrange
-            var repository = SoccerStatisticsContextMocker.GetInMemoryMatchRepository("GetMatchByIdReturnNull");
+            _matchRepository = SoccerStatisticsContextMocker.GetInMemoryMatchRepository("GetMatchByIdReturnNull");
 
             Match testMatch = null;
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testMatch = await repository.GetByIdAsync(523829857));
+                        () => testMatch = await _matchRepository.GetByIdAsync(523829857));
 
             // Assert
             Assert.Null(err);

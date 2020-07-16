@@ -1,8 +1,7 @@
-﻿using SoccerStatistics.Api.Database.Entities;
+﻿using KellermanSoftware.CompareNetObjects;
+using SoccerStatistics.Api.Database.Entities;
+using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -10,11 +9,20 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class RoundRepositoryTests
     {
+        private readonly CompareLogic _compareLogic;
+        private IRoundRepository _roundRepository;
+
+        public RoundRepositoryTests()
+        {
+            _compareLogic = new CompareLogic();
+            _roundRepository = null;
+        }
+
         [Fact]
         public async Task ReturnRoundWhichExistsInDbByGivenId()
         {
             // Arrange
-            var repository = SoccerStatisticsContextMocker.GetInMemoryRoundRepository("GetRoundByIdReturnRound");
+            _roundRepository = SoccerStatisticsContextMocker.GetInMemoryRoundRepository("GetRoundByIdReturnRound");
 
             var expectedRound = new Round()
             {
@@ -26,26 +34,26 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testRound = await repository.GetByIdAsync(1));
+                        () => testRound = await _roundRepository.GetByIdAsync(1));
 
             // Assert
             Assert.Null(err);
             Assert.NotNull(testRound);
-            Assert.Equal(expectedRound.Id, testRound.Id);
-            Assert.Equal(expectedRound.Name, testRound.Name);
+
+            Assert.True(_compareLogic.Compare(expectedRound, testRound).AreEqual);
         }
 
         [Fact]
         public async Task ReturnNullWhenRoundDoNotExistsInDbByGivenId()
         {
             // Arrange
-            var repository = SoccerStatisticsContextMocker.GetInMemoryRoundRepository("GetRoundByIdReturnNull");
+            _roundRepository = SoccerStatisticsContextMocker.GetInMemoryRoundRepository("GetRoundByIdReturnNull");
 
             Round testRound = null;
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testRound = await repository.GetByIdAsync(0));
+                        () => testRound = await _roundRepository.GetByIdAsync(0));
 
             // Assert
             Assert.Null(err);

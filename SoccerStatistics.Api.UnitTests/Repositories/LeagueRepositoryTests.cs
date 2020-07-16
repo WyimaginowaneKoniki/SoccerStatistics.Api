@@ -1,20 +1,31 @@
-﻿using SoccerStatistics.Api.Database.Entities;
+﻿using KellermanSoftware.CompareNetObjects;
+using SoccerStatistics.Api.Database.Entities;
+using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class LeagueRepositoryTests
     {
+        private readonly CompareLogic _compareLogic;
+        private ILeagueRepository _leagueRepository;
+
+        public LeagueRepositoryTests()
+        {
+            _compareLogic = new CompareLogic();
+            _leagueRepository = null;
+        }
 
         [Fact]
         public async Task ReturnAllLeaguesWhichExistsInDb()
         {
             // Arrange
-            var repository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetAllLeagues");
+            _leagueRepository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetAllLeagues");
+
             IEnumerable<League> expectedleagues = new List<League>
             {
 
@@ -57,29 +68,25 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             // Act
 
             var err = await Record.ExceptionAsync(async
-                        () => testLeagues = await repository.GetAllAsync());
-
+                        () => testLeagues = await _leagueRepository.GetAllAsync());
+            
             // Assert
             Assert.Null(err);
             Assert.NotNull(testLeagues);
             Assert.Equal(expectedleagues.Count(), testLeagues.Count());
+
             for (int i = 0; i < expectedleagues.Count(); i++)
             {
-                Assert.Equal(expectedleagues.ElementAt(i).Id, testLeagues.ElementAt(i).Id);
-                Assert.Equal(expectedleagues.ElementAt(i).Shortname, testLeagues.ElementAt(i).Shortname);
-                Assert.Equal(expectedleagues.ElementAt(i).Name, testLeagues.ElementAt(i).Name);
-                Assert.Equal(expectedleagues.ElementAt(i).Country, testLeagues.ElementAt(i).Country);
-                Assert.Equal(expectedleagues.ElementAt(i).Season, testLeagues.ElementAt(i).Season);
-                Assert.Equal(expectedleagues.ElementAt(i).MVP, testLeagues.ElementAt(i).MVP);
-                Assert.Equal(expectedleagues.ElementAt(i).Winner, testLeagues.ElementAt(i).Winner);
+                Assert.True(_compareLogic.Compare(expectedleagues.ElementAt(i), testLeagues.ElementAt(i)).AreEqual);
             }
 
         }
+
         [Fact]
         public async Task ReturnLeagueWhichExistsInDbByGivenId()
         {
             // Arrange
-            var repository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetLeagueByIdReturnLeague");
+            _leagueRepository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetLeagueByIdReturnLeague");
 
             var expectedleague = new League()
             {
@@ -95,31 +102,25 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testLeague = await repository.GetByIdAsync(1));
+                        () => testLeague = await _leagueRepository.GetByIdAsync(1));
 
             // Assert
             Assert.Null(err);
             Assert.NotNull(testLeague);
-            Assert.Equal(expectedleague.Id, testLeague.Id);
-            Assert.Equal(expectedleague.Name, testLeague.Name);
-            Assert.Equal(expectedleague.Country, testLeague.Country);
-            Assert.Equal(expectedleague.Season, testLeague.Season);
-            Assert.Equal(expectedleague.MVP, testLeague.MVP);
-            Assert.Equal(expectedleague.Winner, testLeague.Winner);
-
+            Assert.True(_compareLogic.Compare(expectedleague, testLeague).AreEqual);
         }
 
         [Fact]
         public async Task ReturnNullWhenLeagueDoNotExistsInDbByGivenId()
         {
             // Arrange
-            var repository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetLeagueByIdReturnNull");
+            _leagueRepository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetLeagueByIdReturnNull");
 
             League testLeague = null;
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testLeague = await repository.GetByIdAsync(0));
+                        () => testLeague = await _leagueRepository.GetByIdAsync(0));
 
             // Assert
             Assert.Null(err);

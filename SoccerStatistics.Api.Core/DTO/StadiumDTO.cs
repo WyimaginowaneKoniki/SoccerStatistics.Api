@@ -13,7 +13,7 @@ namespace SoccerStatistics.Api.Core.DTO
         public uint BuiltAt { get; set; }
         public uint Capacity { get; set; }
         public string FieldSize { get; set; }
-        public decimal Cost { get; set; }
+        public string Cost { get; set; }
         public uint VipCapacity { get; set; }
         public bool IsForDisabled { get; set; }
         public uint Lighting { get; set; }

@@ -4,11 +4,11 @@ using SoccerStatistics.Api.Database.Entities;
 
 namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
 {
-    public class AutoMapperMatchProfile : Profile
+    public class AutoMapperActivityProfile : Profile
     {
-        public AutoMapperMatchProfile()
+        public AutoMapperActivityProfile()
         {
-            CreateMap<Match, MatchDTO>();
+            CreateMap<Activity, ActivityDTO>();
         }
     }
 }

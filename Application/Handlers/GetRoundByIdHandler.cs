@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Application.Handlers
 {
-    public class GetRoundByIdHandler : IRequestHandler<GetRoundByIdQuery, RoundBasicDTO>
+    public class GetRoundByIdHandler : IRequestHandler<GetRoundByIdQuery, RoundDTO>
     {
         private readonly IRoundService _service;
 
@@ -18,7 +18,7 @@ namespace SoccerStatistics.Api.Application.Handlers
         {
             _service = service;
         }
-        public async Task<RoundBasicDTO> Handle(GetRoundByIdQuery query, CancellationToken cancellationToken)
+        public async Task<RoundDTO> Handle(GetRoundByIdQuery query, CancellationToken cancellationToken)
        => await _service.GetByIdAsync(query.Id);
 
     }

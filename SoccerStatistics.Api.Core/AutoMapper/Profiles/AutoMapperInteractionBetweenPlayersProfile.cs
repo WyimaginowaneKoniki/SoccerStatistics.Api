@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
 {
-    public class AutoMapperInteractionsBetweenPlayers : Profile
+    public class AutoMapperInteractionBetweenPlayersProfile : Profile
     {
-        public AutoMapperInteractionsBetweenPlayers()
+        public AutoMapperInteractionBetweenPlayersProfile()
         {
             CreateMap<IEnumerable<InteractionBetweenPlayers>, IEnumerable<InteractionBetweenPlayersDTO>>();
         }

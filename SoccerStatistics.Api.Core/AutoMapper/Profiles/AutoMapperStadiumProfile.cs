@@ -11,6 +11,7 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
         {
             CreateMap<Stadium, StadiumDTO>()
                   .ForMember(dto => dto.Cost, e => e.MapFrom(p => String.Format("{0:0.00} $", p.Cost)));
+            CreateMap<Stadium, StadiumBasicDTO>();
         }
     }
 }

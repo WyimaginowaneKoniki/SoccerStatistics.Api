@@ -9,6 +9,7 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
         public AutoMapperRoundProfile()
         {
             CreateMap<Round, RoundBasicDTO>();
+            CreateMap<Round, RoundDTO>();
         }
     }
 }

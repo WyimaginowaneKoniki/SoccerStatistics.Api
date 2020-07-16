@@ -51,13 +51,11 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 {
                     Id = 1,
                     Pass = 20,
-                    Match = match
                 },
                 new TeamInMatchStats()
                 {
                     Id = 2,
                     Pass = 40,
-                    Match = match
                 }
             };
 
@@ -72,7 +70,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 cfg.AddProfile<AutoMapperTeamInMatchStatsProfile>();
                 cfg.AddProfile<AutoMapperStadiumProfile>();
                 cfg.AddProfile<AutoMapperRoundProfile>();
-                cfg.AddProfile<AutoMapperInteractionsBetweenPlayers>();
+                cfg.AddProfile<AutoMapperInteractionBetweenPlayersProfile>();
             });
 
             var mapper = new Mapper(configuration);

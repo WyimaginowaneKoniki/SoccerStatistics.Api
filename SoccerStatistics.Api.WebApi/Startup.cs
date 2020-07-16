@@ -32,6 +32,7 @@ namespace SoccerStatistics.Api.WebApi
             services.AddMediatR(typeof(GetLeagueByIdHandler));
             services.AddMediatR(typeof(GetAllLeaguesHandler));
             services.AddMediatR(typeof(GetRoundByIdHandler));
+            services.AddMediatR(typeof(GetRoundByIdHandler));
 
             services.AddSingleton(AutoMapperConfig.Initialize());
 
@@ -50,6 +51,9 @@ namespace SoccerStatistics.Api.WebApi
 
             services.AddScoped<IRoundRepository, RoundRepository>();
             services.AddScoped<IRoundService, RoundService>();
+
+            services.AddScoped<IStadiumRepository, StadiumRepository>();
+            services.AddScoped<IStadiumService, StadiumService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

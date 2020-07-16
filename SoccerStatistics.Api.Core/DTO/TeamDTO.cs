@@ -10,9 +10,8 @@ namespace SoccerStatistics.Api.Core.DTO
         public uint CreatedAt { get; set; }
         public string Coach { get; set; }
         public string City { get; set; }
-        public virtual IEnumerable<PlayerDTO> Players { get; set; }
-        public  uint StadiumId { get; set; }
-        public  uint LeagueId { get; set; }
-
+        public IEnumerable<PlayerBasicDTO> Players { get; set; }
+        public  StadiumBasicDTO Stadium { get; set; }
+        public  LeagueBasicDTO League { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
         public AutoMapperLeagueProfile()
         {
             CreateMap<League, LeagueDTO>();
+            CreateMap<League, LeagueBasicDTO>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KellermanSoftware.CompareNetObjects;
 using Moq;
 using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
@@ -6,14 +7,26 @@ using SoccerStatistics.Api.Core.Services;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services
 {
     public class RoundServiceTests
     {
+        private readonly IMapper _mapper;
+        private readonly Mock<IRoundRepository> _repositoryMock;
+        private readonly IRoundService _service;
+
+        public RoundServiceTests()
+        {
+            var configuration = new MapperConfiguration(cfg
+                => cfg.AddProfile<AutoMapperRoundProfile>());
+
+            _mapper = new Mapper(configuration);
+            _repositoryMock = new Mock<IRoundRepository>();
+            _service = new RoundService(_repositoryMock.Object, _mapper);
+        }
+
         [Fact]
         public async void ReturnRoundWhichExistsInDbByGivenId()
         {
@@ -26,32 +39,22 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             RoundDTO testRound = null;
 
-            var repositoryMock = new Mock<IRoundRepository>();
-            repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(round);
+            _repositoryMock.Reset();
+            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
+            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(round);
 
-
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperRoundProfile>());
-
-            var mapper = new Mapper(configuration);
-
-            var expectedRound = mapper.Map<RoundDTO>(round);
-
-            var service = new RoundService(repositoryMock.Object, mapper);
+            var expectedRound = _mapper.Map<RoundDTO>(round);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testRound = await service.GetByIdAsync(1));
+                        () => testRound = await _service.GetByIdAsync(1));
 
             // Arrange
             Assert.Null(err);
             Assert.NotNull(testRound);
-            Assert.Equal(expectedRound.Id, testRound.Id);
-            Assert.Equal(expectedRound.Name, testRound.Name);
-     
-        }
 
+            testRound.ShouldCompare(expectedRound);
+        }
 
         [Fact]
         public async void ReturnNullWhenRoundDoNotExistsInDbByGivenId()
@@ -59,21 +62,12 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Assert
             RoundDTO testRound = null;
 
-            var repositoryMock = new Mock<IRoundRepository>();
-            repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Round)null);
-
-
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperRoundProfile>());
-
-            var mapper = new Mapper(configuration);
-
-
-            var service = new RoundService(repositoryMock.Object, mapper);
+            _repositoryMock.Reset();
+            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Round)null);
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testRound = await service.GetByIdAsync(1));
+                        () => testRound = await _service.GetByIdAsync(1));
 
             // Arrange
             Assert.Null(err);

@@ -10,14 +10,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class PlayerRepositoryTests
     {
-        private readonly CompareLogic _compareLogic;
         private IPlayerRepository _playerRepository;
-
-        public PlayerRepositoryTests()
-        {
-            _compareLogic = new CompareLogic();
-            _playerRepository = null;
-        }
 
         [Fact]
         public async Task ReturnPlayerWhoExistsInDbByGivenId()
@@ -51,7 +44,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.Null(err);
             Assert.NotNull(testPlayer);
 
-            Assert.True(_compareLogic.Compare(expectedPlayer, testPlayer).AreEqual);
+            testPlayer.ShouldCompare(expectedPlayer);
         }
 
         [Fact]

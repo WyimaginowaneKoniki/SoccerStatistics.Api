@@ -13,7 +13,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
 {
     public class RoundServiceTests
     {
-        private readonly CompareLogic _compareLogic;
         private readonly IMapper _mapper;
         private readonly Mock<IRoundRepository> _repositoryMock;
         private readonly IRoundService _service;
@@ -24,7 +23,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 => cfg.AddProfile<AutoMapperRoundProfile>());
 
             _mapper = new Mapper(configuration);
-            _compareLogic = new CompareLogic();
             _repositoryMock = new Mock<IRoundRepository>();
             _service = new RoundService(_repositoryMock.Object, _mapper);
         }
@@ -55,7 +53,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             Assert.Null(err);
             Assert.NotNull(testRound);
 
-            Assert.True(_compareLogic.Compare(expectedRound, testRound).AreEqual);
+            testRound.ShouldCompare(expectedRound);
         }
 
         [Fact]

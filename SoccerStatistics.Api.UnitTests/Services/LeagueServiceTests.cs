@@ -15,7 +15,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
 {
     public class LeagueServiceTests
     {
-        private readonly CompareLogic _compareLogic;
         private readonly IMapper _mapper;
         private readonly Mock<ILeagueRepository> _repositoryMock;
         private readonly ILeagueService _service;
@@ -26,7 +25,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 => cfg.AddProfile<AutoMapperLeagueProfile>());
 
             _mapper = new Mapper(configuration);
-            _compareLogic = new CompareLogic();
             _repositoryMock = new Mock<ILeagueRepository>();
             _service = new LeagueService(_repositoryMock.Object, _mapper);
         }
@@ -88,10 +86,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             Assert.NotNull(testLeagues);
             Assert.Equal(leagues.Count(), testLeagues.Count());
 
-            for (int i = 0; i < expectedLeagues.Count(); i++)
-            {
-                Assert.True(_compareLogic.Compare(expectedLeagues.ElementAt(i), testLeagues.ElementAt(i)).AreEqual);
-            }
+            testLeagues.ShouldCompare(expectedLeagues);
         }
 
         [Fact]
@@ -124,7 +119,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             Assert.Null(err);
             Assert.NotNull(testLeague);
 
-            Assert.True(_compareLogic.Compare(expectedLeague, testLeague).AreEqual);
+            testLeague.ShouldCompare(expectedLeague);
         }
 
 

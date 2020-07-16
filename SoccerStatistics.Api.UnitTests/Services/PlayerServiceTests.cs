@@ -14,7 +14,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
 {
     public class PlayerServiceTests
     {
-        private readonly CompareLogic _compareLogic;
         private readonly IMapper _mapper;
         private readonly Mock<IPlayerRepository> _repositoryMock;
         private readonly IPlayerService _service;
@@ -25,7 +24,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 => cfg.AddProfile<AutoMapperPlayerProfile>());
 
             _mapper = new Mapper(configuration);
-            _compareLogic = new CompareLogic();
             _repositoryMock = new Mock<IPlayerRepository>();
             _service = new PlayerService(_repositoryMock.Object, _mapper);
         }
@@ -64,7 +62,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             Assert.Null(err);
             Assert.NotNull(testPlayer);
 
-            Assert.True(_compareLogic.Compare(expectedPlayer, testPlayer).AreEqual);
+            testPlayer.ShouldCompare(expectedPlayer);
         }
 
 

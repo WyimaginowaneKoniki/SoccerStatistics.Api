@@ -11,14 +11,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class StadiumRepositoryTests
     {
-        private readonly CompareLogic _compareLogic;
         private IStadiumRepository _stadiumRepository;
-
-        public StadiumRepositoryTests()
-        {
-            _compareLogic = new CompareLogic();
-            _stadiumRepository = null;
-        }
 
         [Fact]
         public async Task ReturnAllStadiumsWhichExistsInDb()
@@ -87,10 +80,8 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.Null(err);
             Assert.NotNull(testStadiums);
             Assert.Equal(expectedstadiums.Count(), testStadiums.Count());
-            for (int i = 0; i < expectedstadiums.Count(); i++)
-            {
-                Assert.True(_compareLogic.Compare(expectedstadiums.ElementAt(i), testStadiums.ElementAt(i)).AreEqual);
-            }
+
+            testStadiums.ShouldCompare(expectedstadiums);
 
         }
 
@@ -127,7 +118,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.Null(err);
             Assert.NotNull(testStadium);
 
-            Assert.True(_compareLogic.Compare(expectedStadium, testStadium).AreEqual);
+            testStadium.ShouldCompare(expectedStadium);
         }
 
         [Fact]

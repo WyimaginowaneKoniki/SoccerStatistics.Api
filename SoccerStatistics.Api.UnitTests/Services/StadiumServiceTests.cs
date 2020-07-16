@@ -15,7 +15,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
 {
     public class StadiumServiceTests
     {
-        private readonly CompareLogic _compareLogic;
         private readonly IMapper _mapper;
         private readonly Mock<IStadiumRepository> _repositoryMock;
         private readonly IStadiumService _service;
@@ -26,7 +25,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 => cfg.AddProfile<AutoMapperStadiumProfile>());
 
             _mapper = new Mapper(configuration);
-            _compareLogic = new CompareLogic();
             _repositoryMock = new Mock<IStadiumRepository>();
             _service = new StadiumService(_repositoryMock.Object, _mapper);
         }
@@ -90,7 +88,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             _repositoryMock.Reset();
             _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(stadiums);
 
-            var expectedStadium = _mapper.Map<IEnumerable<StadiumDTO>>(stadiums);
+            var expectedStadiums = _mapper.Map<IEnumerable<StadiumDTO>>(stadiums);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -99,14 +97,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Arrange
             Assert.Null(err);
             Assert.NotNull(testStadiums);
-            Assert.Equal(expectedStadium.Count(), testStadiums.Count());
+            Assert.Equal(expectedStadiums.Count(), testStadiums.Count());
 
-            for (int i = 0; i < expectedStadium.Count(); i++)
-            {
-                Assert.True(_compareLogic.Compare(expectedStadium.ElementAt(i), testStadiums.ElementAt(i)).AreEqual);
-            }
-
-
+            testStadiums.ShouldCompare(expectedStadiums);
         }
 
         [Fact]
@@ -145,7 +138,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             Assert.Null(err);
             Assert.NotNull(testStadium);
 
-            Assert.True(_compareLogic.Compare(expectedStadium, testStadium).AreEqual);
+            testStadium.ShouldCompare(expectedStadium);
         }
 
 

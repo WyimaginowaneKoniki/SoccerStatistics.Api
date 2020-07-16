@@ -15,7 +15,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
 {
     public class MatchServiceTests
     {
-        private readonly CompareLogic _compareLogic;
         private readonly IMapper _mapper;
         private readonly Mock<IMatchRepository> _repositoryMock;
         private readonly IMatchService _service;
@@ -26,7 +25,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 => cfg.AddProfile<AutoMapperMatchProfile>());
 
             _mapper = new Mapper(configuration);
-            _compareLogic = new CompareLogic();
             _repositoryMock = new Mock<IMatchRepository>();
             _service = new MatchService(_repositoryMock.Object, _mapper);
         }
@@ -73,7 +71,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             Assert.Null(err);
             Assert.NotNull(testMatch);
 
-            Assert.True(_compareLogic.Compare(expectedMatch, testMatch).AreEqual);
+            testMatch.ShouldCompare(expectedMatch);
         }
 
         [Fact]

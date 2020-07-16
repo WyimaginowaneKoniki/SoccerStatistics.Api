@@ -9,14 +9,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class RoundRepositoryTests
     {
-        private readonly CompareLogic _compareLogic;
         private IRoundRepository _roundRepository;
-
-        public RoundRepositoryTests()
-        {
-            _compareLogic = new CompareLogic();
-            _roundRepository = null;
-        }
 
         [Fact]
         public async Task ReturnRoundWhichExistsInDbByGivenId()
@@ -40,7 +33,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.Null(err);
             Assert.NotNull(testRound);
 
-            Assert.True(_compareLogic.Compare(expectedRound, testRound).AreEqual);
+            testRound.ShouldCompare(expectedRound);
         }
 
         [Fact]

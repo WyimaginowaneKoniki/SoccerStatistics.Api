@@ -10,14 +10,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class MatchRepositoryTests
     {
-        private readonly CompareLogic _compareLogic;
         private IMatchRepository _matchRepository;
-
-        public MatchRepositoryTests()
-        {
-            _compareLogic = new CompareLogic();
-            _matchRepository = null;
-        }
 
         [Fact]
         public async void ReturnMatchWhicExistsInDbByGivenId()
@@ -57,7 +50,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.Null(err);
             Assert.NotNull(testMatch);
 
-            Assert.True(_compareLogic.Compare(expectedMatch, testMatch).AreEqual);
+            testMatch.ShouldCompare(expectedMatch);
         }
 
         [Fact]

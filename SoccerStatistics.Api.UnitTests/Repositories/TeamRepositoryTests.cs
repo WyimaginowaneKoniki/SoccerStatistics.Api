@@ -11,14 +11,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class TeamRepositoryTests
     {
-        private readonly CompareLogic _compareLogic;
         private ITeamRepository _teamRepository;
-
-        public TeamRepositoryTests()
-        {
-            _compareLogic = new CompareLogic();
-            _teamRepository = null;
-        }
 
         [Fact]
         public async Task ReturnAllTeamFromDb()
@@ -69,10 +62,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.NotNull(testTeams);
             Assert.Equal(expectedTeams.Count(), testTeams.Count());
 
-            for (int i = 0; i < expectedTeams.Count(); i++)
-            {
-                Assert.True(_compareLogic.Compare(expectedTeams.ElementAt(i), testTeams.ElementAt(i)).AreEqual);
-            }
+            testTeams.ShouldCompare(expectedTeams);
         }
 
         [Fact]
@@ -101,7 +91,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.Null(err);
             Assert.NotNull(testTeam);
 
-            Assert.True(_compareLogic.Compare(expectedTeam, testTeam).AreEqual);
+            testTeam.ShouldCompare(expectedTeam);
         }
 
         [Fact]

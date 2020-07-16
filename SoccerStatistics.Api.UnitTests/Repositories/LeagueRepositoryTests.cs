@@ -11,14 +11,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class LeagueRepositoryTests
     {
-        private readonly CompareLogic _compareLogic;
         private ILeagueRepository _leagueRepository;
-
-        public LeagueRepositoryTests()
-        {
-            _compareLogic = new CompareLogic();
-            _leagueRepository = null;
-        }
 
         [Fact]
         public async Task ReturnAllLeaguesWhichExistsInDb()
@@ -75,11 +68,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.NotNull(testLeagues);
             Assert.Equal(expectedleagues.Count(), testLeagues.Count());
 
-            for (int i = 0; i < expectedleagues.Count(); i++)
-            {
-                Assert.True(_compareLogic.Compare(expectedleagues.ElementAt(i), testLeagues.ElementAt(i)).AreEqual);
-            }
-
+            testLeagues.ShouldCompare(expectedleagues);
         }
 
         [Fact]
@@ -107,7 +96,8 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             // Assert
             Assert.Null(err);
             Assert.NotNull(testLeague);
-            Assert.True(_compareLogic.Compare(expectedleague, testLeague).AreEqual);
+
+            testLeague.ShouldCompare(expectedleague);
         }
 
         [Fact]

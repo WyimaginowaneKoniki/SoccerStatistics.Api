@@ -47,7 +47,15 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
             return new RoundRepository(soccerStatisticsDbContext);
         }
 
-        private static SoccerStatisticsDbContext InitSoccerStatisticsDbContext(string dbName)
+        public static IStadiumRepository GetInMemoryStadiumRepository(string dbName)
+        {
+            var soccerStatisticsDbContext = InitSoccerstatisticsDbContext(dbName);
+            soccerStatisticsDbContext.FillDatabaseWithStadiums();
+
+            return new StadiumRepository(soccerStatisticsDbContext);
+        }
+
+        private static SoccerStatisticsDbContext InitSoccerstatisticsDbContext(string dbName)
         {
             var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
                                 .UseInMemoryDatabase(databaseName: dbName)

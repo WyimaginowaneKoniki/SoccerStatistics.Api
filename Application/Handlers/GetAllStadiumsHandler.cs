@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Application.Handlers
 {
-    public class GetAllLeaguesHandler : IRequestHandler<GetAllLeaguesQuery , IEnumerable<LeagueDTO>>
+    public class GetAllStadiumsHandler : IRequestHandler<GetAllStadiumsQuery, IEnumerable<StadiumDTO>>
     {
-        private readonly ILeagueService _service;
+        private readonly IStadiumService _service;
 
-        public GetAllLeaguesHandler(ILeagueService service)
+        public GetAllStadiumsHandler(IStadiumService service)
         {
             _service = service;
         }
 
-        public async Task<IEnumerable<LeagueDTO>> Handle(GetAllLeaguesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<StadiumDTO>> Handle(GetAllStadiumsQuery request, CancellationToken cancellationToken)
          => await _service.GetAllAsync();
     }
 }

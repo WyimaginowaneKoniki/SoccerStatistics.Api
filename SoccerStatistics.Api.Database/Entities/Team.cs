@@ -30,11 +30,6 @@ namespace SoccerStatistics.Api.Database.Entities
         [NotMapped]
         [InverseProperty("SourceTeam")]
         public virtual IEnumerable<Transfer> Transfer2 { get; set; }
-        [NotMapped]
-        [InverseProperty("MatchTeam1")]
-        public virtual IEnumerable<Match> TeamId1 { get; set; }
-        [NotMapped]
-        [InverseProperty("MatchTeam2")]
-        public virtual IEnumerable<Match> TeamId2 { get; set; }
+
     }
 }

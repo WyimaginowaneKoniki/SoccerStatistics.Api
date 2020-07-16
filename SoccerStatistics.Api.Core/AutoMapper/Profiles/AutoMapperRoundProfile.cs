@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Database.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
 {
@@ -11,7 +8,9 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
     {
         public AutoMapperRoundProfile()
         {
-            CreateMap<Round, RoundDTO>();
+            CreateMap<Round, RoundDTO>()
+                .ForMember(dto => dto.LeagueId, e => e.MapFrom(p => p.League.Id))
+                .ForMember(dto => dto.LeagueName, e => e.MapFrom(p => p.League.Name));
         }
     }
 }

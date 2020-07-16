@@ -35,9 +35,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                     IsNational = false
                 },
                 AmountOfFans = 60_123,
-                Date = new DateTime(2015, 3, 4),
-                MatchTeam1 = new Team() { Id = 1, FullName = "Manchester United FC" },
-                MatchTeam2 = new Team() { Id = 2, FullName = "FC Trampkarze" }
+                Date = new DateTime(2015, 3, 4)
             };
 
             Match testMatch = null;
@@ -62,8 +60,6 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.Equal(expectedMatch.Stadium.IsNational, testMatch.Stadium.IsNational);
             Assert.Equal(expectedMatch.AmountOfFans, testMatch.AmountOfFans);
             Assert.Equal(expectedMatch.Date, testMatch.Date);
-            Assert.Equal(expectedMatch.MatchTeam1.FullName, testMatch.MatchTeam1.FullName);
-            Assert.Equal(expectedMatch.MatchTeam2.FullName, testMatch.MatchTeam2.FullName);
         }
 
         [Fact]

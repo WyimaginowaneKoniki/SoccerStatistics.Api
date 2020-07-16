@@ -2,8 +2,6 @@
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Database.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
 {
@@ -11,7 +9,8 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
     {
         public AutoMapperStadiumProfile()
         {
-            CreateMap<Stadium, StadiumDTO>();
+            CreateMap<Stadium, StadiumDTO>()
+                  .ForMember(dto => dto.Cost, e => e.MapFrom(p => String.Format("{0:0.00} $", p.Cost)));
         }
     }
 }

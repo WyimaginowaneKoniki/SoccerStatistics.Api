@@ -19,7 +19,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
         [Fact]
         public async void ReturnAllStadiumsWhichExistsInDb()
         {
-            IEnumerable<Stadium> expectedStadiums = new List<Stadium>
+            IEnumerable<Stadium> stadiums = new List<Stadium>
             {
 
                 new Stadium
@@ -74,13 +74,13 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
 
             var repositoryMock = new Mock<IStadiumRepository>();
-            repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(expectedStadiums);
+            repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(stadiums);
             var configuration = new MapperConfiguration(cfg
                 => cfg.AddProfile<AutoMapperStadiumProfile>());
 
             var mapper = new Mapper(configuration);
 
-            var expectedLeague = mapper.Map<IEnumerable<StadiumDTO>>(expectedStadiums);
+            var expectedStadium = mapper.Map<IEnumerable<StadiumDTO>>(stadiums);
 
             var service = new StadiumService(repositoryMock.Object, mapper);
 
@@ -91,21 +91,21 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Arrange
             Assert.Null(err);
             Assert.NotNull(testStadiums);
-            Assert.Equal(expectedStadiums.Count(), testStadiums.Count());
-            for (int i = 0; i < expectedLeague.Count(); i++)
+            Assert.Equal(expectedStadium.Count(), testStadiums.Count());
+            for (int i = 0; i < expectedStadium.Count(); i++)
             {
-                Assert.Equal(expectedStadiums.ElementAt(i).Id, testStadiums.ElementAt(i).Id);
-                Assert.Equal(expectedStadiums.ElementAt(i).Name, testStadiums.ElementAt(i).Name);
-                Assert.Equal(expectedStadiums.ElementAt(i).Country, testStadiums.ElementAt(i).Country);
-                Assert.Equal(expectedStadiums.ElementAt(i).City, testStadiums.ElementAt(i).City);
-                Assert.Equal(expectedStadiums.ElementAt(i).Capacity, testStadiums.ElementAt(i).Capacity);
-                Assert.Equal(expectedStadiums.ElementAt(i).VipCapacity, testStadiums.ElementAt(i).VipCapacity);
-                Assert.Equal(expectedStadiums.ElementAt(i).Architect, testStadiums.ElementAt(i).Architect);
-                Assert.Equal(expectedStadiums.ElementAt(i).BuiltAt, testStadiums.ElementAt(i).BuiltAt);
-                Assert.Equal(expectedStadiums.ElementAt(i).IsForDisabled, testStadiums.ElementAt(i).IsForDisabled);
-                Assert.Equal(expectedStadiums.ElementAt(i).IsNational, testStadiums.ElementAt(i).IsNational);
-                Assert.Equal(expectedStadiums.ElementAt(i).Lighting, testStadiums.ElementAt(i).Lighting);
-                Assert.Equal(expectedStadiums.ElementAt(i).FieldSize, testStadiums.ElementAt(i).FieldSize);
+                Assert.Equal(expectedStadium.ElementAt(i).Id, testStadiums.ElementAt(i).Id);
+                Assert.Equal(expectedStadium.ElementAt(i).Name, testStadiums.ElementAt(i).Name);
+                Assert.Equal(expectedStadium.ElementAt(i).Country, testStadiums.ElementAt(i).Country);
+                Assert.Equal(expectedStadium.ElementAt(i).City, testStadiums.ElementAt(i).City);
+                Assert.Equal(expectedStadium.ElementAt(i).Capacity, testStadiums.ElementAt(i).Capacity);
+                Assert.Equal(expectedStadium.ElementAt(i).VipCapacity, testStadiums.ElementAt(i).VipCapacity);
+                Assert.Equal(expectedStadium.ElementAt(i).Architect, testStadiums.ElementAt(i).Architect);
+                Assert.Equal(expectedStadium.ElementAt(i).BuiltAt, testStadiums.ElementAt(i).BuiltAt);
+                Assert.Equal(expectedStadium.ElementAt(i).IsForDisabled, testStadiums.ElementAt(i).IsForDisabled);
+                Assert.Equal(expectedStadium.ElementAt(i).IsNational, testStadiums.ElementAt(i).IsNational);
+                Assert.Equal(expectedStadium.ElementAt(i).Lighting, testStadiums.ElementAt(i).Lighting);
+                Assert.Equal(expectedStadium.ElementAt(i).FieldSize, testStadiums.ElementAt(i).FieldSize);
             }
 
 

@@ -11,6 +11,6 @@ namespace SoccerStatistics.Api.Core.DTO
         public string MVP { get; set; }
         public string Country { get; set; }
         public string Winner { get; set; }
-        public virtual IEnumerable<TeamDTO> Teams { get; set; }
+        public virtual IEnumerable<TeamBasicDTO> Teams { get; set; }
     }
 }

@@ -8,6 +8,7 @@ namespace SoccerStatistics.Api.Database.Repositories.Interfaces
 {
     public interface IPlayerRepository
     {
+        Task<IEnumerable<Player>> GetAllAsync();
         Task<Player> GetByIdAsync(uint id);
     }
 }

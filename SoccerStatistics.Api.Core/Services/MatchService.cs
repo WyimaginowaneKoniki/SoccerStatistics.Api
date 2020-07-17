@@ -28,11 +28,12 @@ namespace SoccerStatistics.Api.Core.Services
             var matchDTO = _mapper.Map<MatchDTO>(match);
 
             if (matchDTO != null)          
-                FillTeamsInMatchStats(match, matchDTO);
+                FillTeamsInMatchStats(match, matchDTO); // It calculates matchDTO values for statsInMeatch for each team
 
             return matchDTO;
         }
 
+        // Calculates whole MatchDTO's TeamInMatchStats for both Teams 
         private void FillTeamsInMatchStats(Match match, MatchDTO matchDTO)
         {
             matchDTO.TeamInMatchStats1 = new TeamInMatchStatsDTO();
@@ -41,6 +42,7 @@ namespace SoccerStatistics.Api.Core.Services
             FillTeamInMatchStats(match, match.Team2, matchDTO.TeamInMatchStats2);
         }
 
+        // Calculates TeamInMatchStats for one team
         private void FillTeamInMatchStats(Match match, TeamInMatchStats stats, TeamInMatchStatsDTO statsDTO)
         {
             statsDTO.Id = stats.Id;

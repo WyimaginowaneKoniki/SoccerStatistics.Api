@@ -164,31 +164,30 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                 {
                     player3,
                     player4
-                    
+
                 }
             };
 
-            dbContext.Add(
-                new Match
+            var match = new Match
+            {
+                Id = 1,
+                Stadium = stadium,
+                AmountOfFans = 60_123,
+                Date = new DateTime(2015, 3, 4),
+                Team1 = new TeamInMatchStats()
+                {
+                    Team = team1
+                },
+                Team2 = new TeamInMatchStats()
+                {
+                    Team = team2
+                },
+                Round = new Round()
                 {
                     Id = 1,
-                    Stadium = stadium,
-                    AmountOfFans = 60_123,
-                    Date = new DateTime(2015, 3, 4),
-                    Team1 = new TeamInMatchStats()
-                    {
-                        Team = team1
-                    },
-                    Team2 = new TeamInMatchStats()
-                    {
-                        Team = team2
-                    },
-                    Round = new Round()
-                    {
-                        Id = 1,
-                        Name = "Round 1"
-                    },
-                    Activities = new List<Activity>()
+                    Name = "Round 1",
+                },
+                Activities = new List<Activity>()
                     {
                         new Activity()
                         {
@@ -227,7 +226,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                             Player = player3
                         }
                     },
-                    InteractionsBetweenPlayers = new List<InteractionBetweenPlayers>()
+                InteractionsBetweenPlayers = new List<InteractionBetweenPlayers>()
                     {
                         new InteractionBetweenPlayers()
                         {
@@ -237,7 +236,9 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                             Player2 = player3
                         }
                     }
-                });
+            };
+            match.Round.Matches = new List<Match>() { match };
+            dbContext.Add(match);
 
             dbContext.Add(
                 new Match

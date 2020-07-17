@@ -71,21 +71,25 @@ namespace SoccerStatistics.Api.UnitTests.Services
                     Id = 1,
                     FullName = "Manchester United Football Club",
                     ShortName = "Manchester United",
-                    City = "Stretford"
+                    City = "Stretford",
+                    Coach = "Ole Gunnar Solskjær"
+
                 },
                 new TeamBasicDTO()
                 {
                     Id = 2,
                     FullName = "Real Madrid Club de Futbol",
                     ShortName = "Real Madrid",
-                    City = "Madrid"
+                    City = "Madrid",
+                    Coach = "Zinedine Zidane"
                 },
                 new TeamBasicDTO()
                 {
                     Id = 3,
                     FullName = "Futbol Club Barcelona",
                     ShortName = "FC Barcelona",
-                    City = "Barcelona"
+                    City = "Barcelona",
+                    Coach = "Quique Setien"
                 }
             };
 

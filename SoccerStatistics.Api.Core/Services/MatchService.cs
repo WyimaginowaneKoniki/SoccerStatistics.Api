@@ -5,9 +5,7 @@ using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Schema;
 
 namespace SoccerStatistics.Api.Core.Services
 {
@@ -20,6 +18,12 @@ namespace SoccerStatistics.Api.Core.Services
         {
             _matchRepository = matchRepository;
             _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<MatchDTO>> GetHistoryOfMatchesByLeagueId(uint leagueid)
+        {
+            var matches = await _matchRepository.GetHistoryOfMatchesByLeagueId(leagueid);
+            return _mapper.Map<IEnumerable<MatchDTO>>(matches);
         }
 
         public async Task<MatchDTO> GetByIdAsync(uint id)

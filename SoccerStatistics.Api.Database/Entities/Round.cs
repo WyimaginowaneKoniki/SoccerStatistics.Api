@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -8,6 +9,8 @@ namespace SoccerStatistics.Api.Database.Entities
         public uint Id { get; set; }
         [StringLength(20)]
         public string Name { get; set; }
+        [NotMapped]
+        [InverseProperty("Rounds")]
         public virtual League League { get; set; }
         public virtual IEnumerable<Match> Matches { get; set; }
     }

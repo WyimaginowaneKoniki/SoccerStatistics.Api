@@ -1,4 +1,5 @@
 ﻿using SoccerStatistics.Api.Core.DTO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Core.Services.Interfaces
@@ -6,5 +7,6 @@ namespace SoccerStatistics.Api.Core.Services.Interfaces
     public interface IMatchService
     {
         Task<MatchDTO> GetByIdAsync(uint id);
+        Task<IEnumerable<MatchDTO>> GetHistoryOfMatchesByLeagueId(uint leagueid);
     }
 }

@@ -8,11 +8,11 @@ using SoccerStatistics.Api.Core.DTO;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
-    public class MatchController : ApiControllerBase
+    public class MatchesController : ApiControllerBase
     {
-        public MatchController(IMediator mediator) : base(mediator) { }
+        public MatchesController(IMediator mediator) : base(mediator) { }
 
-        // GET: api/Match/{id}
+        // GET: api/Matches/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMatchById([FromRoute] GetMatchByIdQuery query)
         {

@@ -17,7 +17,7 @@ namespace SoccerStatistics.Api.Database.Entities
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
         public virtual IEnumerable<Activity> Activities { get; set; }
-        public virtual IEnumerable<InteractionBetweenPlayers> InteractionBetweenPlayers { get; set; }
+        public virtual IEnumerable<InteractionBetweenPlayers> InteractionsBetweenPlayers { get; set; }
         [Required]
         [ForeignKey("MatchTeam1")]
         public virtual TeamInMatchStats Team1 { get; set; }

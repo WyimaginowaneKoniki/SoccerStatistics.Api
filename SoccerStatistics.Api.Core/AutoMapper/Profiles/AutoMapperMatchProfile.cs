@@ -9,10 +9,8 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
         public AutoMapperMatchProfile()
         {
             CreateMap<Match, MatchDTO>()
-                .ForMember(dto => dto.StadiumId, e => e.MapFrom(match => match.Stadium.Id))
-                .ForMember(dto => dto.RoundId, e => e.MapFrom(match => match.Round.Id))
-                .ForMember(dto => dto.MatchTeam1Id, e => e.MapFrom(match => match.Team1.Id))
-                .ForMember(dto => dto.MatchTeam2Id, e => e.MapFrom(match => match.Team2.Id));
+                .ForMember(dto => dto.TeamInMatchStats1, e => e.Ignore())
+                .ForMember(dto => dto.TeamInMatchStats2, e => e.Ignore());
         }
     }
 }

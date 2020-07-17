@@ -1,4 +1,6 @@
-﻿using SoccerStatistics.Api.Database.Entities;
+﻿using KellermanSoftware.CompareNetObjects;
+using SoccerStatistics.Api.Database.Entities;
+using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +11,14 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class TeamRepositoryTests
     {
+        private ITeamRepository _teamRepository;
+
         [Fact]
         public async Task ReturnAllTeamFromDb()
         {
             // Arrange
-            var repository = SoccerStatisticsContextMocker.GetInMemoryTeamRepository("GetAllTeams");
+            _teamRepository = SoccerStatisticsContextMocker.GetInMemoryTeamRepository("GetAllTeams");
+
             IEnumerable<Team> expectedTeams = new List<Team>
             {
                 new Team()
@@ -45,34 +50,26 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                 }
             };
 
-            IEnumerable<Team> teams = null;
+            IEnumerable<Team> testTeams = null;
 
             // Act
 
             var err = await Record.ExceptionAsync(async
-                        () => teams = await repository.GetAllAsync());
+                        () => testTeams = await _teamRepository.GetAllAsync());
 
             // Assert
             Assert.Null(err);
-            Assert.NotNull(teams);
-            Assert.Equal(expectedTeams.Count(), teams.Count());
+            Assert.NotNull(testTeams);
+            Assert.Equal(expectedTeams.Count(), testTeams.Count());
 
-            for (int i = 0; i < expectedTeams.Count(); i++)
-            {
-                Assert.Equal(expectedTeams.ElementAt(i).Id, teams.ElementAt(i).Id);
-                Assert.Equal(expectedTeams.ElementAt(i).FullName, teams.ElementAt(i).FullName);
-                Assert.Equal(expectedTeams.ElementAt(i).ShortName, teams.ElementAt(i).ShortName);
-                Assert.Equal(expectedTeams.ElementAt(i).City, teams.ElementAt(i).City);
-                Assert.Equal(expectedTeams.ElementAt(i).CreatedAt, teams.ElementAt(i).CreatedAt);
-                Assert.Equal(expectedTeams.ElementAt(i).Coach, teams.ElementAt(i).Coach);
-            }
+            testTeams.ShouldCompare(expectedTeams);
         }
 
         [Fact]
         public async Task ReturnTeamWhichExistsInDbByGivenId()
         {
             // Arrange
-            var repository = SoccerStatisticsContextMocker.GetInMemoryTeamRepository("GetTeamByIdReturnTeam");
+            _teamRepository = SoccerStatisticsContextMocker.GetInMemoryTeamRepository("GetTeamByIdReturnTeam");
 
             var expectedTeam = new Team()
             {
@@ -88,31 +85,26 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testTeam = await repository.GetByIdAsync(1));
+                        () => testTeam = await _teamRepository.GetByIdAsync(1));
 
             // Assert
             Assert.Null(err);
             Assert.NotNull(testTeam);
-            Assert.Equal(expectedTeam.Id, testTeam.Id);
-            Assert.Equal(expectedTeam.FullName, testTeam.FullName);
-            Assert.Equal(expectedTeam.ShortName, testTeam.ShortName);
-            Assert.Equal(expectedTeam.City, testTeam.City);
-            Assert.Equal(expectedTeam.CreatedAt, testTeam.CreatedAt);
-            Assert.Equal(expectedTeam.Coach, testTeam.Coach);
 
+            testTeam.ShouldCompare(expectedTeam);
         }
 
         [Fact]
         public async Task ReturnNullWhenTeamDoNotExistsInDbByGivenId()
         {
             // Arrange
-            var repository = SoccerStatisticsContextMocker.GetInMemoryTeamRepository("GetTeamByIdReturnNull");
+            _teamRepository = SoccerStatisticsContextMocker.GetInMemoryTeamRepository("GetTeamByIdReturnNull");
 
             Team testTeam = null;
 
             // Act
             var err = await Record.ExceptionAsync(async
-                        () => testTeam = await repository.GetByIdAsync(0));
+                        () => testTeam = await _teamRepository.GetByIdAsync(0));
 
             // Assert
             Assert.Null(err);

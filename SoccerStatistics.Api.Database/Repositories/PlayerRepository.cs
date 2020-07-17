@@ -20,6 +20,5 @@ namespace SoccerStatistics.Api.Database.Repositories
 
         public async Task<Player> GetByIdAsync(uint id)
             => await _context.Players.SingleOrDefaultAsync(x => x.Id == id);
-
     }
 }

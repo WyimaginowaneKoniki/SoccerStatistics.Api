@@ -29,7 +29,6 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             var match5 = new Match { Id = 5, Round = round, Date = new DateTime(2019, 04, 14) };
             var match6 = new Match { Id = 6, Round = round, Date = new DateTime(2020, 07, 9) };
 
-
             IEnumerable<Match> expectedMatches = new List<Match>
             {
                 match1,
@@ -235,7 +234,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             Assert.Null(err);
             Assert.NotNull(testMatch);
 
-            //testMatch.WithDeepEqual(expectedMatch).Assert();
+            testMatch.WithDeepEqual(expectedMatch).Assert();
         }
 
         [Fact]

@@ -50,7 +50,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 match5,
                 match6,
             };
-            IEnumerable<MatchDTO> testMatches = null;
+            IEnumerable<MatchBasicDTO> testMatches = null;
             var matchRepositoryMock = new Mock<IMatchRepository>();
             matchRepositoryMock.Setup(r => r.GetHistoryOfMatchesByLeagueId(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
             matchRepositoryMock.Setup(r => r.GetHistoryOfMatchesByLeagueId(5)).ReturnsAsync(matches);
@@ -64,7 +64,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             var mapper = new Mapper(configuration);
 
-            IEnumerable<MatchDTO> expectedMatches = mapper.Map<IEnumerable<MatchDTO>>(matches);
+            IEnumerable<MatchBasicDTO> expectedMatches = mapper.Map<IEnumerable<MatchBasicDTO>>(matches);
 
             var service = new MatchService(matchRepositoryMock.Object, mapper);
 

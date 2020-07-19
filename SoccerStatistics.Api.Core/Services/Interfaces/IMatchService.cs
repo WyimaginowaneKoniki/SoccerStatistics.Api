@@ -7,6 +7,6 @@ namespace SoccerStatistics.Api.Core.Services.Interfaces
     public interface IMatchService
     {
         Task<MatchDTO> GetByIdAsync(uint id);
-        Task<IEnumerable<MatchDTO>> GetHistoryOfMatchesByLeagueId(uint leagueId);
+        Task<IEnumerable<MatchBasicDTO>> GetHistoryOfMatchesByLeagueId(uint leagueId);
     }
 }

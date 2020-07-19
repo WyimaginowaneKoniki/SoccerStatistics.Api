@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Application.Handlers
 {
-    public class GetHistoryOfMatchesByLeagueIdHandler : IRequestHandler<GetHistoryOfMatchesByLeagueIdQuery, IEnumerable<MatchDTO>>
+    public class GetHistoryOfMatchesByLeagueIdHandler : IRequestHandler<GetHistoryOfMatchesByLeagueIdQuery, IEnumerable<MatchBasicDTO>>
     {
         private readonly IMatchService _service;
 
@@ -17,7 +17,7 @@ namespace SoccerStatistics.Api.Application.Handlers
             _service = service;
         }
 
-        public async Task<IEnumerable<MatchDTO>> Handle(GetHistoryOfMatchesByLeagueIdQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MatchBasicDTO>> Handle(GetHistoryOfMatchesByLeagueIdQuery request, CancellationToken cancellationToken)
          => await _service.GetHistoryOfMatchesByLeagueId(request.LeagueId);
     }
 }

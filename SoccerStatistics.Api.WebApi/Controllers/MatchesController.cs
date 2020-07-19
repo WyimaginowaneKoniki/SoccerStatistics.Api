@@ -17,7 +17,7 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetHistoryOfMatchesByLeagueId([FromRoute] GetHistoryOfMatchesByLeagueIdQuery query)
         {
-            IEnumerable<MatchDTO> matches = await CommandAsync(query);
+            IEnumerable<MatchBasicDTO> matches = await CommandAsync(query);
 
             if (matches == null)
             {

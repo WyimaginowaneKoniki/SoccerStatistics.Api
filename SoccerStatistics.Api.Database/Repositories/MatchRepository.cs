@@ -19,8 +19,8 @@ namespace SoccerStatistics.Api.Database.Repositories
         public async Task<Match> GetByIdAsync(uint id) 
             => await _dbContext.Matches.SingleOrDefaultAsync(match => match.Id == id);
 
-        public async Task<IEnumerable<Match>> GetHistoryOfMatchesByLeagueId(uint leagueid)
-             => await _dbContext.Matches.Where(x => x.Round.League.Id == leagueid)
+        public async Task<IEnumerable<Match>> GetHistoryOfMatchesByLeagueId(uint leagueId)
+             => await _dbContext.Matches.Where(x => x.Round.League.Id == leagueId)
                                         .OrderByDescending(o => o.Date)
                                         .Take(5)
                                         .ToListAsync();

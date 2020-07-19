@@ -7,6 +7,6 @@ namespace SoccerStatistics.Api.Database.Repositories.Interfaces
     public interface IMatchRepository
     {
         Task<Match> GetByIdAsync(uint id);
-        Task<IEnumerable<Match>> GetHistoryOfMatchesByLeagueId(uint leagueid);
+        Task<IEnumerable<Match>> GetHistoryOfMatchesByLeagueId(uint leagueId);
     }
 }

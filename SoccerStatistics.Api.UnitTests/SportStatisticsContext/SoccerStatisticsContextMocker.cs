@@ -54,6 +54,13 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             return new StadiumRepository(soccerStatisticsDbContext);
         }
+        public static IMatchRepository GetInMemoryHistoryOfMatchesRepository(string dbName)
+        {
+            var soccerStatisticsDbContext = InitSoccerStatisticsDbContext(dbName);
+            soccerStatisticsDbContext.FillDatabaseWithMatchesAndRounds();
+
+            return new MatchRepository(soccerStatisticsDbContext);
+        }
 
         private static SoccerStatisticsDbContext InitSoccerStatisticsDbContext(string dbName)
         {

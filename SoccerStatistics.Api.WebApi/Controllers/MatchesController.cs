@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SoccerStatistics.Api.Application.Queries;
@@ -11,6 +12,20 @@ namespace SoccerStatistics.Api.WebApi.Controllers
     public class MatchesController : ApiControllerBase
     {
         public MatchesController(IMediator mediator) : base(mediator) { }
+
+        // GET: api/Matches
+        [HttpGet]
+        public async Task<IActionResult> GetHistoryOfMatchesByLeagueId([FromRoute] GetHistoryOfMatchesByLeagueIdQuery query)
+        {
+            IEnumerable<MatchBasicDTO> matches = await CommandAsync(query);
+
+            if (matches == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(matches);
+        }
 
         // GET: api/Matches/{id}
         [HttpGet("{id}")]

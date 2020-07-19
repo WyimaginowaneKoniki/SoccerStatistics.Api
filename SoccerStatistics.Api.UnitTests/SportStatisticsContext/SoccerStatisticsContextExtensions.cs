@@ -382,5 +382,54 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 
             dbContext.SaveChanges();
         }
+
+        public static void FillDatabaseWithMatchesAndRounds(this SoccerStatisticsDbContext dbContext)
+        {
+            var league = new League { Id = 5, Name = "League5", };
+            var round = new Round { Id = 1, Name = "Round1", League =league };
+            dbContext.Matches.Add(
+                new Match { 
+                    Id = 1,
+                    Round = round,
+                    Date = new DateTime(2020, 07, 16)
+                });
+            dbContext.Matches.Add(
+              new Match
+              {
+                  Id = 2,
+                  Round = round,
+                  Date = new DateTime(2020, 07, 15)
+              });
+            dbContext.Matches.Add(
+              new Match
+              {
+                  Id = 3,
+                  Round = round,
+                  Date = new DateTime(2019, 03, 13)
+              });
+            dbContext.Matches.Add(
+              new Match
+              {
+                  Id = 4,
+                  Round = round,
+                  Date = new DateTime(2019, 02, 12)
+              });
+            dbContext.Matches.Add(
+            new Match
+            {
+                Id = 5,
+                Round = round,
+                Date = new DateTime(2019, 04, 14)
+            });
+            dbContext.Matches.Add(
+            new Match
+            {
+                Id = 6,
+                Round = round,
+                Date = new DateTime(2015, 07, 9)
+            });
+
+            dbContext.SaveChanges();
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using KellermanSoftware.CompareNetObjects;
+using FluentAssertions;
 using Moq;
 using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
@@ -50,10 +50,11 @@ namespace SoccerStatistics.Api.UnitTests.Services
                         () => testRound = await _service.GetByIdAsync(1));
 
             // Arrange
-            Assert.Null(err);
-            Assert.NotNull(testRound);
+            err.Should().BeNull();
 
-            testRound.ShouldCompare(expectedRound);
+            testRound.Should().NotBeNull();
+
+            testRound.Should().BeEquivalentTo(expectedRound);
         }
 
         [Fact]
@@ -70,8 +71,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
                         () => testRound = await _service.GetByIdAsync(1));
 
             // Arrange
-            Assert.Null(err);
-            Assert.Null(testRound);
+            err.Should().BeNull();
+
+            testRound.Should().BeNull();
         }
     }
 }

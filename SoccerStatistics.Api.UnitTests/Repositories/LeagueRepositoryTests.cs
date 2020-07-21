@@ -19,7 +19,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             // Arrange
             _leagueRepository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetAllLeagues");
 
-            IEnumerable<League> expectedleagues = new List<League>
+            IEnumerable<League> expectedLeagues = new List<League>
             {
 
                 new League()
@@ -67,9 +67,9 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
            
             testLeagues.Should().NotBeNull();
 
-            testLeagues.Count().Should().Be(expectedleagues.Count());
+            testLeagues.Should().HaveSameCount(expectedLeagues);
 
-            testLeagues.Should().BeEquivalentTo(expectedleagues);
+            testLeagues.Should().BeEquivalentTo(expectedLeagues);
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             // Arrange
             _leagueRepository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetLeagueByIdReturnLeague");
 
-            var expectedleague = new League()
+            var expectedLeague = new League()
             {
                 Id = 1,
                 Name = "Primera Division",
@@ -99,7 +99,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 
             testLeague.Should().NotBeNull();
 
-            testLeague.Should().BeEquivalentTo(expectedleague);
+            testLeague.Should().BeEquivalentTo(expectedLeague);
         }
 
         [Fact]

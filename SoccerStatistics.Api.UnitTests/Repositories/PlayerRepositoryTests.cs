@@ -20,7 +20,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             // Arrange
             _playerRepository = SoccerStatisticsContextMocker.GetInMemoryPlayerRepository("GetAllPlayers");
 
-            IEnumerable<Player> expectedplayers = new List<Player>
+            IEnumerable<Player> expectedPlayers = new List<Player>
             {
                   new Player()
                 {
@@ -76,9 +76,9 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 
             testPlayers.Should().NotBeNull();
 
-            testPlayers.Should().HaveSameCount(expectedplayers);
+            testPlayers.Should().HaveSameCount(expectedPlayers);
 
-            testPlayers.Should().BeEquivalentTo(expectedplayers);
+            testPlayers.Should().BeEquivalentTo(expectedPlayers);
         }
 
         [Fact]

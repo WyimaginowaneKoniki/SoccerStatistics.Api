@@ -1,4 +1,4 @@
-﻿using KellermanSoftware.CompareNetObjects;
+﻿using FluentAssertions;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
@@ -30,10 +30,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testRound = await _roundRepository.GetByIdAsync(1));
 
             // Assert
-            Assert.Null(err);
-            Assert.NotNull(testRound);
+            err.Should().BeNull();
 
-            testRound.ShouldCompare(expectedRound);
+            testRound.Should().NotBeNull();
+
+            testRound.Should().BeEquivalentTo(expectedRound);
         }
 
         [Fact]
@@ -49,8 +50,9 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testRound = await _roundRepository.GetByIdAsync(0));
 
             // Assert
-            Assert.Null(err);
-            Assert.Null(testRound);
+            err.Should().BeNull();
+
+            testRound.Should().BeNull();
         }
     }
 }

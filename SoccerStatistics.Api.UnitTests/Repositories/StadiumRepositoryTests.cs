@@ -1,9 +1,8 @@
-﻿using KellermanSoftware.CompareNetObjects;
+﻿using FluentAssertions;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,7 +18,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             // Arrange
             _stadiumRepository = SoccerStatisticsContextMocker.GetInMemoryStadiumRepository("GetAllStadiums");
 
-            IEnumerable<Stadium> expectedstadiums = new List<Stadium>
+            IEnumerable<Stadium> expectedStadiums = new List<Stadium>
             {
                  new Stadium
                  {
@@ -77,12 +76,13 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testStadiums = await _stadiumRepository.GetAllAsync());
 
             // Assert
-            Assert.Null(err);
-            Assert.NotNull(testStadiums);
-            Assert.Equal(expectedstadiums.Count(), testStadiums.Count());
+            err.Should().BeNull();
 
-            testStadiums.ShouldCompare(expectedstadiums);
+            testStadiums.Should().NotBeNull();
 
+            testStadiums.Should().HaveSameCount(expectedStadiums);
+
+            testStadiums.Should().BeEquivalentTo(expectedStadiums);
         }
 
         [Fact]
@@ -115,10 +115,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testStadium = await _stadiumRepository.GetByIdAsync(1));
 
             // Assert
-            Assert.Null(err);
-            Assert.NotNull(testStadium);
+            err.Should().BeNull();
 
-            testStadium.ShouldCompare(expectedStadium);
+            testStadium.Should().NotBeNull();
+
+            testStadium.Should().BeEquivalentTo(expectedStadium);
         }
 
         [Fact]
@@ -134,8 +135,9 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testStadium = await _stadiumRepository.GetByIdAsync(0));
 
             // Assert
-            Assert.Null(err);
-            Assert.Null(testStadium);
+            err.Should().BeNull();
+
+            testStadium.Should().BeNull();
         }
     }
 }

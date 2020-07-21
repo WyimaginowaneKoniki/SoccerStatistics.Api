@@ -1,4 +1,4 @@
-﻿using KellermanSoftware.CompareNetObjects;
+﻿using FluentAssertions;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
@@ -59,16 +59,17 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             IEnumerable<League> testLeagues = null;
 
             // Act
-
             var err = await Record.ExceptionAsync(async
                         () => testLeagues = await _leagueRepository.GetAllAsync());
             
-            // Assert
-            Assert.Null(err);
-            Assert.NotNull(testLeagues);
-            Assert.Equal(expectedleagues.Count(), testLeagues.Count());
+            // Assert          
+            err.Should().BeNull();
+           
+            testLeagues.Should().NotBeNull();
 
-            testLeagues.ShouldCompare(expectedleagues);
+            testLeagues.Count().Should().Be(expectedleagues.Count());
+
+            testLeagues.Should().BeEquivalentTo(expectedleagues);
         }
 
         [Fact]
@@ -94,10 +95,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testLeague = await _leagueRepository.GetByIdAsync(1));
 
             // Assert
-            Assert.Null(err);
-            Assert.NotNull(testLeague);
+            err.Should().BeNull();
 
-            testLeague.ShouldCompare(expectedleague);
+            testLeague.Should().NotBeNull();
+
+            testLeague.Should().BeEquivalentTo(expectedleague);
         }
 
         [Fact]
@@ -113,8 +115,8 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testLeague = await _leagueRepository.GetByIdAsync(0));
 
             // Assert
-            Assert.Null(err);
-            Assert.Null(testLeague);
+            err.Should().BeNull();
+            testLeague.Should().BeNull();
         }
     }
 }

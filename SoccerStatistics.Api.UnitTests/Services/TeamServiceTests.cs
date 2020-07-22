@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using KellermanSoftware.CompareNetObjects;
+using FluentAssertions;
 using Moq;
 using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
@@ -9,7 +9,6 @@ using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services
@@ -33,6 +32,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
         [Fact]
         public async void ReturnAllTeamsFromDb()
         {
+            // Arrange
             IEnumerable<Team> teams = new List<Team>
             {
                 new Team()
@@ -102,17 +102,20 @@ namespace SoccerStatistics.Api.UnitTests.Services
             var err = await Record.ExceptionAsync(async
                         () => testTeams = await _service.GetAllAsync());
 
-            // Arrange
-            Assert.Null(err);
-            Assert.NotNull(testTeams);
-            Assert.Equal(expectedTeams.Count(), teams.Count());
+            // Assert
+            err.Should().BeNull();
 
-            testTeams.ShouldCompare(expectedTeams);
+            testTeams.Should().NotBeNull();
+
+            testTeams.Should().HaveSameCount(expectedTeams);
+
+            testTeams.Should().BeEquivalentTo(expectedTeams);
         }
 
         [Fact]
         public async void ReturnNullCollectionWhenDbDoesNotContainsAnyTeam()
         {
+            // Arrange
             IEnumerable<TeamBasicDTO> testTeams = null;
 
             _repositoryMock.Reset();
@@ -122,15 +125,16 @@ namespace SoccerStatistics.Api.UnitTests.Services
             var err = await Record.ExceptionAsync(async
                         () => testTeams = await _service.GetAllAsync());
 
-            // Arrange
-            Assert.Null(err);
-            Assert.Equal(Enumerable.Empty<TeamBasicDTO>(), testTeams);
+            // Assert
+            err.Should().BeNull();
+
+            testTeams.Should().BeEmpty();
         }
 
         [Fact]
         public async void ReturnTeamWhichExistsInDbByGivenId()
         {
-            // Assert
+            // Arrange
             var team = new Team()
             {
                 Id = 1,
@@ -153,17 +157,18 @@ namespace SoccerStatistics.Api.UnitTests.Services
             var err = await Record.ExceptionAsync(async
                         () => testTeam = await _service.GetByIdAsync(1));
 
-            // Arrange
-            Assert.Null(err);
-            Assert.NotNull(testTeam);
+            // Assert
+            err.Should().BeNull();
 
-            testTeam.ShouldCompare(expectedTeam);
+            testTeam.Should().NotBeNull();
+
+            testTeam.Should().BeEquivalentTo(expectedTeam);
         }
 
         [Fact]
         public async void ReturnNullWhenTeamDoNotExistsInDbByGivenId()
         {
-            // Assert
+            // Arrange
             TeamDTO testTeam = null;
 
             _repositoryMock.Reset();
@@ -173,9 +178,10 @@ namespace SoccerStatistics.Api.UnitTests.Services
             var err = await Record.ExceptionAsync(async
                         () => testTeam = await _service.GetByIdAsync(1));
 
-            // Arrange
-            Assert.Null(err);
-            Assert.Null(testTeam);
+            // Assert
+            err.Should().BeNull();
+
+            testTeam.Should().BeNull();
         }
     }
 }

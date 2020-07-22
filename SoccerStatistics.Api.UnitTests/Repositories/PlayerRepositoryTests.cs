@@ -1,4 +1,4 @@
-﻿using KellermanSoftware.CompareNetObjects;
+﻿using FluentAssertions;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
@@ -20,7 +20,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             // Arrange
             _playerRepository = SoccerStatisticsContextMocker.GetInMemoryPlayerRepository("GetAllPlayers");
 
-            IEnumerable<Player> expectedplayers = new List<Player>
+            IEnumerable<Player> expectedPlayers = new List<Player>
             {
                   new Player()
                 {
@@ -63,22 +63,22 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                     Nick = "Priest",
                     Number = 22
                 }
-
-        };
+            };
 
             IEnumerable<Player> testPlayers = null;
 
             // Act
-
             var err = await Record.ExceptionAsync(async
                         () => testPlayers = await _playerRepository.GetAllAsync());
 
             // Assert
-            Assert.Null(err);
-            Assert.NotNull(testPlayers);
-            Assert.Equal(expectedplayers.Count(), testPlayers.Count());
+            err.Should().BeNull();
 
-            testPlayers.ShouldCompare(expectedplayers);
+            testPlayers.Should().NotBeNull();
+
+            testPlayers.Should().HaveSameCount(expectedPlayers);
+
+            testPlayers.Should().BeEquivalentTo(expectedPlayers);
         }
 
         [Fact]
@@ -86,8 +86,6 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         {
             // Arrange
             _playerRepository = SoccerStatisticsContextMocker.GetInMemoryPlayerRepository("GetPlayerByIdReturnPlayer");
-
-            var compareLogic = new CompareLogic();
 
             var expectedPlayer = new Player()
             {
@@ -110,10 +108,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testPlayer = await _playerRepository.GetByIdAsync(1));
 
             // Assert
-            Assert.Null(err);
-            Assert.NotNull(testPlayer);
+            err.Should().BeNull();
 
-            testPlayer.ShouldCompare(expectedPlayer);
+            testPlayer.Should().NotBeNull();
+
+            testPlayer.Should().BeEquivalentTo(expectedPlayer);
         }
 
         [Fact]
@@ -129,8 +128,9 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testPlayer = await _playerRepository.GetByIdAsync(0));
 
             // Assert
-            Assert.Null(err);
-            Assert.Null(testPlayer);
+            err.Should().BeNull();
+
+            testPlayer.Should().BeNull();
         }
     }
 }

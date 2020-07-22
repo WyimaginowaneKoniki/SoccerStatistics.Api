@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using KellermanSoftware.CompareNetObjects;
+using FluentAssertions;
 using Moq;
 using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
@@ -8,7 +8,6 @@ using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services
@@ -95,11 +94,13 @@ namespace SoccerStatistics.Api.UnitTests.Services
                         () => testStadiums = await _service.GetAllAsync());
 
             // Arrange
-            Assert.Null(err);
-            Assert.NotNull(testStadiums);
-            Assert.Equal(expectedStadiums.Count(), testStadiums.Count());
+            err.Should().BeNull();
 
-            testStadiums.ShouldCompare(expectedStadiums);
+            testStadiums.Should().NotBeNull();
+
+            testStadiums.Should().HaveSameCount(expectedStadiums);
+
+            testStadiums.Should().BeEquivalentTo(expectedStadiums);
         }
 
         [Fact]
@@ -135,10 +136,11 @@ namespace SoccerStatistics.Api.UnitTests.Services
                         () => testStadium = await _service.GetByIdAsync(1));
 
             // Arrange
-            Assert.Null(err);
-            Assert.NotNull(testStadium);
+            err.Should().BeNull();
 
-            testStadium.ShouldCompare(expectedStadium);
+            testStadium.Should().NotBeNull();
+
+            testStadium.Should().BeEquivalentTo(expectedStadium);
         }
 
 
@@ -156,8 +158,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
                         () => testStadium = await _service.GetByIdAsync(1));
 
             // Arrange
-            Assert.Null(err);
-            Assert.Null(testStadium);
+            err.Should().BeNull();
+
+            testStadium.Should().BeNull();
         }
     }
 }

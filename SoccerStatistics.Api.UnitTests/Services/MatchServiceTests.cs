@@ -6,12 +6,11 @@ using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using SoccerStatistics.Api.Core.Services;
 using System.Linq;
-using KellermanSoftware.CompareNetObjects;
 using Match = SoccerStatistics.Api.Database.Entities.Match;
+using FluentAssertions;
 
 namespace SoccerStatistics.Api.UnitTests.Services
 {
@@ -68,18 +67,15 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             var service = new MatchService(matchRepositoryMock.Object, mapper);
 
-            var compareLogic = new CompareLogic();
-
             //Act
             var err = await Record.ExceptionAsync(async () => testMatches = await service.GetHistoryOfMatchesByLeagueId(5));
 
             // Assert
-            Assert.Null(err);
-            Assert.NotNull(testMatches);
-            for (int i = 0; i < expectedMatches.Count(); i++)
-            {
-                Assert.Equal(expectedMatches.ElementAt(i).Date, testMatches.ElementAt(i).Date);
-            }
+            err.Should().BeNull();
+
+            testMatches.Should().NotBeNull();
+
+            testMatches.Should().BeEquivalentTo(expectedMatches);
         }
 
         [Fact]
@@ -252,16 +248,16 @@ namespace SoccerStatistics.Api.UnitTests.Services
             FillTeamsInMatchStats(match, expectedMatch, mapper);
 
             var service = new MatchService(matchRepositoryMock.Object, mapper);
-
-            var compareLogic = new CompareLogic();
             
             //Act
             var err = await Record.ExceptionAsync(async () => testMatch = await service.GetByIdAsync(1));
 
             // Assert
-            Assert.Null(err);
-            Assert.NotNull(testMatch);  
-            testMatch.ShouldCompare(expectedMatch);
+            err.Should().BeNull();
+
+            testMatch.Should().NotBeNull();
+
+            testMatch.Should().BeEquivalentTo(expectedMatch);
         }
 
         [Fact]
@@ -291,8 +287,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
             var err = await Record.ExceptionAsync(async
                         () => testMatch = await service.GetByIdAsync(125215));
             // Assert
-            Assert.Null(err);
-            Assert.Null(testMatch);
+            err.Should().BeNull();
+
+            testMatch.Should().BeNull();
         }
 
         private void FillTeamsInMatchStats(Match match, MatchDTO matchDTO, IMapper mapper)

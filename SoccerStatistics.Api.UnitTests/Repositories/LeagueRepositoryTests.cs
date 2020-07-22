@@ -1,4 +1,4 @@
-﻿using KellermanSoftware.CompareNetObjects;
+﻿using FluentAssertions;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
@@ -19,7 +19,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             // Arrange
             _leagueRepository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetAllLeagues");
 
-            IEnumerable<League> expectedleagues = new List<League>
+            IEnumerable<League> expectedLeagues = new List<League>
             {
 
                 new League()
@@ -59,16 +59,17 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             IEnumerable<League> testLeagues = null;
 
             // Act
-
             var err = await Record.ExceptionAsync(async
                         () => testLeagues = await _leagueRepository.GetAllAsync());
             
-            // Assert
-            Assert.Null(err);
-            Assert.NotNull(testLeagues);
-            Assert.Equal(expectedleagues.Count(), testLeagues.Count());
+            // Assert          
+            err.Should().BeNull();
+           
+            testLeagues.Should().NotBeNull();
 
-            testLeagues.ShouldCompare(expectedleagues);
+            testLeagues.Should().HaveSameCount(expectedLeagues);
+
+            testLeagues.Should().BeEquivalentTo(expectedLeagues);
         }
 
         [Fact]
@@ -77,7 +78,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             // Arrange
             _leagueRepository = SoccerStatisticsContextMocker.GetInMemoryLeagueRepository("GetLeagueByIdReturnLeague");
 
-            var expectedleague = new League()
+            var expectedLeague = new League()
             {
                 Id = 1,
                 Name = "Primera Division",
@@ -94,10 +95,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testLeague = await _leagueRepository.GetByIdAsync(1));
 
             // Assert
-            Assert.Null(err);
-            Assert.NotNull(testLeague);
+            err.Should().BeNull();
 
-            testLeague.ShouldCompare(expectedleague);
+            testLeague.Should().NotBeNull();
+
+            testLeague.Should().BeEquivalentTo(expectedLeague);
         }
 
         [Fact]
@@ -113,8 +115,8 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                         () => testLeague = await _leagueRepository.GetByIdAsync(0));
 
             // Assert
-            Assert.Null(err);
-            Assert.Null(testLeague);
+            err.Should().BeNull();
+            testLeague.Should().BeNull();
         }
     }
 }

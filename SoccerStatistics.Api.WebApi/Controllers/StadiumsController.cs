@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class StadiumsController : ApiControllerBase
     {
         public StadiumsController(IMediator mediator) : base(mediator) { }

@@ -1,8 +1,6 @@
 ﻿using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 {
@@ -97,14 +95,14 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
         }
 
         public static void FillDatabaseWithMatches(this SoccerStatisticsDbContext dbContext)
-        {  
-            var match = new Match
-            {
-                Id = 1,
-                AmountOfFans = 60_123,
-                Date = new DateTime(2015, 3, 4),     
-            };
-            dbContext.Add(match);
+        {
+            dbContext.Add(
+                new Match
+                {
+                    Id = 1,
+                    AmountOfFans = 60_123,
+                    Date = new DateTime(2015, 3, 4),
+                });
 
             dbContext.Add(
                 new Match
@@ -251,9 +249,10 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
         public static void FillDatabaseWithMatchesAndRounds(this SoccerStatisticsDbContext dbContext)
         {
             var league = new League { Id = 5, Name = "League5", };
-            var round = new Round { Id = 1, Name = "Round1", League =league };
+            var round = new Round { Id = 1, Name = "Round1", League = league };
             dbContext.Matches.Add(
-                new Match { 
+                new Match
+                {
                     Id = 1,
                     Round = round,
                     Date = new DateTime(2020, 07, 16)

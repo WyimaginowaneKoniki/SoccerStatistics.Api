@@ -18,7 +18,7 @@ namespace SoccerStatistics.Api.IntegrationTests
                // remove current context
                var descriptor = services.SingleOrDefault(
                     d => d.ServiceType == typeof(DbContextOptions<SoccerStatisticsDbContext>)
-               );
+                );
 
                if (descriptor != null)
                {

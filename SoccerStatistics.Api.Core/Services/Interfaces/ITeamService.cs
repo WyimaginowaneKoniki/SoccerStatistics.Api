@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SoccerStatistics.Api.Core.Services.Interfaces
+namespace SoccerStatistics.Api.Core.Services
 {
-    public interface ITeamService
+    public interface ITeamService : IService
     {
         Task<IEnumerable<TeamBasicDTO>> GetAllAsync();
         Task<TeamDTO> GetByIdAsync(uint id);

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Database.Repositories
 {
-    public interface IStadiumRepository
+    public interface IStadiumRepository : IRepository
     {
         Task<IEnumerable<Stadium>> GetAllAsync();
         Task<Stadium> GetByIdAsync(uint id);

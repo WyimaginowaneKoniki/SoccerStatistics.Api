@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using SoccerStatistics.Api.Core.DTO;
-using SoccerStatistics.Api.Core.Services.Interfaces;
 using SoccerStatistics.Api.Database.Entities;
-using SoccerStatistics.Api.Database.Repositories.Interfaces;
+using SoccerStatistics.Api.Database.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

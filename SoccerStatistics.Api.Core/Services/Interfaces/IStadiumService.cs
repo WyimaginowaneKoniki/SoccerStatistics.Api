@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Core.Services
 {
-    public interface IStadiumService
+    public interface IStadiumService : IService
     {
        Task<IEnumerable<StadiumDTO>> GetAllAsync();
        Task<StadiumDTO> GetByIdAsync(uint id);

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Core.Services
 {
-    public interface IRoundService
+    public interface IRoundService : IService
     {
         Task<RoundDTO> GetByIdAsync(uint id);
     }

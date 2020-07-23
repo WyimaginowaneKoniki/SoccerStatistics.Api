@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SoccerStatistics.Api.Database.Repositories
+namespace SoccerStatistics.Api.Database.Repositories.Interfaces
 {
     public interface ITeamRepository : IRepository
     {

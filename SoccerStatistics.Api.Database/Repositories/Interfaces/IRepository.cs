@@ -1,4 +1,4 @@
-﻿namespace SoccerStatistics.Api.Database.Repositories
+﻿namespace SoccerStatistics.Api.Database.Repositories.Interfaces
 {
     public interface IRepository
     {

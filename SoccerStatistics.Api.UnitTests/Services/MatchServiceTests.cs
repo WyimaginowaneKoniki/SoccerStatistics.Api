@@ -11,6 +11,7 @@ using SoccerStatistics.Api.Core.Services;
 using System.Linq;
 using Match = SoccerStatistics.Api.Database.Entities.Match;
 using FluentAssertions;
+using SoccerStatistics.Api.Database.Repositories.Interfaces;
 
 namespace SoccerStatistics.Api.UnitTests.Services
 {

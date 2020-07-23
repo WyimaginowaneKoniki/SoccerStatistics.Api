@@ -1,7 +1,7 @@
 ﻿using SoccerStatistics.Api.Core.DTO;
 using System.Threading.Tasks;
 
-namespace SoccerStatistics.Api.Core.Services
+namespace SoccerStatistics.Api.Core.Services.Interfaces
 {
     public interface IRoundService : IService
     {

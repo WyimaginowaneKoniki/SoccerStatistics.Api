@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using SoccerStatistics.Api.Core.Services;
 using SoccerStatistics.Api.Database.Repositories;
+using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System.Linq;
 using System.Reflection;
 

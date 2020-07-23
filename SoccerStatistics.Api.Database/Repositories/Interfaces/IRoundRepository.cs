@@ -1,7 +1,7 @@
 ﻿using SoccerStatistics.Api.Database.Entities;
 using System.Threading.Tasks;
 
-namespace SoccerStatistics.Api.Database.Repositories
+namespace SoccerStatistics.Api.Database.Repositories.Interfaces
 {
     public interface IRoundRepository : IRepository
     {

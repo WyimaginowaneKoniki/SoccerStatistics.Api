@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerStatistics.Api.Database.Entities;
+using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Database.Repositories

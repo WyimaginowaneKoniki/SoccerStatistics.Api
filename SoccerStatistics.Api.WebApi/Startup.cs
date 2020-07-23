@@ -1,15 +1,10 @@
-using MediatR;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SoccerStatistics.Api.Application.Handlers;
-using SoccerStatistics.Api.Core.AutoMapper;
-using SoccerStatistics.Api.Core.Services;
-using SoccerStatistics.Api.Core.Services.Interfaces;
+using SoccerStatistics.Api.Application.Modules;
 using SoccerStatistics.Api.Database;
-using SoccerStatistics.Api.Database.Repositories;
-using SoccerStatistics.Api.Database.Repositories.Interfaces;
 
 namespace SoccerStatistics.Api.WebApi
 {
@@ -26,38 +21,14 @@ namespace SoccerStatistics.Api.WebApi
                         // change json response formatting
                         x.JsonSerializerOptions.WriteIndented = true;
                     });
+        }
 
-            services.AddMediatR(typeof(GetPlayerByIdHandler));
-            services.AddMediatR(typeof(GetTeamByIdHandler));
-            services.AddMediatR(typeof(GetLeagueByIdHandler));
-            services.AddMediatR(typeof(GetAllLeaguesHandler));
-            services.AddMediatR(typeof(GetAllTeamsHandler));
-            services.AddMediatR(typeof(GetRoundByIdHandler));
-            services.AddMediatR(typeof(GetStadiumByIdHandler));
-            services.AddMediatR(typeof(GetAllStadiumsHandler));
-            services.AddMediatR(typeof(GetMatchByIdHandler));
-            services.AddMediatR(typeof(GetAllPlayersHandler));
-            services.AddMediatR(typeof(GetHistoryOfMatchesByLeagueIdHandler));
-
-            services.AddSingleton(AutoMapperConfig.Initialize());
-
-            services.AddScoped<ILeagueRepository, LeagueRepository>();
-            services.AddScoped<ILeagueService, LeagueService>();
-
-            services.AddScoped<IPlayerRepository, PlayerRepository>();
-            services.AddScoped<IPlayerService, PlayerService>();
-
-            services.AddScoped<ITeamRepository, TeamRepository>();
-            services.AddScoped<ITeamService, TeamService>();
-
-            services.AddScoped<IMatchRepository, MatchRepository>();
-            services.AddScoped<IMatchService, MatchService>();
-
-            services.AddScoped<IRoundRepository, RoundRepository>();
-            services.AddScoped<IRoundService, RoundService>();
-
-            services.AddScoped<IStadiumRepository, StadiumRepository>();
-            services.AddScoped<IStadiumService, StadiumService>();
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule<ServiceModule>();
+            builder.RegisterModule<RepositoryModule>();
+            builder.RegisterModule<MediatoRModule>();
+            builder.RegisterModule<AutoMapperModule>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

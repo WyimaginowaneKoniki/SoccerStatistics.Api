@@ -2,7 +2,6 @@
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services.Interfaces;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

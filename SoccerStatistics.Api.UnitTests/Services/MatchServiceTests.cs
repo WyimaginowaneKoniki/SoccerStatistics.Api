@@ -2,7 +2,7 @@
 using Moq;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Database.Entities;
-using SoccerStatistics.Api.Database.Repositories.Interfaces;
+using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using SoccerStatistics.Api.Core.Services;
 using System.Linq;
 using Match = SoccerStatistics.Api.Database.Entities.Match;
 using FluentAssertions;
+using SoccerStatistics.Api.Database.Repositories.Interfaces;
 
 namespace SoccerStatistics.Api.UnitTests.Services
 {

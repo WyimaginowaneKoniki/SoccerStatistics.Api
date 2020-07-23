@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Database.Repositories.Interfaces
 {
-    public interface IMatchRepository
+    public interface IMatchRepository : IRepository
     {
         Task<Match> GetByIdAsync(uint id);
         Task<IEnumerable<Match>> GetHistoryOfMatchesByLeagueId(uint leagueId);

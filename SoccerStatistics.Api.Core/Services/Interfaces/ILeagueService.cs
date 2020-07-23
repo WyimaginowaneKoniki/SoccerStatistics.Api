@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SoccerStatistics.Api.Core.Services
+namespace SoccerStatistics.Api.Core.Services.Interfaces
 {
-    public interface ILeagueService
+    public interface ILeagueService : IService
     {
         Task<IEnumerable<LeagueDTO>> GetAllAsync();
         Task<LeagueDTO> GetByIdAsync(uint id);

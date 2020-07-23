@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SoccerStatistics.Api.Database.Repositories
+namespace SoccerStatistics.Api.Database.Repositories.Interfaces
 {
-    public interface IStadiumRepository
+    public interface IStadiumRepository : IRepository
     {
         Task<IEnumerable<Stadium>> GetAllAsync();
         Task<Stadium> GetByIdAsync(uint id);

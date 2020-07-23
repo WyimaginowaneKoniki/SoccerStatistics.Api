@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerStatistics.Api.Core",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerStatistics.Api.WebApi", "SoccerStatistics.Api.WebApi\SoccerStatistics.Api.WebApi.csproj", "{7D406C19-DF22-4F2A-A5A8-8FE706A8BE29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerStatistics.Api.Application", "Application\SoccerStatistics.Api.Application.csproj", "{439C524D-5448-460F-9248-891782F3C51B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerStatistics.Api.Application", "SoccerStatistics.Api.Application\SoccerStatistics.Api.Application.csproj", "{439C524D-5448-460F-9248-891782F3C51B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerStatistics.Api.UnitTests", "SoccerStatistics.Api.UnitTests\SoccerStatistics.Api.UnitTests.csproj", "{79C7B372-0FF0-4EE4-AAB7-6E28613894B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerStatistics.Api.UnitTests", "SoccerStatistics.Api.UnitTests\SoccerStatistics.Api.UnitTests.csproj", "{79C7B372-0FF0-4EE4-AAB7-6E28613894B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerStatistics.Api.IntegrationTests", "SoccerStatistics.Api.IntegrationTests\SoccerStatistics.Api.IntegrationTests.csproj", "{877B5D5A-06DF-4D04-B375-5295E93C60B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{79C7B372-0FF0-4EE4-AAB7-6E28613894B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79C7B372-0FF0-4EE4-AAB7-6E28613894B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79C7B372-0FF0-4EE4-AAB7-6E28613894B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{877B5D5A-06DF-4D04-B375-5295E93C60B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{877B5D5A-06DF-4D04-B375-5295E93C60B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{877B5D5A-06DF-4D04-B375-5295E93C60B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{877B5D5A-06DF-4D04-B375-5295E93C60B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

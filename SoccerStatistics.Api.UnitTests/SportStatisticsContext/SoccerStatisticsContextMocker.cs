@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Repositories;
+using SoccerStatistics.Api.Database.Repositories.Interfaces;
 
 namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
 {

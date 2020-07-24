@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SoccerStatistics.Api.Application.Queries;
 using SoccerStatistics.Api.Core.DTO;
 
@@ -11,16 +12,22 @@ namespace SoccerStatistics.Api.WebApi.Controllers
 {
     public class MatchesController : ApiControllerBase
     {
-        public MatchesController(IMediator mediator) : base(mediator) { }
+        private readonly ILogger _logger;
+        public MatchesController(IMediator mediator, ILogger<MatchesController> logger) : base(mediator)
+        { 
+            _logger = logger; 
+        }
 
         // GET: api/Matches
         [HttpGet]
         public async Task<IActionResult> GetHistoryOfMatchesByLeagueId([FromRoute] GetHistoryOfMatchesByLeagueIdQuery query)
         {
+            _logger.LogInformation(LoggingEvents.ListItems, "Getting latest matches from league {id}", query.LeagueId);
             IEnumerable<MatchBasicDTO> matches = await CommandAsync(query);
 
             if (matches == null)
             {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, "latest matches from league {id} not found", query.LeagueId);
                 return NotFound();
             }
 
@@ -31,10 +38,12 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMatchById([FromRoute] GetMatchByIdQuery query)
         {
+            _logger.LogInformation(LoggingEvents.GetItem, "Getting match {id}", query.Id);
             MatchDTO match = await CommandAsync(query);
 
             if (match == null)
             {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, "Match {id} not found", query.Id);
                 return NotFound();
             }
 

@@ -1,26 +1,32 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SoccerStatistics.Api.Application.Queries;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
     public class LeaguesController : ApiControllerBase
     {
-        public LeaguesController(IMediator mediator) : base(mediator) { }
+        private readonly ILogger<LeaguesController> _logger;
+        public LeaguesController(IMediator mediator, ILogger<LeaguesController> logger) : base(mediator) 
+        { 
+            _logger = logger;
+        }
 
         // GET: api/Leagues
         [HttpGet]
         public async Task<IActionResult> GetAll([FromRoute] GetAllLeaguesQuery request)
         {
+            _logger.LogInformation(LoggingEvents.ListItems, "Getting all items");
             var leagues = await CommandAsync(request);
 
             if (leagues == null)
             {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, "Items not found");
                 return NotFound();
             }
-
+            
             return Ok(leagues);
         }
 
@@ -28,10 +34,12 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLeagueById([FromRoute] GetLeagueByIdQuery query)
         {
+            _logger.LogInformation(LoggingEvents.GetItem, "Getting item {id}", query.Id);
             var league = await CommandAsync(query);
 
             if (league == null)
             {
+                _logger.LogInformation(LoggingEvents.GetItemNotFound, "Item {id} not found", query.Id);
                 return NotFound();
             }
 

@@ -15,7 +15,7 @@ namespace SoccerStatistics.Api.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SoccerStatisticsDbContext>();
-            services.AddControllers()
+            services.AddControllers()   
                     .AddJsonOptions(x =>
                     {
                         // change json response formatting

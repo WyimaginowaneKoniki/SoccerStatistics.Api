@@ -12,9 +12,6 @@ namespace SoccerStatistics.Api.Database.Entities
         [StringLength(50)]
         public string Description { get; set; }
         [Required]
-        public virtual Player Player { get; set; }
-        [Required]
-        public virtual Match Match { get; set; }
-    }
-    
+        public Player Player { get; set; }
+    }    
 }

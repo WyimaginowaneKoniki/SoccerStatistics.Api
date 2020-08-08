@@ -15,6 +15,5 @@
         CentreForward,
         SecondStriker,
         Winger
-
     }
 }

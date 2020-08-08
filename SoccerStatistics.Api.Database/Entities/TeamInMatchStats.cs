@@ -16,14 +16,6 @@ namespace SoccerStatistics.Api.Database.Entities
         [StringLength(20)]
         public string Formation { get; set; }
         [Required]
-        public virtual Team Team { get; set; }
-        [NotMapped]
-        [InverseProperty("Team1")]
-        public virtual Match MatchTeam1 { get; set; }
-        [NotMapped]
-        [InverseProperty("Team2")]
-        public virtual Match MatchTeam2 { get; set; }
-
-
+        public Team Team { get; set; }
     }
 }

@@ -30,6 +30,5 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Architect { get; set; }
         [Required]
         public bool IsNational { get; set; }
-        public virtual Team Team { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -13,14 +12,8 @@ namespace SoccerStatistics.Api.Database.Entities
         [StringLength(50)]
         public string Description { get; set; }
         [Required]
-        public virtual Match Match { get; set; }
+        public Player Player1 { get; set; }
         [Required]
-        [ForeignKey("InteractionsBetweenPlayer1")]
-        public virtual Player Player1 { get; set; }
-        [Required]
-        [ForeignKey("InteractionsBetweenPlayer2")]
-        public virtual Player Player2 { get; set; }
-
+        public Player Player2 { get; set; }
     }
-
 }

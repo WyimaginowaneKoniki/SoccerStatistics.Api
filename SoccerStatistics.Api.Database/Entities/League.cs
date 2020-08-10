@@ -20,6 +20,6 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Country { get; set; }
         public Team Winner { get; set; }
         public virtual IEnumerable<Round> Rounds { get; set; }
-        public virtual IEnumerable<Team> Teams { get; set; }
+        public virtual IEnumerable<TeamInLeague> Teams { get; set; }
     }
 }

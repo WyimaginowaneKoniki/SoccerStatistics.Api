@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -18,8 +19,8 @@ namespace SoccerStatistics.Api.Database.Entities
         public virtual IEnumerable<Activity> Activities { get; set; }
         public virtual IEnumerable<InteractionBetweenPlayers> InteractionsBetweenPlayers { get; set; }
         [Required]
-        public TeamInMatchStats Team1 { get; set; }
+        public TeamInMatchStats TeamOneStats { get; set; }
         [Required]
-        public TeamInMatchStats Team2 { get; set; }
+        public TeamInMatchStats TeamTwoStats { get; set; }
     }
 }

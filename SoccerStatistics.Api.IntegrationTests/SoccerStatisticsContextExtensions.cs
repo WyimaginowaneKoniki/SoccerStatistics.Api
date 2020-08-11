@@ -1,43 +1,14 @@
 ﻿using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
+using SoccerStatistics.Api.Database.Entities.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SoccerStatistics.Api.IntegrationTests
 {
     public static class SportStatisticsContextExtensions
     {
-        private static readonly IEnumerable<League> leagues = new List<League>()
-        {
-            new League()
-            {
-                Id = 1,
-                Name = "Primera Division",
-                Country = "Spain",
-                Season = "2018/2019",
-                MVP = "Lionel Messi",
-                Winner = "FC Barcelona"
-            },
-            new League()
-            {
-                Id = 2,
-                Name = "Serie A",
-                Country = "Italia",
-                Season = "2017/2018",
-                MVP = "Mauro Icardi",
-                Winner = "Juventus"
-            },
-            new League()
-            {
-                Id = 3,
-                Name = "Lotto Ekstraklasa",
-                Country = "Poland",
-                Season = "2018/2019",
-                MVP = "Igor Angulo",
-                Winner = "Piast Gliwice"
-            }
-        };
-
         private static readonly IEnumerable<Match> matches = new List<Match>()
         {
                 new Match
@@ -65,7 +36,7 @@ namespace SoccerStatistics.Api.IntegrationTests
                 Weight = 68,
                 Birthday = new DateTime(1987, 6, 23),
                 Nationality = "Argentina",
-                DominantLeg = "Left",
+                DominantLeg = DominantLegType.Left,
                 Nick = "La Pulga",
                 Number = 10
             },
@@ -78,7 +49,7 @@ namespace SoccerStatistics.Api.IntegrationTests
                 Weight = 85,
                 Birthday = new DateTime(1985, 2, 5),
                 Nationality = "Portugal",
-                DominantLeg = "Right",
+                DominantLeg = DominantLegType.Right,
                 Nick = "CR7",
                 Number = 7
             },
@@ -91,7 +62,7 @@ namespace SoccerStatistics.Api.IntegrationTests
                 Weight = 78,
                 Birthday = new DateTime(1987, 9, 21),
                 Nationality = "Poland",
-                DominantLeg = "",
+                DominantLeg = DominantLegType.Undefined,
                 Nick = "Priest",
                 Number = 22
             }
@@ -194,6 +165,37 @@ namespace SoccerStatistics.Api.IntegrationTests
                 Lighting = 1770,
                 Architect = "Castro Mello Architects",
                 IsNational = true
+            }
+        };
+
+        private static readonly IEnumerable<League> leagues = new List<League>()
+        {
+            new League()
+            {
+                Id = 1,
+                Name = "Primera Division",
+                Country = "Spain",
+                Season = "2018/2019",
+                MVP = players.ElementAt(0),
+                Winner = teams.ElementAt(0)
+            },
+            new League()
+            {
+                Id = 2,
+                Name = "Serie A",
+                Country = "Italia",
+                Season = "2017/2018",
+                MVP = players.ElementAt(1),
+                Winner = teams.ElementAt(1)
+            },
+            new League()
+            {
+                Id = 3,
+                Name = "Lotto Ekstraklasa",
+                Country = "Poland",
+                Season = "2018/2019",
+                MVP = players.ElementAt(2),
+                Winner = teams.ElementAt(2)
             }
         };
 

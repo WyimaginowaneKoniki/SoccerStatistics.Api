@@ -20,50 +20,50 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 
             IEnumerable<League> expectedLeagues = new List<League>
             {
-
                 new League()
                 {
-                  Id = 1,
-                  Name = "Primera Division",
-                  Country = "Spain",
-                  Season = "2018/2019",
-                  MVP = "Lionel Messi",
-                  Winner = "FC Barcelona",
-                  Rounds = null,
-                  Teams = null
-                  },
-            new League()
-            {
-                Id = 2,
-                Name = "Serie A",
-                Country = "Italia",
-                Season = "2017/2018",
-                MVP = "Mauro Icardi",
-                Winner = "Juventus",
-                Rounds = null,
-                Teams = null
-            },
-            new League()
-            {
-                Id = 3,
-                Name = "Lotto Ekstraklasa",
-                Country = "Poland",
-                Season = "2018/2019",
-                MVP = "Igor Angulo",
-                Winner = "Piast Gliwice",
-                Rounds = null,
-                Teams = null
-            }};
+                    Id = 1,
+                    Name = "Primera Division",
+                    Country = "Spain",
+                    Season = "2018/2019",
+                    MVP = new Player() { Id = 1, Name =  "Lionel", Surname = "Messi" },
+                    Winner = new Team() {Id = 1, ShortName = "FC Barcelona" },
+                    Rounds = null,
+                    Teams = null
+                },
+                new League()
+                {
+                    Id = 2,
+                    Name = "Serie A",
+                    Country = "Italia",
+                    Season = "2017/2018",
+                    MVP = new Player() {Id = 2, Name =  "Mauro", Surname = "Icardi" },
+                    Winner = new Team() {Id = 2,ShortName = "Juventus" },
+                    Rounds = null,
+                    Teams = null
+                },
+                new League()
+                {
+                    Id = 3,
+                    Name = "Lotto Ekstraklasa",
+                    Country = "Poland",
+                    Season = "2018/2019",
+                    MVP = new Player() {Id = 3,Name =  "Igor", Surname = "Angulo" },
+                    Winner = new Team() {Id = 3,ShortName = "Piast Gliwice" },
+                    Rounds = null,
+                    Teams = null
+                }
+            };
 
             IEnumerable<League> testLeagues = null;
 
             // Act
             var err = await Record.ExceptionAsync(async
                         () => testLeagues = await _leagueRepository.GetAllAsync());
-            
+
             // Assert          
             err.Should().BeNull();
-           
+
             testLeagues.Should().NotBeNull();
 
             testLeagues.Should().HaveSameCount(expectedLeagues);
@@ -83,8 +83,8 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                 Name = "Primera Division",
                 Country = "Spain",
                 Season = "2018/2019",
-                MVP = "Lionel Messi",
-                Winner = "FC Barcelona",
+                MVP = new Player() { Id = 1, Name = "Lionel", Surname = "Messi" },
+                Winner = new Team() { Id = 1, ShortName = "FC Barcelona" }
             };
 
             League testLeague = null;

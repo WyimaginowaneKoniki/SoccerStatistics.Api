@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SoccerStatistics.Api.Database.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -13,6 +14,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public uint BallPossesion { get; set; }
         [Required]
         [StringLength(20)]
+        [Formation]
         public string Formation { get; set; }
         [Required]
         public Team Team { get; set; }

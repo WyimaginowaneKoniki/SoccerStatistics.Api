@@ -34,17 +34,16 @@ namespace SoccerStatistics.Api.UnitTests.Services
         {
             IEnumerable<League> leagues = new List<League>
             {
-
                 new League()
                 {
-                  Id = 1,
-                  Name = "Primera Division",
-                  Country = "Spain",
-                  Season = "2018/2019",
-                  MVP = "Lionel Messi",
-                  Winner = "FC Barcelona",
-                  Rounds = null,
-                  Teams = null
+                    Id = 1,
+                    Name = "Primera Division",
+                    Country = "Spain",
+                    Season = "2018/2019",
+                    MVP = new Player() {Name =  "Lionel", Surname = "Messi" },
+                    Winner = new Team() {ShortName = "FC Barcelona" },
+                    Rounds = null,
+                    Teams = null
                 },
                 new League()
                 {
@@ -52,8 +51,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
                     Name = "Serie A",
                     Country = "Italia",
                     Season = "2017/2018",
-                    MVP = "Mauro Icardi",
-                    Winner = "Juventus",
+                    MVP = new Player() {Name =  "Mauro", Surname = "Icardi" },
+                    Winner = new Team() {ShortName = "Juventus" },
                     Rounds = null,
                     Teams = null
                 },
@@ -63,8 +62,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
                     Name = "Lotto Ekstraklasa",
                     Country = "Poland",
                     Season = "2018/2019",
-                    MVP = "Igor Angulo",
-                    Winner = "Piast Gliwice",
+                    MVP = new Player() {Name =  "Igor", Surname = "Angulo" },
+                    Winner = new Team() {ShortName = "Piast Gliwice" },
                     Rounds = null,
                     Teams = null
                 }
@@ -73,7 +72,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             IEnumerable<LeagueDTO> testLeagues = null;
 
             _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(leagues);            
+            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(leagues);
 
             var expectedLeagues = _mapper.Map<IEnumerable<LeagueDTO>>(leagues);
 
@@ -101,8 +100,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 Name = "Primera Division",
                 Country = "Spain",
                 Season = "2018/2019",
-                MVP = "Lionel Messi",
-                Winner = "FC Barcelona",
+                MVP = new Player() { Name = "Lionel", Surname = "Messi" },
+                Winner = new Team() { ShortName = "FC Barcelona" }
             };
 
             LeagueDTO testLeague = null;
@@ -119,7 +118,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             // Arrange
             err.Should().BeNull();
-           
+
             testLeague.Should().NotBeNull();
 
             testLeague.Should().BeEquivalentTo(expectedLeague);

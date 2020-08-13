@@ -5,6 +5,6 @@
         Goal,
         Change,
         Foul,
-        ShotOnGoal,
+        ShotOnGoal
     }
 }

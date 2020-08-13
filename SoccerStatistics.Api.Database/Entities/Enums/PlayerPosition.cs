@@ -4,17 +4,8 @@
     {
         Undefined,
         Goalkeeper,
-        Centreback,
-        Sweeper,
-        Fullback,
-        Wingback,
-        CentreMidfield,
-        DefensiveMidfield,
-        AttackingMidfield,
-        WideMidfield,
-        CentreForward,
-        SecondStriker,
-        Winger
-
+        Defender,
+        Midfielder,
+        Forward,
     }
 }

@@ -159,12 +159,12 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 Stadium = stadium,
                 AmountOfFans = 60_123,
                 Date = new DateTime(2015, 3, 4),
-                Team1 = new TeamInMatchStats()
+                TeamOneStats = new TeamInMatchStats()
                 {
                     Id = 1,
                     Team = team1
                 },
-                Team2 = new TeamInMatchStats()
+                TeamTwoStats = new TeamInMatchStats()
                 {
                     Id = 2,
                     Team = team2
@@ -297,8 +297,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
         {
             matchDTO.TeamInMatchStats1 = new TeamInMatchStatsDTO();
             matchDTO.TeamInMatchStats2 = new TeamInMatchStatsDTO();
-            FillTeamInMatchStats(match, match.Team1, matchDTO.TeamInMatchStats1, mapper);
-            FillTeamInMatchStats(match, match.Team2, matchDTO.TeamInMatchStats2, mapper);
+            FillTeamInMatchStats(match, match.TeamOneStats, matchDTO.TeamInMatchStats1, mapper);
+            FillTeamInMatchStats(match, match.TeamTwoStats, matchDTO.TeamInMatchStats2, mapper);
         }
 
         private void FillTeamInMatchStats(Match match, TeamInMatchStats stats, TeamInMatchStatsDTO statsDTO, IMapper mapper)

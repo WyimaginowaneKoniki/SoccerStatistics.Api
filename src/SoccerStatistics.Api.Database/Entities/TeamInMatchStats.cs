@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using SoccerStatistics.Api.Database.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -14,16 +14,9 @@ namespace SoccerStatistics.Api.Database.Entities
         public uint BallPossesion { get; set; }
         [Required]
         [StringLength(20)]
+        [Formation]
         public string Formation { get; set; }
         [Required]
-        public virtual Team Team { get; set; }
-        [NotMapped]
-        [InverseProperty("Team1")]
-        public virtual Match MatchTeam1 { get; set; }
-        [NotMapped]
-        [InverseProperty("Team2")]
-        public virtual Match MatchTeam2 { get; set; }
-
-
+        public Team Team { get; set; }
     }
 }

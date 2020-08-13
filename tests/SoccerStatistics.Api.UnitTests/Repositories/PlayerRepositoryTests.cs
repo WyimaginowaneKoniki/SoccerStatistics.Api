@@ -1,11 +1,10 @@
 ﻿using FluentAssertions;
 using SoccerStatistics.Api.Database.Entities;
-using SoccerStatistics.Api.Database.Repositories;
+using SoccerStatistics.Api.Database.Entities.Enums;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -32,7 +31,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                     Weight = 68,
                     Birthday = new DateTime(1987, 6, 23),
                     Nationality = "Argentina",
-                    DominantLeg = "Left",
+                    DominantLeg = DominantLegType.Left,
                     Nick = "La Pulga",
                     Number = 10
                 },
@@ -46,7 +45,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                     Weight = 85,
                     Birthday = new DateTime(1985, 2, 5),
                     Nationality = "Portugal",
-                    DominantLeg = "Right",
+                    DominantLeg = DominantLegType.Right,
                     Nick = "CR7",
                     Number = 7
                 },
@@ -60,7 +59,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                     Weight = 78,
                     Birthday = new DateTime(1987, 9, 21),
                     Nationality = "Poland",
-                    DominantLeg = "",
+                    DominantLeg = DominantLegType.Undefined,
                     Nick = "Priest",
                     Number = 22
                 }
@@ -97,7 +96,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
                 Weight = 68,
                 Birthday = new DateTime(1987, 6, 23),
                 Nationality = "Argentina",
-                DominantLeg = "Left",
+                DominantLeg = DominantLegType.Left,
                 Nick = "La Pulga",
                 Number = 10
             };

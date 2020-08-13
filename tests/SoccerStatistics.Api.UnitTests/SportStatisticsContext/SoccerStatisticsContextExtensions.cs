@@ -1,5 +1,6 @@
 ﻿using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
+using SoccerStatistics.Api.Database.Entities.Enums;
 using System;
 
 namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
@@ -18,7 +19,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Weight = 68,
                     Birthday = new DateTime(1987, 6, 23),
                     Nationality = "Argentina",
-                    DominantLeg = "Left",
+                    DominantLeg = DominantLegType.Left,
                     Nick = "La Pulga",
                     Number = 10
                 });
@@ -33,7 +34,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Weight = 85,
                     Birthday = new DateTime(1985, 2, 5),
                     Nationality = "Portugal",
-                    DominantLeg = "Right",
+                    DominantLeg = DominantLegType.Right,
                     Nick = "CR7",
                     Number = 7
                 });
@@ -48,7 +49,7 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Weight = 78,
                     Birthday = new DateTime(1987, 9, 21),
                     Nationality = "Poland",
-                    DominantLeg = "",
+                    DominantLeg = DominantLegType.Undefined,
                     Nick = "Priest",
                     Number = 22
                 });
@@ -124,8 +125,8 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                     Name = "Primera Division",
                     Country = "Spain",
                     Season = "2018/2019",
-                    MVP = "Lionel Messi",
-                    Winner = "FC Barcelona",
+                    MVP = new Player() { Name = "Lionel", Surname = "Messi" },
+                    Winner = new Team() { ShortName = "FC Barcelona" },
                     Rounds = null,
                     Teams = null
                 });
@@ -137,8 +138,8 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                      Name = "Serie A",
                      Country = "Italia",
                      Season = "2017/2018",
-                     MVP = "Mauro Icardi",
-                     Winner = "Juventus",
+                     MVP = new Player() { Name = "Mauro", Surname = "Icardi" },
+                     Winner = new Team() { ShortName = "Juventus" },
                      Rounds = null,
                      Teams = null
                  });
@@ -151,8 +152,8 @@ namespace SoccerStatistics.Api.UnitTests.SportStatisticsContext
                      Name = "Lotto Ekstraklasa",
                      Country = "Poland",
                      Season = "2018/2019",
-                     MVP = "Igor Angulo",
-                     Winner = "Piast Gliwice",
+                     MVP = new Player() { Name = "Igor", Surname = "Angulo" },
+                     Winner = new Team() { ShortName = "Piast Gliwice" },
                      Rounds = null,
                      Teams = null
                  });

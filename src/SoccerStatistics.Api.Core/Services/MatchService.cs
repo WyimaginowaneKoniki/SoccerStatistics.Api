@@ -2,7 +2,6 @@
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services.Interfaces;
 using SoccerStatistics.Api.Database.Entities;
-using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,8 +42,8 @@ namespace SoccerStatistics.Api.Core.Services
         {
             matchDTO.TeamInMatchStats1 = new TeamInMatchStatsDTO();
             matchDTO.TeamInMatchStats2 = new TeamInMatchStatsDTO();
-            FillTeamInMatchStats(match, match.Team1, matchDTO.TeamInMatchStats1);
-            FillTeamInMatchStats(match, match.Team2, matchDTO.TeamInMatchStats2);
+            FillTeamInMatchStats(match, match.TeamOneStats, matchDTO.TeamInMatchStats1);
+            FillTeamInMatchStats(match, match.TeamTwoStats, matchDTO.TeamInMatchStats2);
         }
 
         // Calculates TeamInMatchStats for one team

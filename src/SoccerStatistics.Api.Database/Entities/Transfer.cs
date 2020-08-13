@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -13,13 +12,9 @@ namespace SoccerStatistics.Api.Database.Entities
         [Required]
         public PlayerPosition PlayerPosition { get; set; }
         [Required]
-        public virtual Player Player { get; set; }
+        public Player Player { get; set; }
         [Required]
-        [ForeignKey("Transfer1")]
-        public virtual Team DestTeam { get; set; }
-        [ForeignKey("Transfer2")]
-        public virtual Team SourceTeam { get; set; }
-
-
+        public Team DestTeam { get; set; }
+        public Team SourceTeam { get; set; }
     }
 }

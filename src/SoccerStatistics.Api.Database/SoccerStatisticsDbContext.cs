@@ -20,5 +20,35 @@ namespace SoccerStatistics.Api.Database
 
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Match>(e =>
+            {
+                e.HasOne(m => m.TeamOneStats)
+                 .WithOne()
+                 .HasForeignKey<Match>("TeamOneStatsId")
+                 .IsRequired()
+                 .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasOne(m => m.TeamTwoStats)
+                 .WithOne()
+                 .HasForeignKey<Match>("TeamTwoStatsId")
+                 .IsRequired()
+                 .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<InteractionBetweenPlayers>(e =>
+            {
+                e.HasOne(i => i.Player1)
+                 .WithMany()
+                 .IsRequired()
+                 .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasOne(i => i.Player2)
+                 .WithMany()
+                 .IsRequired()
+                 .OnDelete(DeleteBehavior.Restrict);
+            });
+        }
     }
 }

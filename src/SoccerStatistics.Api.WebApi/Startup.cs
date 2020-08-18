@@ -12,7 +12,7 @@ namespace SoccerStatistics.Api.WebApi
 {
     public class Startup
     {
-        private IConfiguration Configuration { get; set; }
+        private IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -43,7 +43,7 @@ namespace SoccerStatistics.Api.WebApi
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SoccerStatisticsDbContext dbContext)
-        {            
+        {
             dbContext.Database.EnsureCreated();
 
             if (env.IsDevelopment())
@@ -58,6 +58,5 @@ namespace SoccerStatistics.Api.WebApi
                 endpoints.MapControllers();
             });
         }
-
     }
 }

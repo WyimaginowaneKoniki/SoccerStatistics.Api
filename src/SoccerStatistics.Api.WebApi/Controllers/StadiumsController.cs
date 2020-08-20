@@ -15,6 +15,7 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         }
 
         // GET: api/Stadiums
+        [HttpGet]
         public async Task<IActionResult> GetAll([FromRoute] GetAllStadiumsQuery request)
         {
             _logger.LogInformation(LoggingEvents.ListItems, "Getting all stadiums");

@@ -13,9 +13,10 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         { 
             _logger = logger; 
         }
-
+ 
         // GET: api/Teams
         [HttpGet]
+        [ProducesResponseType(typeof(GetAllTeamsQuery), 200)]
         public async Task<IActionResult> GetAllTeams([FromRoute] GetAllTeamsQuery query)
         {
             _logger.LogInformation(LoggingEvents.ListItems, "Getting all teams");
@@ -29,7 +30,7 @@ namespace SoccerStatistics.Api.WebApi.Controllers
 
             return Ok(teams);
         }
-
+    
         // GET: api/Team/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTeamById([FromRoute] GetTeamByIdQuery query)

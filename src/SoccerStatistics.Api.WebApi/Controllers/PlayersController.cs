@@ -14,6 +14,11 @@ namespace SoccerStatistics.Api.WebApi.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get list of available players
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         // GET: api/Players
         [HttpGet]
         public async Task<IActionResult> GetAll([FromRoute] GetAllPlayersQuery request)
@@ -30,6 +35,11 @@ namespace SoccerStatistics.Api.WebApi.Controllers
             return Ok(players);
         }
 
+        /// <summary>
+        ///  Get player by ID
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         // GET: api/Players/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPlayerById([FromRoute] GetPlayerByIdQuery query)

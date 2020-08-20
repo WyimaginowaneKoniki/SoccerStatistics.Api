@@ -14,6 +14,11 @@ namespace SoccerStatistics.Api.WebApi.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        ///  Get round by ID
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         // GET: api/Rounds/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRoundById([FromRoute] GetRoundByIdQuery query)

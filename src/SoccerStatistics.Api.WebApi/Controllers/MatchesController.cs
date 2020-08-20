@@ -18,6 +18,11 @@ namespace SoccerStatistics.Api.WebApi.Controllers
             _logger = logger; 
         }
 
+        /// <summary>
+        /// Get list of recent matches
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         // GET: api/Matches
         [HttpGet]
         public async Task<IActionResult> GetHistoryOfMatchesByLeagueId([FromRoute] GetHistoryOfMatchesByLeagueIdQuery query)
@@ -34,6 +39,11 @@ namespace SoccerStatistics.Api.WebApi.Controllers
             return Ok(matches);
         }
 
+        /// <summary>
+        /// Get match by ID
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         // GET: api/Matches/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMatchById([FromRoute] GetMatchByIdQuery query)

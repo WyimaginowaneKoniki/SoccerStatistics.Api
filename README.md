@@ -20,7 +20,7 @@ SoccerStatistics is a REST API application to search information about Football 
 ## API Versioning
 The first part of the URI path specifies the API version you wish to access in the format `v{version_number}`. 
 
-For example, version 1 of the API (most current) is accessible via:
+For example, most current version of the API is accessible via:
 
 ```no-highlight
 http://localhost:{port}/swagger/index.html
@@ -47,6 +47,7 @@ The following table summarises all the available resource URIs, and the effect o
 
 ## HTTP Responses
 For example, a request to the `/leagues/` resource might return this:
+
 If an error occurred - see [HTTP Response Codes](#HTTP-Response-Codes)).
 
 ``` JSON
@@ -125,7 +126,7 @@ Sample error response:
 * [xUnit](https://xunit.net/)
 * [Moq](https://github.com/moq/moq4)
 * [Swagger](https://swagger.io/)
-
+* [Github Actions]( https://github.com/features/actions) 
 ## Contributors
 
 <a href="https://github.com/JustD4nTe"><img src="https://avatars0.githubusercontent.com/u/15444187?s=400&v=4" title="JustD4nTe" width="80" height="80"></a>

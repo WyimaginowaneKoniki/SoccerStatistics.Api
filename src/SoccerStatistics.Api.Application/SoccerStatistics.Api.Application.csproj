@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.2.0" />
+    <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="4.0.0" />
+    <PackageReference Include="MediatR" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SoccerStatistics.Api.Core\SoccerStatistics.Api.Core.csproj" />
+    <ProjectReference Include="..\SoccerStatistics.Api.Database\SoccerStatistics.Api.Database.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,7 @@
 ﻿using SoccerStatistics.Api.Database.Entities.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -17,6 +18,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public uint Height { get; set; }
         [Required]
         public uint Weight { get; set; }
+        [Column(TypeName = "Date")]
         public DateTime Birthday { get; set; }
         [StringLength(55)]
         [Required]

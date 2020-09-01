@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoccerStatistics.Api.Database.Entities
 {
@@ -20,6 +21,7 @@ namespace SoccerStatistics.Api.Database.Entities
         [Required]
         [StringLength(20)]
         public string FieldSize { get; set; }
+        [Column(TypeName = "decimal(10, 0)")]
         public decimal Cost { get; set; }
         [Required]
         public uint VipCapacity { get; set; }

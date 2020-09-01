@@ -242,7 +242,7 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(t => t.PassSuccess, (f, t) => f.Random.UInt(minSuccessPassCount, t.Pass - 1))
                 .RuleFor(t => t.BallPossesion, f => f.Random.UInt(minPercentOfBallPossesion,
                                                                   maxPercentOfBallPossesion))
-                .RuleFor(t => t.Formation, f => "4-2-3")
+                .RuleFor(t => t.Formation, f => GenerateFormation())
                 .RuleFor(t => t.Team, f => team);
         }
 
@@ -285,5 +285,33 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(t => t.Id, f => teamInLeagueId++)
                 .RuleFor(t => t.League, f => league)
                 .RuleFor(t => t.Team, f => team);
+
+        private string GenerateFormation()
+        {
+            var rnd = new Random();
+
+            List<int> formation = new List<int>();
+            do
+            {
+                int formationCount = 10;
+                formation.Clear();
+
+                do
+                {
+                    // get random number in range <1, 11)
+                    var line = rnd.Next(1, formationCount + 1);
+
+                    if (line >= 8)
+                        continue;
+
+                    formationCount -= line;
+
+                    formation.Add(line);
+
+                } while (formationCount != 0);
+            } while (formation.Count < 3 && formation.Count > 5);
+
+            return string.Join("-", formation.Select(x => x.ToString()));
+        }
     }
 }

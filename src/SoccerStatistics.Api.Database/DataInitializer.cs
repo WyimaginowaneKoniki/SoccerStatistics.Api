@@ -95,7 +95,7 @@ namespace SoccerStatistics.Api.Database
             _logger.LogInformation("Initialization proceeded success");
         }
 
-        public Faker<Player> GetFakePlayer()
+        private Faker<Player> GetFakePlayer()
         {
             const uint minHeight = 150, maxHeight = 220;
             const uint minWeight = 50, maxWeight = 140;
@@ -116,7 +116,7 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(p => p.Number, f => f.Random.UInt(minNumber, maxNumber));
         }
 
-        public Faker<Stadium> GetFakeStadium()
+        private Faker<Stadium> GetFakeStadium()
         {
             const uint minBuildYear = 1900;
             const uint minCapacity = 0, maxCapacity = 100_000;
@@ -141,7 +141,7 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(s => s.IsNational, f => f.Random.Bool());
         }
 
-        public Faker<Team> GetFakeTeam()
+        private Faker<Team> GetFakeTeam()
         {
             const uint minBuildYear = 1900;
             const int minPlayers = 12, maxPlayers = 30;
@@ -160,7 +160,7 @@ namespace SoccerStatistics.Api.Database
         }
 
         /// Transfers must operate on players and teams that already exist in db
-        public Faker<Transfer> GetFakeTransfer(IEnumerable<Player> players,
+        private Faker<Transfer> GetFakeTransfer(IEnumerable<Player> players,
                                                IEnumerable<Team> teams)
         {
             const decimal minPrice = 100, maxPrice = 10_000_000;
@@ -179,7 +179,7 @@ namespace SoccerStatistics.Api.Database
                          (f, t) => f.PickRandom(teams.Where(x => x.Id != t.SourceTeam.Id)));
         }
 
-        public Faker<Match> GetFakeMatch(IEnumerable<Team> teams)
+        private Faker<Match> GetFakeMatch(IEnumerable<Team> teams)
         {
             const int minActivity = 2, maxActivity = 30;
             const int minInteraction = 2, maxInteraction = 30;
@@ -202,7 +202,7 @@ namespace SoccerStatistics.Api.Database
                                     .Generate(f.Random.Int(minInteraction, maxInteraction)));
         }
 
-        public Faker<Activity> GetFakeActivity(IEnumerable<Player> players)
+        private Faker<Activity> GetFakeActivity(IEnumerable<Player> players)
         {
             const uint timeOfTheEarliestActivity = 0, timeOfTheLatestActivity = 125;
 
@@ -215,7 +215,7 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(a => a.Description, (f, a) => $"{a.Player.Name} {a.Player.Surname} {f.Hacker.Verb()}");
         }
 
-        public Faker<InteractionBetweenPlayers> GetFakeInteraction(IEnumerable<Player> players)
+        private Faker<InteractionBetweenPlayers> GetFakeInteraction(IEnumerable<Player> players)
         {
             const uint timeOfTheEarliestActivity = 0, timeOfTheLatestActivity = 125;
 
@@ -230,7 +230,7 @@ namespace SoccerStatistics.Api.Database
                          (f, i) => $"{i.Player1.Name} {i.Player1.Surname} {f.Hacker.Verb()} {i.Player2.Name} {i.Player2.Surname}");
         }
 
-        public Faker<TeamInMatchStats> GetFakeTeamInMatchStats(Team team)
+        private Faker<TeamInMatchStats> GetFakeTeamInMatchStats(Team team)
         {
             const uint minPassCount = 0, maxPassCount = 2_000;
             const uint minSuccessPassCount = 0;
@@ -246,7 +246,7 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(t => t.Team, f => team);
         }
 
-        public Faker<Round> GetFakeRound(League league)
+        private Faker<Round> GetFakeRound(League league)
         {
             const int minMatches = 2, maxMatches = 20;
 
@@ -259,7 +259,7 @@ namespace SoccerStatistics.Api.Database
                                 .Generate(f.Random.Int(minMatches, maxMatches)));
         }
 
-        public Faker<League> GetFakeLeague(IEnumerable<Team> teams)
+        private Faker<League> GetFakeLeague(IEnumerable<Team> teams)
         {
             const int minTeamCount = 14, maxTeamCount = 12;
             const int minRoundsCount = 5, maxRoundsCount = 30;
@@ -280,7 +280,7 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(l => l.Rounds, (f, m) => GetFakeRound(m).Generate(f.Random.Int(minRoundsCount, maxRoundsCount)));
         }
 
-        public Faker<TeamInLeague> GetFakeTeamInLeague(League league, Team team)
+        private Faker<TeamInLeague> GetFakeTeamInLeague(League league, Team team)
         => new Faker<TeamInLeague>()
                 .RuleFor(t => t.Id, f => teamInLeagueId++)
                 .RuleFor(t => t.League, f => league)

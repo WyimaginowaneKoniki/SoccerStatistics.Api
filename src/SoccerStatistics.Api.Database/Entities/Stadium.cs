@@ -9,7 +9,7 @@ namespace SoccerStatistics.Api.Database.Entities
         [StringLength(50)]
         public string Name { get; set; }
         [Required]
-        [StringLength(50)]
+        [StringLength(55)]
         public string Country { get; set; }
         [Required]
         [StringLength(50)]

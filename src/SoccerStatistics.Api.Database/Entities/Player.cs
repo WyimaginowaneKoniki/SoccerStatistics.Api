@@ -18,7 +18,7 @@ namespace SoccerStatistics.Api.Database.Entities
         [Required]
         public uint Weight { get; set; }
         public DateTime Birthday { get; set; }
-        [StringLength(50)]
+        [StringLength(55)]
         [Required]
         public string Nationality { get; set; }
         [Required]

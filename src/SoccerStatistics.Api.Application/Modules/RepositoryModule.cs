@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System.Linq;
@@ -19,7 +20,10 @@ namespace SoccerStatistics.Api.Application.Modules
                    .Where(x => x.IsAssignableTo<IRepository>())
                    .AsImplementedInterfaces()
                    .InstancePerLifetimeScope();
+
+            builder.RegisterType<DataInitializer>()
+                   .As<IDataInitializer>()
+                   .SingleInstance();
         }
-    }
- 
+    } 
 }

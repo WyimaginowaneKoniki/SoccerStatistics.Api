@@ -16,7 +16,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public string Season { get; set; }
         public Player MVP { get; set; }
         [Required]
-        [StringLength(50)]
+        [StringLength(55)]
         public string Country { get; set; }
         public Team Winner { get; set; }
         public virtual IEnumerable<Round> Rounds { get; set; }

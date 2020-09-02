@@ -43,42 +43,42 @@ namespace SoccerStatistics.Api.Database
             var players = teams.SelectMany(x => x.Players);
 
             _context.Stadiums.AddRange(teams.Select(x => x.Stadium));
-            _logger.LogTrace("Stadiums are added");
+            _logger.LogTrace("Stadiums were added");
 
             _context.Players.AddRange(players);
-            _logger.LogTrace("Players are added");
+            _logger.LogTrace("Players were added");
 
             _context.Teams.AddRange(teams);
-            _logger.LogTrace("Teams are added");
+            _logger.LogTrace("Teams were added");
 
             _context.Transfers.AddRange(GetFakeTransfer(players, teams).Generate(transferCount));
-            _logger.LogTrace("Transfers are added");
+            _logger.LogTrace("Transfers were added");
 
             var leagues = GetFakeLeague(teams).Generate(leagueCount);
 
             _context.Leagues.AddRange(leagues);
-            _logger.LogTrace("Leagues are added");
+            _logger.LogTrace("Leagues were added");
 
             _context.Rounds.AddRange(leagues.SelectMany(x => x.Rounds));
-            _logger.LogTrace("Rounds are added");
+            _logger.LogTrace("Rounds were added");
 
             var matches = leagues.SelectMany(x => x.Rounds.SelectMany(y => y.Matches));
 
             _context.Teams_in_match_stats.AddRange(matches.SelectMany(x => new List<TeamInMatchStats> { x.TeamOneStats, x.TeamTwoStats }));
-            _logger.LogTrace("Team stats in matches are added");
+            _logger.LogTrace("Team stats in matches were added");
 
             _context.Matches.AddRange(matches);
-            _logger.LogTrace("Matches are added");
+            _logger.LogTrace("Matches were added");
 
             _context.Activities.AddRange(matches.SelectMany(x => x.Activities));
-            _logger.LogTrace("Activities are added");
+            _logger.LogTrace("Activities were added");
 
             _context.Interactions_between_players.AddRange(matches.SelectMany(x => x.InteractionsBetweenPlayers));
-            _logger.LogTrace("Interactions are added");
+            _logger.LogTrace("Interactions were added");
 
             try
             {
-                _logger.LogTrace("All data are saving in the database");
+                _logger.LogTrace("Attempting to save data in the database");
                 _context.SaveChanges();
             }
             catch (Exception err)
@@ -86,7 +86,7 @@ namespace SoccerStatistics.Api.Database
                 _logger.LogError($"Exception message: {err.Message}");
                 _logger.LogError($"InnerException message: {err.InnerException.Message}");
 
-                _logger.LogWarning("Data aren't saved");
+                _logger.LogWarning("Data was not saved");
 
                 return;
             }

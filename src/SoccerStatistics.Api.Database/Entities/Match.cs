@@ -14,8 +14,8 @@ namespace SoccerStatistics.Api.Database.Entities
         [Required]
         public Round Round { get; set; }
         [Required]
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        [Column(TypeName = "smalldatetime")]
+        public DateTime? Date { get; set; }
         public virtual IEnumerable<Activity> Activities { get; set; }
         public virtual IEnumerable<InteractionBetweenPlayers> InteractionsBetweenPlayers { get; set; }
         [Required]

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SoccerStatistics.Api.Application.Modules;
 using SoccerStatistics.Api.Database;
@@ -60,9 +61,16 @@ namespace SoccerStatistics.Api.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SoccerStatisticsDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SoccerStatisticsDbContext dbContext, 
+            ILogger<Startup> logger, IDataInitializer dataInitializer)
         {
             dbContext.Database.EnsureCreated();
+            logger.LogInformation("The database was created");
+
+            if(Configuration.GetValue<bool>("Database:SeedData"))
+            {
+                dataInitializer.Seed();
+            }
 
             if (env.IsDevelopment())
             {

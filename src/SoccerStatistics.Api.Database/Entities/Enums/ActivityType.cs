@@ -5,7 +5,6 @@
         MissedShot,
         RedCard,
         YellowCard,
-        Substitution,
         Injury,
         CornerKick,
         PenaltyKick,

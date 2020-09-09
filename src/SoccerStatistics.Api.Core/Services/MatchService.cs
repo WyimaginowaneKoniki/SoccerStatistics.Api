@@ -105,7 +105,7 @@ namespace SoccerStatistics.Api.Core.Services
             statsDTO.ShotsOnGoalPercentage = statsDTO.ShotsOnGoalPercentage != 0 ? (uint)(statsDTO.ShotsOnGoal / statsDTO.ShotsOnGoalPercentage) : 0;
 
             statsDTO.Substitutions = _mapper.Map<IEnumerable<InteractionBetweenPlayersDTO>>(match.InteractionsBetweenPlayers
-                .Where(x => x.InteractionType == InteractionType.Change && stats.Team.Players.Contains(x.Player1)));
+                .Where(x => x.InteractionType == InteractionType.Substitution && stats.Team.Players.Contains(x.Player1)));
 
             statsDTO.Team = _mapper.Map<TeamBasicDTO>(stats.Team);
 

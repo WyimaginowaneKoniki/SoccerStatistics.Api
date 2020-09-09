@@ -11,17 +11,18 @@ namespace SoccerStatistics.Api.Database
     public class DataInitializer : IDataInitializer
     {
         #region Id
-        private static uint stadiumId = 1;
-        private static uint playerId = 1;
-        private static uint teamId = 1;
-        private static uint transferId = 1;
-        private static uint activityId = 1;
-        private static uint interactionBetweenPlayersId = 1;
-        private static uint teamInMatchStatsId = 1;
-        private static uint matchId = 1;
-        private static uint roundId = 1;
-        private static uint teamInLeagueId = 1;
-        private static uint leagueId = 1;
+        private uint stadiumId = 1;
+        private uint playerId = 1;
+        private uint teamId = 1;
+        private uint transferId = 1;
+        private uint activityId = 1;
+        private uint interactionBetweenPlayersId = 1;
+        private uint teamInMatchStatsId = 1;
+        private uint playerInFormationId = 1;
+        private uint matchId = 1;
+        private uint roundId = 1;
+        private uint teamInLeagueId = 1;
+        private uint leagueId = 1;
         #endregion
 
         private readonly SoccerStatisticsDbContext _context;
@@ -243,7 +244,20 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(t => t.BallPossesion, f => f.Random.UInt(minPercentOfBallPossesion,
                                                                   maxPercentOfBallPossesion))
                 .RuleFor(t => t.Formation, f => GenerateFormation())
+                .RuleFor(t => t.PlayersInFormation, 
+                        (f, t) => GeneratePlayersInFormation(team.Players, t).Generate(10))
                 .RuleFor(t => t.Team, f => team);
+        }
+
+        private Faker<Formation> GeneratePlayersInFormation(IEnumerable<Player> players, TeamInMatchStats team)
+        {
+            const uint minPositionNumber = 1, maxPositionNumber = 10;
+
+            return new Faker<Formation>()
+                .RuleFor(f => f.Id, f => playerInFormationId++)
+                .RuleFor(f => f.TeamInMatchStats, f => team)
+                .RuleFor(f => f.Player, f => f.PickRandom(players))
+                .RuleFor(f => f.PositionNumber, f => f.Random.UInt(minPositionNumber, maxPositionNumber));
         }
 
         private Faker<Round> GetFakeRound(League league)

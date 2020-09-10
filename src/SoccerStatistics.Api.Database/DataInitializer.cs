@@ -245,17 +245,16 @@ namespace SoccerStatistics.Api.Database
                                                                   maxPercentOfBallPossesion))
                 .RuleFor(t => t.Formation, f => GenerateFormation())
                 .RuleFor(t => t.PlayersInFormation, 
-                        (f, t) => GeneratePlayersInFormation(team.Players, t).Generate(10))
+                         f => GeneratePlayersInFormation(team.Players).Generate(10))
                 .RuleFor(t => t.Team, f => team);
         }
 
-        private Faker<Formation> GeneratePlayersInFormation(IEnumerable<Player> players, TeamInMatchStats team)
+        private Faker<Formation> GeneratePlayersInFormation(IEnumerable<Player> players)
         {
             const uint minPositionNumber = 1, maxPositionNumber = 10;
 
             return new Faker<Formation>()
                 .RuleFor(f => f.Id, f => playerInFormationId++)
-                .RuleFor(f => f.TeamInMatchStats, f => team)
                 .RuleFor(f => f.Player, f => f.PickRandom(players))
                 .RuleFor(f => f.PositionNumber, f => f.Random.UInt(minPositionNumber, maxPositionNumber));
         }

@@ -23,6 +23,7 @@ namespace SoccerStatistics.Api.Database
         private uint roundId = 1;
         private uint teamInLeagueId = 1;
         private uint leagueId = 1;
+        private uint playerOnBenchId = 1;
         #endregion
 
         private readonly SoccerStatisticsDbContext _context;
@@ -246,6 +247,7 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(t => t.Formation, f => GenerateFormation())
                 .RuleFor(t => t.PlayersInFormation, 
                          f => GeneratePlayersInFormation(team.Players).Generate(10))
+                .RuleFor(t => t.PlayersOnBench , f => GeneratePlayersOnBench(team.Players).Generate(5))
                 .RuleFor(t => t.Team, f => team);
         }
 
@@ -258,6 +260,11 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(f => f.Player, f => f.PickRandom(players))
                 .RuleFor(f => f.PositionNumber, f => f.Random.UInt(minPositionNumber, maxPositionNumber));
         }
+
+        private Faker<Bench> GeneratePlayersOnBench(IEnumerable<Player> players)
+        => new Faker<Bench>()
+                .RuleFor(f => f.Id, f => playerOnBenchId++)
+                .RuleFor(f => f.Player, f => f.PickRandom(players));
 
         private Faker<Round> GetFakeRound(League league)
         {

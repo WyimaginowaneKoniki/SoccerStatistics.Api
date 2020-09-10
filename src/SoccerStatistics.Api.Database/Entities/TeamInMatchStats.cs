@@ -21,6 +21,8 @@ namespace SoccerStatistics.Api.Database.Entities
         [Range(10, 10)]
         public IEnumerable<Formation> PlayersInFormation { get; set; }
         [Required]
+        public IEnumerable<Bench> PlayersOnBench { get; set; }
+        [Required]
         public Team Team { get; set; }
     }
 }

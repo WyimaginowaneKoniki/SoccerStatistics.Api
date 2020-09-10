@@ -16,6 +16,7 @@ namespace SoccerStatistics.Api.Database
         public DbSet<TeamInMatchStats> Teams_in_match_stats { get; set; }
         public DbSet<InteractionBetweenPlayers> Interactions_between_players { get; set; }
         public DbSet<Formation> Formations { get; set; }
+        public DbSet<Bench> Benches { get; set; }
 
         public SoccerStatisticsDbContext(DbContextOptions options) : base(options)
         {

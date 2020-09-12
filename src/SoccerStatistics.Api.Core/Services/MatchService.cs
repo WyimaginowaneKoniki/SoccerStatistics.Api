@@ -84,9 +84,6 @@ namespace SoccerStatistics.Api.Core.Services
             statsDTO.PenaltyKicks = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.PenaltyKick && stats.Team.Players.Contains(x.Player)).Count();
 
-            statsDTO.Players = _mapper.Map<IEnumerable<PlayerBasicDTO>>(match.Activities
-                .Where(x => x.ActivityType == ActivityType.Squad && stats.Team.Players.Contains(x.Player)).Select(x => x.Player));
-
             statsDTO.RedCards = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.RedCard && stats.Team.Players.Contains(x.Player)).Count();
 

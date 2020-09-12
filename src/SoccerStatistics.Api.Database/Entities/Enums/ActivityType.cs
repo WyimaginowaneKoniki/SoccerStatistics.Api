@@ -10,7 +10,6 @@
         PenaltyKick,
         FreeKick,
         Offside,
-        Clearances,
-        Squad
+        Clearances
     }
 }

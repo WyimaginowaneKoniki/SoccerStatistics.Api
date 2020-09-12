@@ -176,30 +176,30 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 },
                 Activities = new List<Activity>()
                     {
-                        new Activity()
-                        {
-                            Id = 1,
-                            ActivityType = ActivityType.Squad,
-                            Player = player1
-                        },
-                        new Activity()
-                        {
-                            Id = 2,
-                            ActivityType = ActivityType.Squad,
-                            Player = player2
-                        },
-                        new Activity()
-                        {
-                            Id = 3,
-                            ActivityType = ActivityType.Squad,
-                            Player = player3
-                        },
-                        new Activity()
-                        {
-                            Id = 4,
-                            ActivityType = ActivityType.Squad,
-                            Player = player4
-                        },
+                        //new Activity()
+                        //{
+                        //    Id = 1,
+                        //    ActivityType = ActivityType.Squad,
+                        //    Player = player1
+                        //},
+                        //new Activity()
+                        //{
+                        //    Id = 2,
+                        //    ActivityType = ActivityType.Squad,
+                        //    Player = player2
+                        //},
+                        //new Activity()
+                        //{
+                        //    Id = 3,
+                        //    ActivityType = ActivityType.Squad,
+                        //    Player = player3
+                        //},
+                        //new Activity()
+                        //{
+                        //    Id = 4,
+                        //    ActivityType = ActivityType.Squad,
+                        //    Player = player4
+                        //},
                         new Activity()
                         {
                             Id = 5,
@@ -338,8 +338,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
             statsDTO.PenaltyKicks = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.PenaltyKick && stats.Team.Players.Contains(x.Player)).Count();
 
-            statsDTO.Players = mapper.Map<IEnumerable<PlayerBasicDTO>>(match.Activities
-                .Where(x => x.ActivityType == ActivityType.Squad && stats.Team.Players.Contains(x.Player)).Select(x => x.Player));
+            //statsDTO.Players = mapper.Map<IEnumerable<PlayerBasicDTO>>(match.Activities
+            //    .Where(x => x.ActivityType == ActivityType.Squad && stats.Team.Players.Contains(x.Player)).Select(x => x.Player));
 
             statsDTO.RedCards = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.RedCard && stats.Team.Players.Contains(x.Player)).Count();

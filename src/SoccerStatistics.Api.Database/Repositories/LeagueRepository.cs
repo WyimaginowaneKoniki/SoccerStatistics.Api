@@ -2,6 +2,7 @@
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Database.Repositories
@@ -17,11 +18,19 @@ namespace SoccerStatistics.Api.Database.Repositories
         }
 
         public async Task<IEnumerable<League>> GetAllAsync()
-           => await _context.Leagues.ToListAsync();
+           => await _context.Leagues.Include(l => l.MVP)
+                                    .Include(l => l.Rounds)
+                                    .Include(l => l.Winner)
+                                    .Include(l => l.Teams)
+                                    .ToListAsync();
 
 
         public async Task<League> GetByIdAsync(uint id)
-            => await _context.Leagues.SingleOrDefaultAsync(x => x.Id == id);
+            => await _context.Leagues.Include(l => l.MVP)
+                                     .Include(l => l.Rounds)
+                                     .Include(l => l.Teams)
+                                     .Include(l => l.Winner)
+                                     .SingleOrDefaultAsync(x => x.Id == id);
 
 
     }

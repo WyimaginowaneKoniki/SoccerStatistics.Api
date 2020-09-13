@@ -15,6 +15,8 @@ namespace SoccerStatistics.Api.Database.Repositories
         }
 
         public async Task<Round> GetByIdAsync(uint id)
-            => await _context.Rounds.SingleOrDefaultAsync(x => x.Id == id);
+            => await _context.Rounds.Include(r => r.League)
+                                    .Include(r => r.Matches)
+                                    .SingleOrDefaultAsync(x => x.Id == id);
     }
 }

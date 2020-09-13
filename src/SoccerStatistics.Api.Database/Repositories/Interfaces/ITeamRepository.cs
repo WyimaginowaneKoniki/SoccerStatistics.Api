@@ -9,5 +9,6 @@ namespace SoccerStatistics.Api.Database.Repositories.Interfaces
     {
         Task<IEnumerable<Team>> GetAllAsync();
         Task<Team> GetByIdAsync(uint id);
+        Task<IEnumerable<Team>> GetByStadiumIdAsync(uint stadiumId);
     }
 }

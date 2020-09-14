@@ -33,14 +33,17 @@ namespace SoccerStatistics.Api.IntegrationTests
                    options.UseInMemoryDatabase("InMemory");
                    options.UseInternalServiceProvider(serviceProvider);
                });
+               services.AddScoped<IFakeData, FakeData>();
 
-               using var context = services.BuildServiceProvider()
-                                           .CreateScope().ServiceProvider
-                                           .GetRequiredService<SoccerStatisticsDbContext>();
+               var scope = services.BuildServiceProvider()
+                                           .CreateScope().ServiceProvider;
+               using var context = scope.GetRequiredService<SoccerStatisticsDbContext>();
+               var fake = scope.GetRequiredService<IFakeData>();
+
                try
                {
                    context.Database.EnsureCreated();
-                   context.FillDatabase();
+                   context.FillDatabase(fake);
                }
                catch (System.Exception e)
                {

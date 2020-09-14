@@ -1,7 +1,5 @@
 ﻿using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
-using SoccerStatistics.Api.Database.Entities.Enums;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,14 +7,14 @@ namespace SoccerStatistics.Api.IntegrationTests
 {
     public static class SportStatisticsContextExtensions
     {
-        public static void FillDatabase(this SoccerStatisticsDbContext context)
+        public static void FillDatabase(this SoccerStatisticsDbContext context, IFakeData fakeData)
         {
             const int teamCount = 12;
             const int leagueCount = 3;
 
-            var teams = FakeData.GetFakeTeam().Generate(teamCount);
+            var teams = fakeData.GetFakeTeam().Generate(teamCount);
             var players = teams.SelectMany(x => x.Players);
-            var leagues = FakeData.GetFakeLeague(teams).Generate(leagueCount);
+            var leagues = fakeData.GetFakeLeague(teams).Generate(leagueCount);
             var matches = leagues.SelectMany(x => x.Rounds.SelectMany(y => y.Matches));
             var teamStats = matches.SelectMany(x => new List<TeamInMatchStats> { x.TeamOneStats, x.TeamTwoStats });
 

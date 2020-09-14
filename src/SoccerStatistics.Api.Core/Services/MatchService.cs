@@ -28,6 +28,10 @@ namespace SoccerStatistics.Api.Core.Services
 
         public async Task<MatchDTO> GetByIdAsync(uint id)
         {
+            // index starts from 1
+            if (id == 0)
+                return null;
+
             Match match = await _matchRepository.GetByIdAsync(id);                   
             var matchDTO = _mapper.Map<MatchDTO>(match);
 

@@ -37,6 +37,10 @@ namespace SoccerStatistics.Api.Core.Services
 
         public async Task<TeamDTO> GetByIdAsync(uint id)
         {
+            // index starts from 1
+            if (id == 0)
+                return null;
+
             var team = await _teamRepository.GetByIdAsync(id);
             var teamDTO = _mapper.Map<TeamDTO>(team);
 

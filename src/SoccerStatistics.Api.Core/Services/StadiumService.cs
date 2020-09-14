@@ -19,6 +19,7 @@ namespace SoccerStatistics.Api.Core.Services
             _teamRepository = teamRepository;
             _mapper = mapper;
         }
+        
         public async Task<IEnumerable<StadiumDTO>> GetAllAsync()
         {
             var stadiums = await _stadiumRepository.GetAllAsync();
@@ -32,8 +33,13 @@ namespace SoccerStatistics.Api.Core.Services
 
             return stadiumsDTO;
         }
+
         public async Task<StadiumDTO> GetByIdAsync(uint id)
         {
+            // index starts from 1
+            if (id == 0)
+                return null;
+
             var stadium = await _stadiumRepository.GetByIdAsync(id);
             var stadiumDTO = _mapper.Map<StadiumDTO>(stadium);
             

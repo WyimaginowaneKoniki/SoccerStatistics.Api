@@ -10,11 +10,14 @@ namespace SoccerStatistics.Api.Database
     {
         private readonly SoccerStatisticsDbContext _context;
         private readonly ILogger<DataInitializer> _logger;
+        private readonly IFakeData _fakeData;
 
-        public DataInitializer(SoccerStatisticsDbContext context, ILogger<DataInitializer> logger)
+        public DataInitializer(SoccerStatisticsDbContext context, 
+            ILogger<DataInitializer> logger, IFakeData fakeData)
         {
             _context = context;
             _logger = logger;
+            _fakeData = fakeData;
         }
 
         public void Seed()
@@ -23,7 +26,7 @@ namespace SoccerStatistics.Api.Database
             const int transferCount = 50;
             const int leagueCount = 5;
 
-            var teams = FakeData.GetFakeTeam().Generate(teamCount);
+            var teams = _fakeData.GetFakeTeam().Generate(teamCount);
             var players = teams.SelectMany(x => x.Players);
 
             _context.Stadiums.AddRange(teams.Select(x => x.Stadium));
@@ -35,10 +38,10 @@ namespace SoccerStatistics.Api.Database
             _context.Teams.AddRange(teams);
             _logger.LogTrace("Teams were added");
 
-            _context.Transfers.AddRange(FakeData.GetFakeTransfer(players, teams).Generate(transferCount));
+            _context.Transfers.AddRange(_fakeData.GetFakeTransfer(players, teams).Generate(transferCount));
             _logger.LogTrace("Transfers were added");
 
-            var leagues = FakeData.GetFakeLeague(teams).Generate(leagueCount);
+            var leagues = _fakeData.GetFakeLeague(teams).Generate(leagueCount);
 
             _context.Leagues.AddRange(leagues);
             _logger.LogTrace("Leagues were added");
@@ -47,8 +50,8 @@ namespace SoccerStatistics.Api.Database
             _logger.LogTrace("Rounds were added");
 
             var matches = leagues.SelectMany(x => x.Rounds.SelectMany(y => y.Matches));
-
-            _context.Teams_in_match_stats.AddRange(matches.SelectMany(x => new List<TeamInMatchStats> { x.TeamOneStats, x.TeamTwoStats }));
+            var teamStats = matches.SelectMany(x => new List<TeamInMatchStats> { x.TeamOneStats, x.TeamTwoStats });
+            _context.Teams_in_match_stats.AddRange(teamStats);
             _logger.LogTrace("Team stats in matches were added");
 
             _context.Matches.AddRange(matches);
@@ -68,7 +71,8 @@ namespace SoccerStatistics.Api.Database
             catch (Exception err)
             {
                 _logger.LogError($"Exception message: {err.Message}");
-                _logger.LogError($"InnerException message: {err.InnerException.Message}");
+                if(!(err.InnerException is null))
+                    _logger.LogError($"InnerException message: {err.InnerException.Message}");
 
                 _logger.LogWarning("Data was not saved");
 

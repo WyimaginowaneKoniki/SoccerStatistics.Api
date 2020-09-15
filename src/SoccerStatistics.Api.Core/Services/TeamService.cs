@@ -42,6 +42,11 @@ namespace SoccerStatistics.Api.Core.Services
                 return null;
 
             var team = await _teamRepository.GetByIdAsync(id);
+            
+            // we cannot do anything with null value :/
+            if (team is null)
+                return null;
+
             var teamDTO = _mapper.Map<TeamDTO>(team);
 
             var league = await _teamInLeagueRepository.GetLeagueForTeamAsync(teamDTO.Id);

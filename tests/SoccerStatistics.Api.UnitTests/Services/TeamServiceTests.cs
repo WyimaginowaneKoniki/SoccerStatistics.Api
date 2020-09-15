@@ -5,10 +5,12 @@ using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services;
 using SoccerStatistics.Api.Core.Services.Interfaces;
+using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services
@@ -19,86 +21,38 @@ namespace SoccerStatistics.Api.UnitTests.Services
         private readonly Mock<ITeamRepository> _teamRepositoryMock;
         private readonly Mock<ITeamInLeagueRepository> _teamInLeagueRepositoryMock;
         private readonly ITeamService _service;
+        private readonly IFakeData _fakeData;
 
         public TeamServiceTests()
         {
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperTeamProfile>());
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperTeamProfile>();
+                cfg.AddProfile<AutoMapperPlayerProfile>();
+                cfg.AddProfile<AutoMapperStadiumProfile>();
+                cfg.AddProfile<AutoMapperLeagueProfile>();
+            });
 
             _mapper = new Mapper(configuration);
             _teamRepositoryMock = new Mock<ITeamRepository>();
             _teamInLeagueRepositoryMock = new Mock<ITeamInLeagueRepository>();
             _service = new TeamService(_teamRepositoryMock.Object, _teamInLeagueRepositoryMock.Object, _mapper);
+
+            _fakeData = new FakeData();
         }
 
         [Fact]
         public async void ReturnAllTeamsFromDb()
         {
             // Arrange
-            IEnumerable<Team> teams = new List<Team>
-            {
-                new Team()
-                {
-                    Id = 1,
-                    FullName = "Manchester United Football Club",
-                    ShortName = "Manchester United",
-                    City = "Stretford",
-                    CreatedAt = 1878,
-                    Coach = "Ole Gunnar Solskjær"
-                },
-                new Team()
-                {
-                    Id = 2,
-                    FullName = "Real Madrid Club de Futbol",
-                    ShortName = "Real Madrid",
-                    City = "Madrid",
-                    CreatedAt = 1902,
-                    Coach = "Zinedine Zidane"
-                },
-                new Team()
-                {
-                    Id = 3,
-                    FullName = "Futbol Club Barcelona",
-                    ShortName = "FC Barcelona",
-                    City = "Barcelona",
-                    CreatedAt = 1899,
-                    Coach = "Quique Setien"
-                }
-            };
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(3);
 
-            IEnumerable<TeamDTO> expectedTeams = new List<TeamDTO>()
-            {
-                new TeamDTO()
-                {
-                    Id = 1,
-                    FullName = "Manchester United Football Club",
-                    ShortName = "Manchester United",
-                    City = "Stretford",
-                    Coach = "Ole Gunnar Solskjær"
-
-                },
-                new TeamDTO()
-                {
-                    Id = 2,
-                    FullName = "Real Madrid Club de Futbol",
-                    ShortName = "Real Madrid",
-                    City = "Madrid",
-                    Coach = "Zinedine Zidane"
-                },
-                new TeamDTO()
-                {
-                    Id = 3,
-                    FullName = "Futbol Club Barcelona",
-                    ShortName = "FC Barcelona",
-                    City = "Barcelona",
-                    Coach = "Quique Setien"
-                }
-            };
+            var expectedTeams = _mapper.Map<IEnumerable<TeamDTO>>(fakeTeams);
 
             IEnumerable<TeamDTO> testTeams = null;
 
             _teamRepositoryMock.Reset();
-            _teamRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(teams);
+            _teamRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(fakeTeams);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -108,9 +62,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             err.Should().BeNull();
 
             testTeams.Should().NotBeNull();
-
             testTeams.Should().HaveSameCount(expectedTeams);
-
             testTeams.Should().BeEquivalentTo(expectedTeams);
         }
 
@@ -137,23 +89,23 @@ namespace SoccerStatistics.Api.UnitTests.Services
         public async void ReturnTeamWhichExistsInDbByGivenId()
         {
             // Arrange
-            var team = new Team()
-            {
-                Id = 1,
-                FullName = "Manchester United Football Club",
-                ShortName = "Manchester United",
-                City = "Stretford",
-                CreatedAt = 1878,
-                Coach = "Ole Gunnar Solskjær"
-            };
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(3);
+            var fakeLeague = _fakeData.GetFakeLeague(fakeTeams.Where(x => x.Id == 1))
+                                      .Generate(1)
+                                      .First();
+
+            var expectedTeam = _mapper.Map<TeamDTO>(fakeTeams[0]);
+            expectedTeam.League = _mapper.Map<LeagueBasicDTO>(fakeLeague);
 
             TeamDTO testTeam = null;
 
             _teamRepositoryMock.Reset();
             _teamRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            _teamRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(team);
+            _teamRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(fakeTeams[0]);
 
-            var expectedTeam = _mapper.Map<TeamDTO>(team);
+            _teamInLeagueRepositoryMock.Reset();
+            _teamInLeagueRepositoryMock.Setup(r => r.GetLeagueForTeamAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
+            _teamInLeagueRepositoryMock.Setup(r => r.GetLeagueForTeamAsync(1)).ReturnsAsync(fakeLeague);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -163,7 +115,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
             err.Should().BeNull();
 
             testTeam.Should().NotBeNull();
-
             testTeam.Should().BeEquivalentTo(expectedTeam);
         }
 
@@ -175,6 +126,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             _teamRepositoryMock.Reset();
             _teamRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Team)null);
+
+            _teamInLeagueRepositoryMock.Reset();
+            _teamInLeagueRepositoryMock.Setup(r => r.GetLeagueForTeamAsync(It.IsAny<uint>())).ReturnsAsync((League)null);
 
             // Act
             var err = await Record.ExceptionAsync(async

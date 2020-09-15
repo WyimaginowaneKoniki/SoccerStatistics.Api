@@ -16,12 +16,12 @@ namespace SoccerStatistics.Api.Database.Repositories
         }
 
         public async Task<IEnumerable<Stadium>> GetAllAsync()
-           => await _context.Stadiums.ToListAsync();
+           => await _context.Stadiums.Include(s => s.Teams)
+                                     .ToListAsync();
 
 
         public async Task<Stadium> GetByIdAsync(uint id)
-            => await _context.Stadiums.SingleOrDefaultAsync(x => x.Id == id);
-
-
+            => await _context.Stadiums.Include(s => s.Teams)
+                                      .SingleOrDefaultAsync(x => x.Id == id);
     }
 }

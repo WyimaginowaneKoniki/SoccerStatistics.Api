@@ -5,10 +5,12 @@ using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services;
 using SoccerStatistics.Api.Core.Services.Interfaces;
+using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services
@@ -17,8 +19,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
     {
         private readonly IMapper _mapper;
         private readonly Mock<IStadiumRepository> _stadiumRepositoryMock;
-        private readonly Mock<ITeamRepository> _teamRepositoryMock;
         private readonly IStadiumService _service;
+        private readonly IFakeData _fakeData;
 
         public StadiumServiceTests()
         {
@@ -27,63 +29,18 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             _mapper = new Mapper(configuration);
             _stadiumRepositoryMock = new Mock<IStadiumRepository>();
-            _teamRepositoryMock = new Mock<ITeamRepository>();
-            _service = new StadiumService(_stadiumRepositoryMock.Object, _teamRepositoryMock.Object, _mapper);
+            _service = new StadiumService(_stadiumRepositoryMock.Object, _mapper);
+
+            _fakeData = new FakeData();
         }
 
         [Fact]
         public async void ReturnAllStadiumsWhichExistsInDb()
         {
-            IEnumerable<Stadium> stadiums = new List<Stadium>
-            {
-
-                new Stadium
-                 {
-                     Id = 1,
-                     Name = "Old Trafford",
-                     Country = "England",
-                     City = "Manchester",
-                     BuiltAt = 1910,
-                     Capacity = 75_797,
-                     FieldSize = "105:68",
-                     VipCapacity = 4000,
-                     IsForDisabled = true,
-                     Lighting = 100_000,
-                     Architect = "Archibald Leitch",
-                     IsNational = false
-                 },
-
-               new Stadium
-               {
-                   Id = 2,
-                   Name = "Camp Nou",
-                   Country = "Spain",
-                   City = "Barcelona",
-                   BuiltAt = 1957,
-                   Capacity = 99_354,
-                   FieldSize = "105:68",
-                   VipCapacity = 400,
-                   IsForDisabled = false,
-                   Lighting = 1770,
-                   Architect = "Francesc Mijtans-Miro",
-                   IsNational = false
-               },
-
-               new Stadium
-               {
-                   Id = 3,
-                   Name = "Estadio Nacional de Brasilia Mane Garrincha",
-                   Country = "Brasilia",
-                   City = "Brasilia",
-                   BuiltAt = 2013,
-                   Capacity = 72_888,
-                   FieldSize = "105:68",
-                   VipCapacity = 110,
-                   IsForDisabled = true,
-                   Lighting = 1770,
-                   Architect = "Castro Mello Architects",
-                   IsNational = true
-               }};
+            // Assert
+            var stadiums = _fakeData.GetFakeTeam()
+                                    .Generate(3)
+                                    .Select(x => x.Stadium);
 
             IEnumerable<StadiumDTO> testStadiums = null;
 
@@ -100,9 +57,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             err.Should().BeNull();
 
             testStadiums.Should().NotBeNull();
-
             testStadiums.Should().HaveSameCount(expectedStadiums);
-
             testStadiums.Should().BeEquivalentTo(expectedStadiums);
         }
 
@@ -110,29 +65,18 @@ namespace SoccerStatistics.Api.UnitTests.Services
         public async void ReturnStadiumWhichExistsInDbByGivenId()
         {
             // Assert
-            var stadium = new Stadium()
-            {
-                Id = 1,
-                Name = "Old Trafford",
-                Country = "England",
-                City = "Manchester",
-                BuiltAt = 1910,
-                Capacity = 75_797,
-                FieldSize = "105:68",
-                VipCapacity = 4000,
-                IsForDisabled = true,
-                Lighting = 100_000,
-                Architect = "Archibald Leitch",
-                IsNational = false
-            };
+            var fakeStadium = _fakeData.GetFakeTeam()
+                                       .Generate(1)
+                                       .Select(x => x.Stadium)
+                                       .Single();
 
             StadiumDTO testStadium = null;
 
             _stadiumRepositoryMock.Reset();
             _stadiumRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            _stadiumRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(stadium);
+            _stadiumRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(fakeStadium);
 
-            var expectedStadium = _mapper.Map<StadiumDTO>(stadium);
+            var expectedStadium = _mapper.Map<StadiumDTO>(fakeStadium);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -142,10 +86,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
             err.Should().BeNull();
 
             testStadium.Should().NotBeNull();
-
             testStadium.Should().BeEquivalentTo(expectedStadium);
         }
-
 
         [Fact]
         public async void ReturnNullWhenStadiumDoNotExistsInDbByGivenId()

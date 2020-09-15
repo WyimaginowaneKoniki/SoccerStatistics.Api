@@ -17,27 +17,6 @@ namespace SoccerStatistics.Api.IntegrationTests.Endpoints
             _client = factory.CreateClient();
         }
 
-        [Fact]
-        public async void GetAllMatchesOk()
-        {
-            // Arrange
-            IEnumerable<MatchBasicDTO> returnedMatches = Enumerable.Empty<MatchBasicDTO>();
-
-            // Act
-            var response = await _client.GetAsync("api/leagues");
-            
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-            var deserializeErr = Record.Exception(()
-                => returnedMatches = JsonConvert.DeserializeObject<IEnumerable<MatchBasicDTO>>(responseString));
-
-            // Assert
-            Assert.Null(deserializeErr);
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.NotEmpty(returnedMatches);
-        }
-
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
@@ -48,7 +27,7 @@ namespace SoccerStatistics.Api.IntegrationTests.Endpoints
             MatchDTO returnedMatch = null;
 
             // Act
-            var response = await _client.GetAsync($"api/leagues/{id}");
+            var response = await _client.GetAsync($"api/matches/{id}");
 
             response.EnsureSuccessStatusCode();
 
@@ -65,7 +44,7 @@ namespace SoccerStatistics.Api.IntegrationTests.Endpoints
         [Fact]
         public async void GetMatchByIdNotFound()
         {
-            var response = await _client.GetAsync("api/leagues/0");
+            var response = await _client.GetAsync("api/matches/0");
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
     }

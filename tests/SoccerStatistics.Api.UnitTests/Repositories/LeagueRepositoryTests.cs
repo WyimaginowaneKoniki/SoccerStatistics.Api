@@ -16,15 +16,12 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnAllLeaguesWhichExistsInDb()
         {
             // Arrange
-            _context = GetInMemory("GetAllLeagues");
-
-            _leagueRepository = new LeagueRepository(_context);
-
-            var fakeTeams = _fakeData.GetFakeTeam().Generate(1);
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
             var expectedLeagues = _fakeData.GetFakeLeague(fakeTeams).Generate(3);
 
-            _context.AddRange(expectedLeagues);
-            _context.SaveChanges();
+            var context = GetInMemory("GetAllLeagues", expectedLeagues);
+
+            _leagueRepository = new LeagueRepository(context);
 
             IEnumerable<League> testLeagues = null;
 
@@ -44,15 +41,12 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnLeagueWhichExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetLeagueByIdReturnLeague");
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
+            var expectedLeagues = _fakeData.GetFakeLeague(fakeTeams).Generate(2);
 
-            _leagueRepository = new LeagueRepository(_context);
+            var context = GetInMemory("GetLeagueByIdReturnLeague", expectedLeagues);
 
-            var fakeTeam = _fakeData.GetFakeTeam().Generate(1);
-            var expectedLeague = _fakeData.GetFakeLeague(fakeTeam).Generate(2);
-
-            _context.AddRange(expectedLeague);
-            _context.SaveChanges();
+            _leagueRepository = new LeagueRepository(context);
 
             League testLeague = null;
 
@@ -64,22 +58,19 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             err.Should().BeNull();
 
             testLeague.Should().NotBeNull();
-            testLeague.Should().BeEquivalentTo(expectedLeague[0]);
+            testLeague.Should().BeEquivalentTo(expectedLeagues[0]);
         }
 
         [Fact]
         public async Task ReturnNullWhenLeagueDoNotExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetLeagueByIdReturnNull");
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
+            var expectedLeagues = _fakeData.GetFakeLeague(fakeTeams).Generate(2);
 
-            _leagueRepository = new LeagueRepository(_context);
+            var context = GetInMemory("GetLeagueByIdReturnNull", expectedLeagues);
 
-            var fakeTeam = _fakeData.GetFakeTeam().Generate(1);
-            var expectedLeague = _fakeData.GetFakeLeague(fakeTeam).Generate(2);
-
-            _context.AddRange(expectedLeague);
-            _context.SaveChanges();
+            _leagueRepository = new LeagueRepository(context);
 
             League testLeague = null;
 

@@ -42,8 +42,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
         {
             // Assert
             var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
-            var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1);
-            var fakeRound = fakeLeague[0].Rounds.Where(x => x.Id == 1).Single();
+            var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1).First();
+            var fakeRound = fakeLeague.Rounds.Where(x => x.Id == 1).First();
 
             RoundDTO testRound = null;
 

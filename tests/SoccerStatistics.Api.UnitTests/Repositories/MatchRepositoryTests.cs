@@ -17,24 +17,20 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async void ReturnMatchWhichExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetMatchByIdReturnMatch");
-
-            _matchRepository = new MatchRepository(_context);
-
             var fakeTeams = _fakeData.GetFakeTeam().Generate(4);
             var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1);
 
-            _context.AddRange(fakeLeague);
-            _context.SaveChanges();
+            var context = GetInMemory("GetMatchByIdReturnMatch", fakeLeague);
 
-            var expectedMatch = fakeLeague[0].Rounds.SelectMany(x => x.Matches)
-                                                    .Where(x => x.Id == 1)
-                                                    .FirstOrDefault();
+            _matchRepository = new MatchRepository(context);
+
+            var expectedMatch = fakeLeague[0].Rounds.SelectMany(x => x.Matches).First();
 
             Match testMatch = null;
 
             //Act
-            var err = await Record.ExceptionAsync(async () => testMatch = await _matchRepository.GetByIdAsync(1));
+            var err = await Record.ExceptionAsync(async 
+                        () => testMatch = await _matchRepository.GetByIdAsync(1));
 
             // Assert
             err.Should().BeNull();
@@ -47,15 +43,12 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnNullWhenMatchDoNotExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetMatchByIdReturnNull");
-
-            _matchRepository = new MatchRepository(_context);
-
             var fakeTeams = _fakeData.GetFakeTeam().Generate(4);
             var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1);
 
-            _context.AddRange(fakeLeague);
-            _context.SaveChanges();
+            var context = GetInMemory("GetMatchByIdReturnNull", fakeLeague);
+
+            _matchRepository = new MatchRepository(context);
 
             Match testMatch = null;
 

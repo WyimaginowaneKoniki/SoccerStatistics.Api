@@ -2,8 +2,6 @@
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Database.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
 {

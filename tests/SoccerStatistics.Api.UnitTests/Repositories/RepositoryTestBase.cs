@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerStatistics.Api.Database;
+using System.Collections.Generic;
 
 namespace SoccerStatistics.Api.UnitTests.Repositories
 {
     public class RepositoryTestBase
     {
-        protected SoccerStatisticsDbContext _context;
-
         protected readonly IFakeData _fakeData;
 
         protected RepositoryTestBase()
@@ -14,13 +13,20 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             _fakeData = new FakeData();
         }
 
-        protected SoccerStatisticsDbContext GetInMemory(string dbName)
+        protected SoccerStatisticsDbContext GetInMemory<T>(string dbName, IEnumerable<T> data)
         {
             var options = new DbContextOptionsBuilder<SoccerStatisticsDbContext>()
                                 .UseInMemoryDatabase(databaseName: dbName)
                                 .Options;
 
-            return new SoccerStatisticsDbContext(options);
+            var context = new SoccerStatisticsDbContext(options);
+                        
+            foreach (T item in data)
+                context.Add(item);
+
+            context.SaveChanges();
+
+            return context;
         }
     }
 }

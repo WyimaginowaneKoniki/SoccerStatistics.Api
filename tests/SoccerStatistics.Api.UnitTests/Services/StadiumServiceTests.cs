@@ -38,9 +38,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
         public async void ReturnAllStadiumsWhichExistsInDb()
         {
             // Assert
-            var stadiums = _fakeData.GetFakeTeam()
-                                    .Generate(3)
-                                    .Select(x => x.Stadium);
+            var stadiums = _fakeData.GetFakeTeam().Generate(3).Select(x => x.Stadium);
 
             IEnumerable<StadiumDTO> testStadiums = null;
 
@@ -65,10 +63,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
         public async void ReturnStadiumWhichExistsInDbByGivenId()
         {
             // Assert
-            var fakeStadium = _fakeData.GetFakeTeam()
-                                       .Generate(1)
-                                       .Select(x => x.Stadium)
-                                       .Single();
+            var fakeStadium = _fakeData.GetFakeTeam().Generate(1).First().Stadium;
 
             StadiumDTO testStadium = null;
 

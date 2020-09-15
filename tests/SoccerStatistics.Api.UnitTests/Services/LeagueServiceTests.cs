@@ -10,7 +10,7 @@ using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Linq;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services
@@ -68,15 +68,15 @@ namespace SoccerStatistics.Api.UnitTests.Services
         {
             // Assert
             var fakeTeams = _fakeData.GetFakeTeam().Generate(12);
-            var fakeLeagues = _fakeData.GetFakeLeague(fakeTeams).Generate(3);
+            var fakeLeagues = _fakeData.GetFakeLeague(fakeTeams).Generate(3).First();
 
             LeagueDTO testLeague = null;
 
             _repositoryMock.Reset();
             _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(fakeLeagues[0]);
+            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(fakeLeagues);
 
-            var expectedLeague = _mapper.Map<LeagueDTO>(fakeLeagues[0]);
+            var expectedLeague = _mapper.Map<LeagueDTO>(fakeLeagues);
 
             // Act
             var err = await Record.ExceptionAsync(async

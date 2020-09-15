@@ -48,7 +48,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
         {
             // Arrange
             var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
-            var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1).Single();
+            var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1).First();
             var fakeMatch = fakeLeague.Rounds.First().Matches.First();
 
             MatchDTO testMatch = null;

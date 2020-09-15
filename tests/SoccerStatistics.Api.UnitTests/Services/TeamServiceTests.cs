@@ -91,8 +91,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Arrange
             var fakeTeams = _fakeData.GetFakeTeam().Generate(3);
             var fakeLeague = _fakeData.GetFakeLeague(fakeTeams.Where(x => x.Id == 1))
-                                      .Generate(1)
-                                      .First();
+                                      .Generate(1).First();
 
             var expectedTeam = _mapper.Map<TeamDTO>(fakeTeams[0]);
             expectedTeam.League = _mapper.Map<LeagueBasicDTO>(fakeLeague);

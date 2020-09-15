@@ -16,14 +16,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnAllLeaguesWhichExistsInDb()
         {
             // Arrange
-            _context = GetInMemory("GetAllPlayers");
+            var fakePlayers = _fakeData.GetFakePlayer().Generate(5);
 
-            _playerRepository = new PlayerRepository(_context);
+            var context = GetInMemory("GetAllPlayers", fakePlayers);
 
-            var expectedPlayers = _fakeData.GetFakePlayer().Generate(5);
-
-            _context.AddRange(expectedPlayers);
-            _context.SaveChanges();
+            _playerRepository = new PlayerRepository(context);
 
             IEnumerable<Player> testPlayers = null;
 
@@ -35,22 +32,19 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             err.Should().BeNull();
 
             testPlayers.Should().NotBeNull();
-            testPlayers.Should().HaveSameCount(expectedPlayers);
-            testPlayers.Should().BeEquivalentTo(expectedPlayers);
+            testPlayers.Should().HaveSameCount(fakePlayers);
+            testPlayers.Should().BeEquivalentTo(fakePlayers);
         }
 
         [Fact]
         public async Task ReturnPlayerWhoExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetPlayerById");
-
-            _playerRepository = new PlayerRepository(_context);
-
             var fakePlayers = _fakeData.GetFakePlayer().Generate(5);
 
-            _context.AddRange(fakePlayers);
-            _context.SaveChanges();
+            var context = GetInMemory("GetPlayerById", fakePlayers);
+
+            _playerRepository = new PlayerRepository(context);
 
             Player testPlayer = null;
 
@@ -69,14 +63,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnNullWhenPlayerDoNotExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetPlayerByIdReturnNull");
-
-            _playerRepository = new PlayerRepository(_context);
-
             var fakePlayers = _fakeData.GetFakePlayer().Generate(2);
 
-            _context.AddRange(fakePlayers);
-            _context.SaveChanges();
+            var context = GetInMemory("GetPlayerByIdReturnNull", fakePlayers);
+
+            _playerRepository = new PlayerRepository(context);
 
             Player testPlayer = null;
 

@@ -16,14 +16,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnAllStadiumsWhichExistsInDb()
         {
             // Arrange
-            _context = GetInMemory("GetAllStadiums");
-
-            _stadiumRepository = new StadiumRepository(_context);
-
             var fakeStadiums = _fakeData.GetFakeStadium().Generate(3);
 
-            _context.AddRange(fakeStadiums);
-            _context.SaveChanges();
+            var context = GetInMemory("GetAllStadiums", fakeStadiums);
+
+            _stadiumRepository = new StadiumRepository(context);
 
             IEnumerable<Stadium> testStadiums = null;
 
@@ -36,7 +33,6 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             err.Should().BeNull();
 
             testStadiums.Should().NotBeNull();
-
             testStadiums.Should().HaveSameCount(fakeStadiums);
             testStadiums.Should().BeEquivalentTo(fakeStadiums);
         }
@@ -45,14 +41,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnStadiumWhichExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetStadiumByIdReturnStadium");
-
-            _stadiumRepository = new StadiumRepository(_context);
-
             var fakeStadiums = _fakeData.GetFakeStadium().Generate(3);
 
-            _context.AddRange(fakeStadiums);
-            _context.SaveChanges();
+            var context = GetInMemory("GetStadiumByIdReturnStadium", fakeStadiums);
+
+            _stadiumRepository = new StadiumRepository(context);
 
             Stadium testStadium = null;
 
@@ -64,7 +57,6 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             err.Should().BeNull();
 
             testStadium.Should().NotBeNull();
-
             testStadium.Should().BeEquivalentTo(fakeStadiums[0]);
         }
 
@@ -72,14 +64,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnNullWhenStadiumDoNotExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetStadiumByIdReturnNull");
-
-            _stadiumRepository = new StadiumRepository(_context);
-
             var fakeStadiums = _fakeData.GetFakeStadium().Generate(3);
 
-            _context.AddRange(fakeStadiums);
-            _context.SaveChanges();
+            var context = GetInMemory("GetStadiumByIdReturnNull", fakeStadiums);
+
+            _stadiumRepository = new StadiumRepository(context);
 
             Stadium testStadium = null;
 

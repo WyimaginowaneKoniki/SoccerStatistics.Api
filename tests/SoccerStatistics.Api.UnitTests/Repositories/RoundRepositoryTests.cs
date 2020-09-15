@@ -16,15 +16,14 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnRoundWhichExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetRoundByIdReturnRound");
-
-            _roundRepository = new RoundRepository(_context);
-
             var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
             var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1);
 
-            _context.AddRange(fakeLeague);
-            _context.SaveChanges();
+            var context = GetInMemory("GetRoundByIdReturnRound", fakeLeague);
+
+            _roundRepository = new RoundRepository(context);
+
+            var expectedRound = fakeLeague[0].Rounds.First();
 
             Round testRound = null;
 
@@ -36,22 +35,19 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             err.Should().BeNull();
 
             testRound.Should().NotBeNull();
-            testRound.Should().BeEquivalentTo(fakeLeague[0].Rounds.Where(x => x.Id == 1).FirstOrDefault());
+            testRound.Should().BeEquivalentTo(expectedRound);
         }
 
         [Fact]
         public async Task ReturnNullWhenRoundDoNotExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetRoundByIdReturnNull");
-
-            _roundRepository = new RoundRepository(_context);
-
             var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
             var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1);
 
-            _context.AddRange(fakeLeague);
-            _context.SaveChanges();
+            var context = GetInMemory("GetRoundByIdReturnNull", fakeLeague);
+
+            _roundRepository = new RoundRepository(context);
 
             Round testRound = null;
 

@@ -16,14 +16,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnAllTeamFromDb()
         {
             // Arrange
-            _context = GetInMemory("GetAllTeams");
-
-            _teamRepository = new TeamRepository(_context);
-
             var fakeTeams = _fakeData.GetFakeTeam().Generate(3);
 
-            _context.AddRange(fakeTeams);
-            _context.SaveChanges();
+            var context = GetInMemory("GetAllTeams", fakeTeams);
+
+            _teamRepository = new TeamRepository(context);
 
             IEnumerable<Team> testTeams = null;
 
@@ -45,14 +42,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnTeamWhichExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetTeamByIdReturnTeam");
-
-            _teamRepository = new TeamRepository(_context);
-
             var fakeTeams = _fakeData.GetFakeTeam().Generate(3);
 
-            _context.AddRange(fakeTeams);
-            _context.SaveChanges();
+            var context = GetInMemory("GetTeamByIdReturnTeam", fakeTeams);
+
+            _teamRepository = new TeamRepository(context);
 
             Team testTeam = null;
 
@@ -72,15 +66,11 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnNullWhenTeamDoNotExistsInDbByGivenId()
         {
             // Arrange
-            _context = GetInMemory("GetTeamByIdReturnNull");
-
-            _teamRepository = new TeamRepository(_context);
-
             var fakeTeams = _fakeData.GetFakeTeam().Generate(3);
 
-            _context.AddRange(fakeTeams);
-            _context.SaveChanges();
+            var context = GetInMemory("GetTeamByIdReturnNull", fakeTeams);
 
+            _teamRepository = new TeamRepository(context);
 
             Team testTeam = null;
 

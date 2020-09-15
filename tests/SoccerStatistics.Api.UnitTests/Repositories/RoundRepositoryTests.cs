@@ -2,13 +2,13 @@
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
-using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Repositories
 {
-    public class RoundRepositoryTests
+    public class RoundRepositoryTests : RepositoryTestBase
     {
         private IRoundRepository _roundRepository;
 
@@ -16,13 +16,15 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnRoundWhichExistsInDbByGivenId()
         {
             // Arrange
-            _roundRepository = SoccerStatisticsContextMocker.GetInMemoryRoundRepository("GetRoundByIdReturnRound");
+            _context = GetInMemory("GetRoundByIdReturnRound");
 
-            var expectedRound = new Round()
-            {
-                Id = 1,
-                Name = "Round 1",
-            };
+            _roundRepository = new RoundRepository(_context);
+
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
+            var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1);
+
+            _context.AddRange(fakeLeague);
+            _context.SaveChanges();
 
             Round testRound = null;
 
@@ -34,15 +36,22 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             err.Should().BeNull();
 
             testRound.Should().NotBeNull();
-
-            testRound.Should().BeEquivalentTo(expectedRound);
+            testRound.Should().BeEquivalentTo(fakeLeague[0].Rounds.Where(x => x.Id == 1).FirstOrDefault());
         }
 
         [Fact]
         public async Task ReturnNullWhenRoundDoNotExistsInDbByGivenId()
         {
             // Arrange
-            _roundRepository = SoccerStatisticsContextMocker.GetInMemoryRoundRepository("GetRoundByIdReturnNull");
+            _context = GetInMemory("GetRoundByIdReturnNull");
+
+            _roundRepository = new RoundRepository(_context);
+
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
+            var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1);
+
+            _context.AddRange(fakeLeague);
+            _context.SaveChanges();
 
             Round testRound = null;
 

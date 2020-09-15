@@ -1,16 +1,14 @@
 ﻿using FluentAssertions;
 using SoccerStatistics.Api.Database.Entities;
-using SoccerStatistics.Api.Database.Entities.Enums;
+using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
-using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Repositories
 {
-    public class PlayerRepositoryTests
+    public class PlayerRepositoryTests : RepositoryTestBase
     {
         private IPlayerRepository _playerRepository;
 
@@ -18,52 +16,14 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnAllLeaguesWhichExistsInDb()
         {
             // Arrange
-            _playerRepository = SoccerStatisticsContextMocker.GetInMemoryPlayerRepository("GetAllPlayers");
+            _context = GetInMemory("GetAllPlayers");
 
-            IEnumerable<Player> expectedPlayers = new List<Player>
-            {
-                  new Player()
-                {
-                    Id = 1,
-                    Name = "Lionel",
-                    Surname = "Messi",
-                    Height = 169,
-                    Weight = 68,
-                    Birthday = new DateTime(1987, 6, 23),
-                    Nationality = "Argentina",
-                    DominantLeg = DominantLegType.Left,
-                    Nick = "La Pulga",
-                    Number = 10
-                },
+            _playerRepository = new PlayerRepository(_context);
 
-                new Player()
-                {
-                    Id = 2,
-                    Name = "Cristiano",
-                    Surname = "Rolando",
-                    Height = 189,
-                    Weight = 85,
-                    Birthday = new DateTime(1985, 2, 5),
-                    Nationality = "Portugal",
-                    DominantLeg = DominantLegType.Right,
-                    Nick = "CR7",
-                    Number = 7
-                },
+            var expectedPlayers = _fakeData.GetFakePlayer().Generate(5);
 
-                new Player()
-                {
-                    Id = 3,
-                    Name = "Michał",
-                    Surname = "Pazdan",
-                    Height = 180,
-                    Weight = 78,
-                    Birthday = new DateTime(1987, 9, 21),
-                    Nationality = "Poland",
-                    DominantLeg = DominantLegType.Undefined,
-                    Nick = "Priest",
-                    Number = 22
-                }
-            };
+            _context.AddRange(expectedPlayers);
+            _context.SaveChanges();
 
             IEnumerable<Player> testPlayers = null;
 
@@ -75,9 +35,7 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             err.Should().BeNull();
 
             testPlayers.Should().NotBeNull();
-
             testPlayers.Should().HaveSameCount(expectedPlayers);
-
             testPlayers.Should().BeEquivalentTo(expectedPlayers);
         }
 
@@ -85,21 +43,14 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnPlayerWhoExistsInDbByGivenId()
         {
             // Arrange
-            _playerRepository = SoccerStatisticsContextMocker.GetInMemoryPlayerRepository("GetPlayerByIdReturnPlayer");
+            _context = GetInMemory("GetPlayerById");
 
-            var expectedPlayer = new Player()
-            {
-                Id = 1,
-                Name = "Lionel",
-                Surname = "Messi",
-                Height = 169,
-                Weight = 68,
-                Birthday = new DateTime(1987, 6, 23),
-                Nationality = "Argentina",
-                DominantLeg = DominantLegType.Left,
-                Nick = "La Pulga",
-                Number = 10
-            };
+            _playerRepository = new PlayerRepository(_context);
+
+            var fakePlayers = _fakeData.GetFakePlayer().Generate(5);
+
+            _context.AddRange(fakePlayers);
+            _context.SaveChanges();
 
             Player testPlayer = null;
 
@@ -111,15 +62,21 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
             err.Should().BeNull();
 
             testPlayer.Should().NotBeNull();
-
-            testPlayer.Should().BeEquivalentTo(expectedPlayer);
+            testPlayer.Should().BeEquivalentTo(fakePlayers[0]);
         }
 
         [Fact]
         public async Task ReturnNullWhenPlayerDoNotExistsInDbByGivenId()
         {
             // Arrange
-            _playerRepository = SoccerStatisticsContextMocker.GetInMemoryPlayerRepository("GetPlayerByIdReturnNull");
+            _context = GetInMemory("GetPlayerByIdReturnNull");
+
+            _playerRepository = new PlayerRepository(_context);
+
+            var fakePlayers = _fakeData.GetFakePlayer().Generate(2);
+
+            _context.AddRange(fakePlayers);
+            _context.SaveChanges();
 
             Player testPlayer = null;
 

@@ -16,7 +16,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
     public class TeamServiceTests
     {
         private readonly IMapper _mapper;
-        private readonly Mock<ITeamRepository> _repositoryMock;
+        private readonly Mock<ITeamRepository> _teamRepositoryMock;
+        private readonly Mock<ITeamInLeagueRepository> _teamInLeagueRepositoryMock;
         private readonly ITeamService _service;
 
         public TeamServiceTests()
@@ -25,8 +26,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 => cfg.AddProfile<AutoMapperTeamProfile>());
 
             _mapper = new Mapper(configuration);
-            _repositoryMock = new Mock<ITeamRepository>();
-            _service = new TeamService(_repositoryMock.Object, _mapper);
+            _teamRepositoryMock = new Mock<ITeamRepository>();
+            _teamInLeagueRepositoryMock = new Mock<ITeamInLeagueRepository>();
+            _service = new TeamService(_teamRepositoryMock.Object, _teamInLeagueRepositoryMock.Object, _mapper);
         }
 
         [Fact]
@@ -64,9 +66,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 }
             };
 
-            IEnumerable<TeamBasicDTO> expectedTeams = new List<TeamBasicDTO>()
+            IEnumerable<TeamDTO> expectedTeams = new List<TeamDTO>()
             {
-                new TeamBasicDTO()
+                new TeamDTO()
                 {
                     Id = 1,
                     FullName = "Manchester United Football Club",
@@ -75,7 +77,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
                     Coach = "Ole Gunnar Solskjær"
 
                 },
-                new TeamBasicDTO()
+                new TeamDTO()
                 {
                     Id = 2,
                     FullName = "Real Madrid Club de Futbol",
@@ -83,7 +85,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
                     City = "Madrid",
                     Coach = "Zinedine Zidane"
                 },
-                new TeamBasicDTO()
+                new TeamDTO()
                 {
                     Id = 3,
                     FullName = "Futbol Club Barcelona",
@@ -93,10 +95,10 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 }
             };
 
-            IEnumerable<TeamBasicDTO> testTeams = null;
+            IEnumerable<TeamDTO> testTeams = null;
 
-            _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(teams);
+            _teamRepositoryMock.Reset();
+            _teamRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(teams);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -116,10 +118,10 @@ namespace SoccerStatistics.Api.UnitTests.Services
         public async void ReturnNullCollectionWhenDbDoesNotContainsAnyTeam()
         {
             // Arrange
-            IEnumerable<TeamBasicDTO> testTeams = null;
+            IEnumerable<TeamDTO> testTeams = null;
 
-            _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync((IEnumerable<Team>)null);
+            _teamRepositoryMock.Reset();
+            _teamRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync((IEnumerable<Team>)null);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -147,9 +149,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             TeamDTO testTeam = null;
 
-            _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(team);
+            _teamRepositoryMock.Reset();
+            _teamRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
+            _teamRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(team);
 
             var expectedTeam = _mapper.Map<TeamDTO>(team);
 
@@ -171,8 +173,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Arrange
             TeamDTO testTeam = null;
 
-            _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Team)null);
+            _teamRepositoryMock.Reset();
+            _teamRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Team)null);
 
             // Act
             var err = await Record.ExceptionAsync(async

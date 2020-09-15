@@ -2,14 +2,13 @@
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
-using SoccerStatistics.Api.UnitTests.SportStatisticsContext;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Repositories
 {
-    public class StadiumRepositoryTests
+    public class StadiumRepositoryTests : RepositoryTestBase
     {
         private IStadiumRepository _stadiumRepository;
 
@@ -17,57 +16,14 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
         public async Task ReturnAllStadiumsWhichExistsInDb()
         {
             // Arrange
-            _stadiumRepository = SoccerStatisticsContextMocker.GetInMemoryStadiumRepository("GetAllStadiums");
+            _context = GetInMemory("GetAllStadiums");
 
-            IEnumerable<Stadium> expectedStadiums = new List<Stadium>
-            {
-                 new Stadium
-                 {
-                     Id = 1,
-                     Name = "Old Trafford",
-                     Country = "England",
-                     City = "Manchester",
-                     BuiltAt = 1910,
-                     Capacity = 75_797,
-                     FieldSize = "105:68",
-                     VipCapacity = 4000,
-                     IsForDisabled = true,
-                     Lighting = 100_000,
-                     Architect = "Archibald Leitch",
-                     IsNational = false
-                 },
+            _stadiumRepository = new StadiumRepository(_context);
 
-               new Stadium
-               {
-                   Id = 2,
-                   Name = "Camp Nou",
-                   Country = "Spain",
-                   City = "Barcelona",
-                   BuiltAt = 1957,
-                   Capacity = 99_354,
-                   FieldSize = "105:68",
-                   VipCapacity = 400,
-                   IsForDisabled = false,
-                   Lighting = 1770,
-                   Architect = "Francesc Mijtans-Miro",
-                   IsNational = false
-               },
+            var fakeStadiums = _fakeData.GetFakeStadium().Generate(3);
 
-               new Stadium
-               {
-                   Id = 3,
-                   Name = "Estadio Nacional de Brasilia Mane Garrincha",
-                   Country = "Brasilia",
-                   City = "Brasilia",
-                   BuiltAt = 2013,
-                   Capacity = 72_888,
-                   FieldSize = "105:68",
-                   VipCapacity = 110,
-                   IsForDisabled = true,
-                   Lighting = 1770,
-                   Architect = "Castro Mello Architects",
-                   IsNational = true
-               }};
+            _context.AddRange(fakeStadiums);
+            _context.SaveChanges();
 
             IEnumerable<Stadium> testStadiums = null;
 
@@ -81,33 +37,22 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 
             testStadiums.Should().NotBeNull();
 
-            testStadiums.Should().HaveSameCount(expectedStadiums);
-
-            testStadiums.Should().BeEquivalentTo(expectedStadiums);
+            testStadiums.Should().HaveSameCount(fakeStadiums);
+            testStadiums.Should().BeEquivalentTo(fakeStadiums);
         }
 
         [Fact]
         public async Task ReturnStadiumWhichExistsInDbByGivenId()
         {
             // Arrange
-            _stadiumRepository = SoccerStatisticsContextMocker.GetInMemoryStadiumRepository("GetStadiumByIdReturnStadium");
+            _context = GetInMemory("GetStadiumByIdReturnStadium");
 
-            var expectedStadium = new Stadium()
-            {
-                Id = 1,
-                Name = "Old Trafford",
-                Country = "England",
-                City = "Manchester",
-                BuiltAt = 1910,
-                Capacity = 75_797,
-                FieldSize = "105:68",
-                VipCapacity = 4000,
-                IsForDisabled = true,
-                Lighting = 100_000,
-                Architect = "Archibald Leitch",
-                IsNational = false
+            _stadiumRepository = new StadiumRepository(_context);
 
-            };
+            var fakeStadiums = _fakeData.GetFakeStadium().Generate(3);
+
+            _context.AddRange(fakeStadiums);
+            _context.SaveChanges();
 
             Stadium testStadium = null;
 
@@ -120,14 +65,21 @@ namespace SoccerStatistics.Api.UnitTests.Repositories
 
             testStadium.Should().NotBeNull();
 
-            testStadium.Should().BeEquivalentTo(expectedStadium);
+            testStadium.Should().BeEquivalentTo(fakeStadiums[0]);
         }
 
         [Fact]
         public async Task ReturnNullWhenStadiumDoNotExistsInDbByGivenId()
         {
             // Arrange
-            _stadiumRepository = SoccerStatisticsContextMocker.GetInMemoryStadiumRepository("GetStadiumByIdReturnNull");
+            _context = GetInMemory("GetStadiumByIdReturnNull");
+
+            _stadiumRepository = new StadiumRepository(_context);
+
+            var fakeStadiums = _fakeData.GetFakeStadium().Generate(3);
+
+            _context.AddRange(fakeStadiums);
+            _context.SaveChanges();
 
             Stadium testStadium = null;
 

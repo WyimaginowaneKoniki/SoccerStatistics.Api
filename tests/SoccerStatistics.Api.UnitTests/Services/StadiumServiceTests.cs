@@ -6,7 +6,6 @@ using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services;
 using SoccerStatistics.Api.Core.Services.Interfaces;
 using SoccerStatistics.Api.Database.Entities;
-using SoccerStatistics.Api.Database.Repositories;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
     public class StadiumServiceTests
     {
         private readonly IMapper _mapper;
-        private readonly Mock<IStadiumRepository> _repositoryMock;
+        private readonly Mock<IStadiumRepository> _stadiumRepositoryMock;
+        private readonly Mock<ITeamRepository> _teamRepositoryMock;
         private readonly IStadiumService _service;
 
         public StadiumServiceTests()
@@ -26,8 +26,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 => cfg.AddProfile<AutoMapperStadiumProfile>());
 
             _mapper = new Mapper(configuration);
-            _repositoryMock = new Mock<IStadiumRepository>();
-            _service = new StadiumService(_repositoryMock.Object, _mapper);
+            _stadiumRepositoryMock = new Mock<IStadiumRepository>();
+            _teamRepositoryMock = new Mock<ITeamRepository>();
+            _service = new StadiumService(_stadiumRepositoryMock.Object, _teamRepositoryMock.Object, _mapper);
         }
 
         [Fact]
@@ -86,8 +87,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             IEnumerable<StadiumDTO> testStadiums = null;
 
-            _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(stadiums);
+            _stadiumRepositoryMock.Reset();
+            _stadiumRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(stadiums);
 
             var expectedStadiums = _mapper.Map<IEnumerable<StadiumDTO>>(stadiums);
 
@@ -127,9 +128,9 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             StadiumDTO testStadium = null;
 
-            _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(stadium);
+            _stadiumRepositoryMock.Reset();
+            _stadiumRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
+            _stadiumRepositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(stadium);
 
             var expectedStadium = _mapper.Map<StadiumDTO>(stadium);
 
@@ -152,8 +153,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
             // Assert
             StadiumDTO testStadium = null;
 
-            _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Stadium)null);
+            _stadiumRepositoryMock.Reset();
+            _stadiumRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Stadium)null);
 
             // Act
             var err = await Record.ExceptionAsync(async

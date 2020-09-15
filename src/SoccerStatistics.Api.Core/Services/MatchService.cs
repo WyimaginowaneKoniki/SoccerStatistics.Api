@@ -20,12 +20,6 @@ namespace SoccerStatistics.Api.Core.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<MatchBasicDTO>> GetHistoryOfMatchesByLeagueId(uint leagueId)
-        {
-            var matches = await _matchRepository.GetHistoryOfMatchesByLeagueId(leagueId);
-            return _mapper.Map<IEnumerable<MatchBasicDTO>>(matches);
-        }
-
         public async Task<MatchDTO> GetByIdAsync(uint id)
         {
             // index starts from 1

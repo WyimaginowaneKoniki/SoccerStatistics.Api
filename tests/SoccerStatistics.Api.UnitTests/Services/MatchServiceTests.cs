@@ -18,68 +18,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
     public class MatchServiceTests
     {
         [Fact]
-        public async void ReturnHistoryOfMatchesWhichExistsInDbByGivenLeagueId()
-        {
-            // Arrange
-            var league = new League { Id = 5, Name = "League5", };
-            var round = new Round { Id = 1, Name = "Round1", League = league };
-            var match1 = new Match { Id = 1, Round = round, Date = new DateTime(2020, 07, 16) };
-            var match2 = new Match { Id = 2, Round = round, Date = new DateTime(2020, 06, 15) };
-            var match3 = new Match { Id = 3, Round = round, Date = new DateTime(2019, 03, 13) };
-            var match4 = new Match { Id = 4, Round = round, Date = new DateTime(2019, 02, 12) };
-            var match5 = new Match { Id = 5, Round = round, Date = new DateTime(2019, 04, 14) };
-            var match6 = new Match { Id = 6, Round = round, Date = new DateTime(2015, 07, 9)};
-            IEnumerable<Match> matches = new List<Match>
-            {
-                match1,
-                match2,
-                match5,
-                match3,
-                match4
-            };
-            league.Rounds = new List<Round>
-            {
-                round
-            };
-            round.Matches = new List<Match>
-            {
-                match1,
-                match2,
-                match3,
-                match4,
-                match5,
-                match6,
-            };
-            IEnumerable<MatchBasicDTO> testMatches = null;
-            var matchRepositoryMock = new Mock<IMatchRepository>();
-            matchRepositoryMock.Setup(r => r.GetHistoryOfMatchesByLeagueId(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            matchRepositoryMock.Setup(r => r.GetHistoryOfMatchesByLeagueId(5)).ReturnsAsync(matches);
-
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapperLeagueProfile>();
-                cfg.AddProfile<AutoMapperRoundProfile>();
-                cfg.AddProfile<AutoMapperMatchProfile>();
-            });
-
-            var mapper = new Mapper(configuration);
-
-            IEnumerable<MatchBasicDTO> expectedMatches = mapper.Map<IEnumerable<MatchBasicDTO>>(matches);
-
-            var service = new MatchService(matchRepositoryMock.Object, mapper);
-
-            //Act
-            var err = await Record.ExceptionAsync(async () => testMatches = await service.GetHistoryOfMatchesByLeagueId(5));
-
-            // Assert
-            err.Should().BeNull();
-
-            testMatches.Should().NotBeNull();
-
-            testMatches.Should().BeEquivalentTo(expectedMatches);
-        }
-
-        [Fact]
         public async void ReturnMatchWhichExistsInDbByGivenId()
         {
             // Arrange

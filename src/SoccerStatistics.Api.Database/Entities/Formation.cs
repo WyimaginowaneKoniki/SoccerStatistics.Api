@@ -1,5 +1,4 @@
-﻿using SoccerStatistics.Api.Database.Validations;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SoccerStatistics.Api.Database.Entities
 {

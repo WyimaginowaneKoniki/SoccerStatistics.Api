@@ -10,14 +10,14 @@ namespace SoccerStatistics.Api.Core.AutoMapper.Profiles
         public AutoMapperPlayerProfile()
         {
             CreateMap<Player, PlayerDTO>()
-                .ForMember(dto => dto.Age, 
+                .ForMember(dto => dto.Age,
                            e => e.MapFrom(p => (DateTime.UtcNow.Year - p.Birthday.Year)));
 
             CreateMap<Player, PlayerBasicDTO>()
-                .ForMember(dto => dto.Age, 
+                .ForMember(dto => dto.Age,
                            e => e.MapFrom(p => (DateTime.UtcNow.Year - p.Birthday.Year)));
 
-            CreateMap<Player,PlayerBasicDTO>()
+            CreateMap<Player, PlayerBasicDTO>()
                 .ForMember(dto => dto.Age,
                            e => e.MapFrom(p => (DateTime.UtcNow.Year - p.Birthday.Year)));
         }

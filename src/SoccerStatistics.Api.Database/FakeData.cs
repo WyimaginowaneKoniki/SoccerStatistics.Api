@@ -21,6 +21,8 @@ namespace SoccerStatistics.Api.Database
         private uint roundId = 1;
         private uint teamInLeagueId = 1;
         private uint leagueId = 1;
+        private uint benchId = 1;
+        private uint formationId = 1;
         #endregion
 
         public Faker<Player> GetFakePlayer()
@@ -171,8 +173,21 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(t => t.BallPossesion, f => f.Random.UInt(minPercentOfBallPossesion,
                                                                   maxPercentOfBallPossesion))
                 .RuleFor(t => t.Formation, f => GenerateFormation())
-                .RuleFor(t => t.Team, f => team);
+                .RuleFor(t => t.Team, f => team)
+                .RuleFor(t => t.PlayersOnBench, f => GetFakeBench(team.Players).Generate(10))
+                .RuleFor(t => t.PlayersInFormation, f => GetFakePlayersInFormation(team.Players).Generate(10));
         }
+
+        public Faker<Bench> GetFakeBench(IEnumerable<Player> players)
+        => new Faker<Bench>()
+                .RuleFor(b => b.Id, f => benchId++)
+                .RuleFor(b => b.Player, f => f.PickRandom(players));
+
+        public Faker<Formation> GetFakePlayersInFormation(IEnumerable<Player> players)
+        => new Faker<Formation>()
+                .RuleFor(fo => fo.Id, f => formationId++)
+                .RuleFor(fo => fo.Player, f => f.PickRandom(players))
+                .RuleFor(fo => fo.PositionNumber, f => f.Random.UInt(0, 10));
 
         public Faker<Round> GetFakeRound(League league)
         {

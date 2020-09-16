@@ -20,11 +20,7 @@ namespace SoccerStatistics.Api.Database.Repositories
                                        .Include(m => m.Activities)
                                        .Include(m => m.InteractionsBetweenPlayers)
                                        .Include(m => m.TeamOneStats)
-                                           .ThenInclude(t => t.Team)
-                                               .ThenInclude(t => t.Players)
                                        .Include(m => m.TeamTwoStats)
-                                           .ThenInclude(t => t.Team)
-                                               .ThenInclude(t => t.Players)
                                        .SingleOrDefaultAsync(match => match.Id == id);
     }
 }

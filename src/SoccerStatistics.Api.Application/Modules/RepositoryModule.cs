@@ -21,9 +21,13 @@ namespace SoccerStatistics.Api.Application.Modules
                    .AsImplementedInterfaces()
                    .InstancePerLifetimeScope();
 
+            builder.RegisterType<FakeData>()
+                   .As<IFakeData>()
+                   .SingleInstance();
+
             builder.RegisterType<DataInitializer>()
                    .As<IDataInitializer>()
-                   .SingleInstance();
+                   .SingleInstance();            
         }
     } 
 }

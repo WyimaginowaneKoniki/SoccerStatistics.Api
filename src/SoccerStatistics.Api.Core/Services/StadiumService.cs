@@ -17,15 +17,21 @@ namespace SoccerStatistics.Api.Core.Services
             _stadiumRepository = stadiumRepository;
             _mapper = mapper;
         }
+
         public async Task<IEnumerable<StadiumDTO>> GetAllAsync()
         {
             var stadiums = await _stadiumRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<StadiumDTO>>(stadiums);
         }
+
         public async Task<StadiumDTO> GetByIdAsync(uint id)
         {
-            var stadiums = await _stadiumRepository.GetByIdAsync(id);
-            return _mapper.Map<StadiumDTO>(stadiums);
+            // index starts from 1
+            if (id == 0)
+                return null;
+
+            var stadium = await _stadiumRepository.GetByIdAsync(id);
+            return _mapper.Map<StadiumDTO>(stadium);
         }
     }
 }

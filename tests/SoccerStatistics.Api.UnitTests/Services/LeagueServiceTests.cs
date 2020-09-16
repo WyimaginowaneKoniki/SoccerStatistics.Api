@@ -5,10 +5,12 @@ using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services;
 using SoccerStatistics.Api.Core.Services.Interfaces;
+using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services
@@ -18,63 +20,36 @@ namespace SoccerStatistics.Api.UnitTests.Services
         private readonly IMapper _mapper;
         private readonly Mock<ILeagueRepository> _repositoryMock;
         private readonly ILeagueService _service;
+        private readonly IFakeData _fakeData;
 
         public LeagueServiceTests()
         {
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperLeagueProfile>());
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperLeagueProfile>();
+                cfg.AddProfile<AutoMapperTeamProfile>();
+                cfg.AddProfile<AutoMapperPlayerProfile>();
+            });
 
             _mapper = new Mapper(configuration);
             _repositoryMock = new Mock<ILeagueRepository>();
             _service = new LeagueService(_repositoryMock.Object, _mapper);
+
+            _fakeData = new FakeData();
         }
 
         [Fact]
         public async void ReturnAllLeaguesWhichExistsInDb()
         {
-            IEnumerable<League> leagues = new List<League>
-            {
-                new League()
-                {
-                    Id = 1,
-                    Name = "Primera Division",
-                    Country = "Spain",
-                    Season = "2018/2019",
-                    MVP = new Player() {Name =  "Lionel", Surname = "Messi" },
-                    Winner = new Team() {ShortName = "FC Barcelona" },
-                    Rounds = null,
-                    Teams = null
-                },
-                new League()
-                {
-                    Id = 2,
-                    Name = "Serie A",
-                    Country = "Italia",
-                    Season = "2017/2018",
-                    MVP = new Player() {Name =  "Mauro", Surname = "Icardi" },
-                    Winner = new Team() {ShortName = "Juventus" },
-                    Rounds = null,
-                    Teams = null
-                },
-                new League()
-                {
-                    Id = 3,
-                    Name = "Lotto Ekstraklasa",
-                    Country = "Poland",
-                    Season = "2018/2019",
-                    MVP = new Player() {Name =  "Igor", Surname = "Angulo" },
-                    Winner = new Team() {ShortName = "Piast Gliwice" },
-                    Rounds = null,
-                    Teams = null
-                }
-            };
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(12);
+            var fakeLeagues = _fakeData.GetFakeLeague(fakeTeams).Generate(3);
 
             IEnumerable<LeagueDTO> testLeagues = null;
 
             _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(leagues);
+            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(fakeLeagues);
 
-            var expectedLeagues = _mapper.Map<IEnumerable<LeagueDTO>>(leagues);
+            var expectedLeagues = _mapper.Map<IEnumerable<LeagueDTO>>(fakeLeagues);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -84,9 +59,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             err.Should().BeNull();
 
             testLeagues.Should().NotBeNull();
-
             testLeagues.Should().HaveSameCount(expectedLeagues);
-
             testLeagues.Should().BeEquivalentTo(expectedLeagues);
         }
 
@@ -94,23 +67,16 @@ namespace SoccerStatistics.Api.UnitTests.Services
         public async void ReturnLeagueWhichExistsInDbByGivenId()
         {
             // Assert
-            var league = new League()
-            {
-                Id = 1,
-                Name = "Primera Division",
-                Country = "Spain",
-                Season = "2018/2019",
-                MVP = new Player() { Name = "Lionel", Surname = "Messi" },
-                Winner = new Team() { ShortName = "FC Barcelona" }
-            };
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(12);
+            var fakeLeagues = _fakeData.GetFakeLeague(fakeTeams).Generate(3).First();
 
             LeagueDTO testLeague = null;
 
             _repositoryMock.Reset();
             _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(league);
+            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(fakeLeagues);
 
-            var expectedLeague = _mapper.Map<LeagueDTO>(league);
+            var expectedLeague = _mapper.Map<LeagueDTO>(fakeLeagues);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -120,7 +86,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
             err.Should().BeNull();
 
             testLeague.Should().NotBeNull();
-
             testLeague.Should().BeEquivalentTo(expectedLeague);
         }
 

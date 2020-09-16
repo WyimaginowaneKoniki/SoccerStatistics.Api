@@ -4,7 +4,7 @@ namespace SoccerStatistics.Api.Core.DTO
 {
     public class TeamDTO
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
         public string FullName { get; set; }
         public string ShortName { get; set; }
         public uint CreatedAt { get; set; }

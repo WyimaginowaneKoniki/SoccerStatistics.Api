@@ -5,8 +5,8 @@ using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services;
 using SoccerStatistics.Api.Core.Services.Interfaces;
+using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
-using SoccerStatistics.Api.Database.Entities.Enums;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,6 +19,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
         private readonly IMapper _mapper;
         private readonly Mock<IPlayerRepository> _repositoryMock;
         private readonly IPlayerService _service;
+        private readonly IFakeData _fakeData;
 
         public PlayerServiceTests()
         {
@@ -28,64 +29,21 @@ namespace SoccerStatistics.Api.UnitTests.Services
             _mapper = new Mapper(configuration);
             _repositoryMock = new Mock<IPlayerRepository>();
             _service = new PlayerService(_repositoryMock.Object, _mapper);
+
+            _fakeData = new FakeData();
         }
 
         [Fact]
         public async void ReturnAllLeaguesWhichExistsInDb()
         {
-            IEnumerable<Player> players = new List<Player>
-            {
-
-                 new Player()
-                {
-                    Id = 1,
-                    Name = "Lionel",
-                    Surname = "Messi",
-                    Height = 169,
-                    Weight = 68,
-                    Birthday = new DateTime(1987, 6, 23),
-                    Nationality = "Argentina",
-                    DominantLeg = DominantLegType.Left,
-                    Nick = "La Pulga",
-                    Number = 10
-                },
-
-                new Player()
-                {
-                    Id = 2,
-                    Name = "Cristiano",
-                    Surname = "Rolando",
-                    Height = 189,
-                    Weight = 85,
-                    Birthday = new DateTime(1985, 2, 5),
-                    Nationality = "Portugal",
-                    DominantLeg = DominantLegType.Right,
-                    Nick = "CR7",
-                    Number = 7
-                },
-
-                new Player()
-                {
-                    Id = 3,
-                    Name = "Michał",
-                    Surname = "Pazdan",
-                    Height = 180,
-                    Weight = 78,
-                    Birthday = new DateTime(1987, 9, 21),
-                    Nationality = "Poland",
-                    DominantLeg = DominantLegType.Undefined,
-                    Nick = "Priest",
-                    Number = 22
-                }
-
-        };
+            var fakePlayers = _fakeData.GetFakePlayer().Generate(3);
 
             IEnumerable<PlayerDTO> testPlayers = null;
 
             _repositoryMock.Reset();
-            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(players);
+            _repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(fakePlayers);
 
-            var expectedPlayers = _mapper.Map<IEnumerable<PlayerDTO>>(players);
+            var expectedPlayers = _mapper.Map<IEnumerable<PlayerDTO>>(fakePlayers);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -95,9 +53,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             err.Should().BeNull();
 
             testPlayers.Should().NotBeNull();
-
             testPlayers.Should().HaveSameCount(expectedPlayers);
-
             testPlayers.Should().BeEquivalentTo(expectedPlayers);
         }
 
@@ -105,27 +61,15 @@ namespace SoccerStatistics.Api.UnitTests.Services
         public async void ReturnPlayerWhoExistsInDbByGivenId()
         {
             // Assert
-            var player = new Player()
-            {
-                Id = 1,
-                Name = "Lionel",
-                Surname = "Messi",
-                Height = 169,
-                Weight = 68,
-                Birthday = new DateTime(1987, 6, 23),
-                Nationality = "Argentina",
-                DominantLeg = DominantLegType.Left,
-                Nick = "La Pulga",
-                Number = 10
-            };
+            var fakePlayers = _fakeData.GetFakePlayer().Generate(3);
 
             PlayerDTO testPlayer = null;
 
             _repositoryMock.Reset();
             _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(player);
+            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(fakePlayers[0]);
 
-            var expectedPlayer = _mapper.Map<PlayerDTO>(player);
+            var expectedPlayer = _mapper.Map<PlayerDTO>(fakePlayers[0]);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -135,7 +79,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
             err.Should().BeNull();
 
             testPlayer.Should().NotBeNull();
-
             testPlayer.Should().BeEquivalentTo(expectedPlayer);
         }
 

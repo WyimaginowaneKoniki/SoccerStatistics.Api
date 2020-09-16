@@ -19,6 +19,10 @@ namespace SoccerStatistics.Api.Core.Services
 
         public async Task<RoundDTO> GetByIdAsync(uint id)
         {
+            // index starts from 1
+            if (id == 0)
+                return null;
+
             var round = await _roundRepository.GetByIdAsync(id);
             return _mapper.Map<RoundDTO>(round);
         }

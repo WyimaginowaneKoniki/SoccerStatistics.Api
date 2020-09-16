@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Autofac;
-using AutoMapper;
 using MediatR;
 
 namespace SoccerStatistics.Api.Application.Modules

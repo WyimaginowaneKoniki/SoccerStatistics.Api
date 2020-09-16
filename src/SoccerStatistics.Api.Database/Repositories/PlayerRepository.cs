@@ -16,9 +16,11 @@ namespace SoccerStatistics.Api.Database.Repositories
         }
 
         public async Task<IEnumerable<Player>> GetAllAsync()
-         => await _context.Players.ToListAsync();
+        => await _context.Players.Include(p => p.Team)
+                                 .ToListAsync();
 
         public async Task<Player> GetByIdAsync(uint id)
-            => await _context.Players.SingleOrDefaultAsync(x => x.Id == id);
+        => await _context.Players.Include(p => p.Team)
+                                 .SingleOrDefaultAsync(x => x.Id == id);
     }
 }

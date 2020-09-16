@@ -8,9 +8,9 @@ namespace SoccerStatistics.Api.Core.DTO
         public string Name { get; set; }
         public string Shortname { get; set; }
         public string Season { get; set; }
-        public string MVP { get; set; }
+        public PlayerBasicDTO MVP { get; set; }
         public string Country { get; set; }
-        public string Winner { get; set; }
+        public TeamBasicDTO Winner { get; set; }
         public IEnumerable<TeamBasicDTO> Teams { get; set; }
     }
 }

@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.Database.Repositories.Interfaces
 {
-    public interface IMatchRepository : IRepository
+    public interface ITeamInLeagueRepository : IRepository
     {
-        Task<Match> GetByIdAsync(uint id);
+        Task<League> GetLeagueForTeamAsync(uint teamId);
     }
 }

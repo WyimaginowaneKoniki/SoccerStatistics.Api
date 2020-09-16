@@ -5,9 +5,11 @@ using SoccerStatistics.Api.Core.AutoMapper.Profiles;
 using SoccerStatistics.Api.Core.DTO;
 using SoccerStatistics.Api.Core.Services;
 using SoccerStatistics.Api.Core.Services.Interfaces;
+using SoccerStatistics.Api.Database;
 using SoccerStatistics.Api.Database.Entities;
 using SoccerStatistics.Api.Database.Repositories.Interfaces;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace SoccerStatistics.Api.UnitTests.Services
@@ -17,34 +19,39 @@ namespace SoccerStatistics.Api.UnitTests.Services
         private readonly IMapper _mapper;
         private readonly Mock<IRoundRepository> _repositoryMock;
         private readonly IRoundService _service;
+        private readonly IFakeData _fakeData;
 
         public RoundServiceTests()
         {
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<AutoMapperRoundProfile>());
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperRoundProfile>();
+                cfg.AddProfile<AutoMapperLeagueProfile>();
+                cfg.AddProfile<AutoMapperMatchProfile>();
+            });
 
             _mapper = new Mapper(configuration);
             _repositoryMock = new Mock<IRoundRepository>();
             _service = new RoundService(_repositoryMock.Object, _mapper);
+
+            _fakeData = new FakeData();
         }
 
         [Fact]
         public async void ReturnRoundWhichExistsInDbByGivenId()
         {
             // Assert
-            var round = new Round()
-            {
-                Id = 1,
-                Name = "Round 1"
-            };
+            var fakeTeams = _fakeData.GetFakeTeam().Generate(2);
+            var fakeLeague = _fakeData.GetFakeLeague(fakeTeams).Generate(1).First();
+            var fakeRound = fakeLeague.Rounds.Where(x => x.Id == 1).First();
 
             RoundDTO testRound = null;
 
             _repositoryMock.Reset();
             _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
-            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(round);
+            _repositoryMock.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(fakeRound);
 
-            var expectedRound = _mapper.Map<RoundDTO>(round);
+            var expectedRound = _mapper.Map<RoundDTO>(fakeRound);
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -54,7 +61,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
             err.Should().BeNull();
 
             testRound.Should().NotBeNull();
-
             testRound.Should().BeEquivalentTo(expectedRound);
         }
 

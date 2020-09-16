@@ -91,7 +91,6 @@ namespace SoccerStatistics.Api.WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
               
             });
-
         }
     }
 }

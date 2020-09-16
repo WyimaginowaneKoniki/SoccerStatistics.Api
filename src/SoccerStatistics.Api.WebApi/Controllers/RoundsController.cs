@@ -34,6 +34,5 @@ namespace SoccerStatistics.Api.WebApi.Controllers
 
             return Ok(round);
         }
-
     }
 }

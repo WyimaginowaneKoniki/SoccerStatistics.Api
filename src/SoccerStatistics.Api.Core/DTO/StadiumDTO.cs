@@ -1,4 +1,6 @@
-﻿namespace SoccerStatistics.Api.Core.DTO
+﻿using System.Collections.Generic;
+
+namespace SoccerStatistics.Api.Core.DTO
 {
     public class StadiumDTO
     {
@@ -15,6 +17,6 @@
         public uint Lighting { get; set; }
         public string Architect { get; set; }
         public bool IsNational { get; set; }
-        public TeamBasicDTO Team { get; set; }
+        public IEnumerable<TeamBasicDTO> Teams { get; set; }
     }
 }

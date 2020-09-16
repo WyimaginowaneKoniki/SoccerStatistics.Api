@@ -27,5 +27,6 @@ namespace SoccerStatistics.Api.Database.Entities
         public DominantLegType DominantLeg { get; set; }
         public string Nick { get; set; }
         public uint Number { get; set; }
+        public Team Team { get; set; }
     }
 }

@@ -37,6 +37,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 cfg.AddProfile<AutoMapperInteractionBetweenPlayersProfile>();
                 cfg.AddProfile<AutoMapperFormationProfile>();
                 cfg.AddProfile<AutoMapperExtraTimeProfile>();
+                cfg.AddProfile<AutoMapperOvertimeProfile>();
+                cfg.AddProfile<AutoMapperPenaltyKickProfile>();
             });
 
             _mapper = new Mapper(configuration);

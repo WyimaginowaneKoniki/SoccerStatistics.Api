@@ -15,5 +15,6 @@ namespace SoccerStatistics.Api.Core.DTO
         public IEnumerable<ActivityDTO> Activities { get; set; }
         public IEnumerable<InteractionBetweenPlayersDTO> InteractionsBetweenPlayers { get; set; }
         public IEnumerable<ExtraTimeDTO> ExtraTime { get; set; }
+        public OvertimeDTO Overtime { get; set; }
     }
 }

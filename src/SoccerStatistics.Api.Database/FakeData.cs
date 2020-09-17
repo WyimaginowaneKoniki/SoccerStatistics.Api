@@ -23,6 +23,7 @@ namespace SoccerStatistics.Api.Database
         private uint leagueId = 1;
         private uint benchId = 1;
         private uint formationId = 1;
+        private uint extraTimeId = 1;
         #endregion
 
         public Faker<Player> GetFakePlayer()
@@ -129,7 +130,8 @@ namespace SoccerStatistics.Api.Database
                                     .Generate(f.Random.Int(minActivity, maxActivity)))
                 .RuleFor(m => m.InteractionsBetweenPlayers,
                         (f, m) => GetFakeInteraction(m.TeamOneStats.Team.Players.Concat(m.TeamTwoStats.Team.Players))
-                                    .Generate(f.Random.Int(minInteraction, maxInteraction)));
+                                    .Generate(f.Random.Int(minInteraction, maxInteraction)))
+                .RuleFor(m => m.ExtraTime, f => GetFakeExtraTime().Generate(3));
         }
 
         public Faker<Activity> GetFakeActivity(IEnumerable<Player> players)
@@ -188,6 +190,12 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(fo => fo.Id, f => formationId++)
                 .RuleFor(fo => fo.Player, f => f.PickRandom(players))
                 .RuleFor(fo => fo.PositionNumber, f => f.Random.UInt(0, 10));
+
+        public Faker<ExtraTime> GetFakeExtraTime()
+        => new Faker<ExtraTime>()
+                .RuleFor(e => e.Id, f => extraTimeId++)
+                .RuleFor(e => e.AdditionalTime, f => f.Random.UInt(1, 5))
+                .RuleFor(e => e.TimeAt, f => f.Random.UInt(90, 95));
 
         public Faker<Round> GetFakeRound(League league)
         {

@@ -21,6 +21,7 @@ namespace SoccerStatistics.Api.Database.Repositories
                                        .Include(m => m.InteractionsBetweenPlayers)
                                        .Include(m => m.TeamOneStats)
                                        .Include(m => m.TeamTwoStats)
+                                       .Include(m => m.ExtraTime)
                                        .SingleOrDefaultAsync(match => match.Id == id);
     }
 }

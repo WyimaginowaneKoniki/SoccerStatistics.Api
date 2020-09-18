@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SoccerStatistics.Api.Application.Queries;
 using SoccerStatistics.Api.Core.DTO;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,6 +24,8 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         /// <returns></returns>
         // GET: api/Matches/{id}
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(MatchDTO), 200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetMatchById([FromRoute] GetMatchByIdQuery query)
         {
             _logger.LogInformation(LoggingEvents.GetItem, "Getting match {id}", query.Id);

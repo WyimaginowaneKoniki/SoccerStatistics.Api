@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SoccerStatistics.Api.Application.Queries;
+using SoccerStatistics.Api.Core.DTO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
@@ -21,7 +23,8 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         /// <returns></returns>
         // GET: api/Teams
         [HttpGet]
-        [ProducesResponseType(typeof(GetAllTeamsQuery), 200)]
+        [ProducesResponseType(typeof(IEnumerable<TeamDTO>), 200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetAllTeams([FromRoute] GetAllTeamsQuery query)
         {
             _logger.LogInformation(LoggingEvents.ListItems, "Getting all teams");
@@ -43,6 +46,8 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         /// <returns></returns>
         // GET: api/Team/{id}
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(TeamDTO), 200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetTeamById([FromRoute] GetTeamByIdQuery query)
         {
             _logger.LogInformation(LoggingEvents.GetItem, "Getting team {id}", query.Id);

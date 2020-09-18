@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SoccerStatistics.Api.Application.Queries;
+using SoccerStatistics.Api.Core.DTO;
 using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
@@ -21,6 +22,8 @@ namespace SoccerStatistics.Api.WebApi.Controllers
         /// <returns></returns>
         // GET: api/Rounds/{id}
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(RoundDTO), 200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetRoundById([FromRoute] GetRoundByIdQuery query)
         {
             _logger.LogInformation(LoggingEvents.GetItem, "Getting round {id}", query.Id);

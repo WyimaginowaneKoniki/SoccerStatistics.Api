@@ -14,7 +14,8 @@ namespace SoccerStatistics.Api.Core.DTO
         public uint RedCards { get; set; }
         public uint YellowCards { get; set; }
         public uint Fouls { get; set; }
-        public IEnumerable<PlayerBasicDTO> Players { get; set; }
+        public IEnumerable<PlayerBasicDTO> PlayersOnBench { get; set; }
+        public IEnumerable<FormationDTO> PlayersInFormation { get; set; }
         public uint CornerKicks { get; set; }
         public uint PenaltyKicks { get; set; }
         public uint FreeKicks { get; set; }
@@ -26,7 +27,5 @@ namespace SoccerStatistics.Api.Core.DTO
         public IEnumerable<InteractionBetweenPlayersDTO> Substitutions { get; set; }
         public uint Offsides { get; set; }
         public uint Clearances { get; set; }
-
-
     }
 }

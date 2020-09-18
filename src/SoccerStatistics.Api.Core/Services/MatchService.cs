@@ -12,11 +12,14 @@ namespace SoccerStatistics.Api.Core.Services
     public class MatchService : IMatchService
     {
         private readonly IMatchRepository _matchRepository;
+        private readonly ITeamInMatchStatsRepository _teamInMatchStatsRepository;
         private readonly IMapper _mapper;
 
-        public MatchService(IMatchRepository matchRepository, IMapper mapper)
+        public MatchService(IMatchRepository matchRepository, 
+            ITeamInMatchStatsRepository teamInMatchStatsRepository, IMapper mapper)
         {
             _matchRepository = matchRepository;
+            _teamInMatchStatsRepository = teamInMatchStatsRepository;
             _mapper = mapper;
         }
 
@@ -26,10 +29,17 @@ namespace SoccerStatistics.Api.Core.Services
             if (id == 0)
                 return null;
 
-            Match match = await _matchRepository.GetByIdAsync(id);                   
+            Match match = await _matchRepository.GetByIdAsync(id);
+
+            if (match is null)
+                return null;
+
+            match.TeamOneStats = await _teamInMatchStatsRepository.GetByIdAsync(match.TeamOneStats.Id);
+            match.TeamTwoStats = await _teamInMatchStatsRepository.GetByIdAsync(match.TeamTwoStats.Id);
+
             var matchDTO = _mapper.Map<MatchDTO>(match);
 
-            if (matchDTO != null)          
+            if (matchDTO != null)
                 FillTeamsInMatchStats(match, matchDTO); // It calculates matchDTO values for statsInMeatch for each team
 
             return matchDTO;
@@ -82,9 +92,6 @@ namespace SoccerStatistics.Api.Core.Services
             statsDTO.PenaltyKicks = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.PenaltyKick && stats.Team.Players.Contains(x.Player)).Count();
 
-            statsDTO.Players = _mapper.Map<IEnumerable<PlayerBasicDTO>>(match.Activities
-                .Where(x => x.ActivityType == ActivityType.Squad && stats.Team.Players.Contains(x.Player)).Select(x => x.Player));
-
             statsDTO.RedCards = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.RedCard && stats.Team.Players.Contains(x.Player)).Count();
 
@@ -103,12 +110,15 @@ namespace SoccerStatistics.Api.Core.Services
             statsDTO.ShotsOnGoalPercentage = statsDTO.ShotsOnGoalPercentage != 0 ? (uint)(statsDTO.ShotsOnGoal / statsDTO.ShotsOnGoalPercentage) : 0;
 
             statsDTO.Substitutions = _mapper.Map<IEnumerable<InteractionBetweenPlayersDTO>>(match.InteractionsBetweenPlayers
-                .Where(x => x.InteractionType == InteractionType.Change && stats.Team.Players.Contains(x.Player1)));
+                .Where(x => x.InteractionType == InteractionType.Substitution && stats.Team.Players.Contains(x.Player1)));
 
             statsDTO.Team = _mapper.Map<TeamBasicDTO>(stats.Team);
 
             statsDTO.YellowCards = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.YellowCard && stats.Team.Players.Contains(x.Player)).Count();
+
+            statsDTO.PlayersOnBench = _mapper.Map<IEnumerable<PlayerBasicDTO>>(stats.PlayersOnBench.Select(x => x.Player));
+            statsDTO.PlayersInFormation = _mapper.Map<IEnumerable<FormationDTO>>(stats.PlayersInFormation);
         }
     }
 }

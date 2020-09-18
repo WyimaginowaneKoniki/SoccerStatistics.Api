@@ -64,13 +64,18 @@ namespace SoccerStatistics.Api.WebApi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SoccerStatisticsDbContext dbContext, 
             ILogger<Startup> logger, IDataInitializer dataInitializer)
         {
-            dbContext.Database.EnsureCreated();
-            logger.LogInformation("The database was created");
+            var isDbNotExsited = dbContext.Database.EnsureCreated();
 
-            if(Configuration.GetValue<bool>("Database:SeedData"))
+            if(isDbNotExsited)
             {
-                dataInitializer.Seed();
+                logger.LogInformation("The database was created");
+
+                // seed data after creating the database
+                if(Configuration.GetValue<bool>("Database:SeedData"))
+                    dataInitializer.Seed();
             }
+            else
+                logger.LogInformation("The database already exists");
 
             if (env.IsDevelopment())
             {

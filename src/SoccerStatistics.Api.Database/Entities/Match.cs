@@ -22,5 +22,7 @@ namespace SoccerStatistics.Api.Database.Entities
         public TeamInMatchStats TeamOneStats { get; set; }
         [Required]
         public TeamInMatchStats TeamTwoStats { get; set; }
+        public IEnumerable<ExtraTime> ExtraTime { get; set; }
+        public Overtime Overtime { get; set; }
     }
 }

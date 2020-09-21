@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
+    /// <summary>
+    /// Base Api Controller
+    /// </summary>
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]

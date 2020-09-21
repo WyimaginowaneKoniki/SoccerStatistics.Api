@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
+    /// <summary>
+    /// Endpoints GetAll and GetById Leagues  
+    /// </summary>
     public class LeaguesController : ApiControllerBase
     {
         private readonly ILogger<LeaguesController> _logger;

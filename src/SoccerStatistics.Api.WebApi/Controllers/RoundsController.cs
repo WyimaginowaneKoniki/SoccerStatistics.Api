@@ -9,6 +9,9 @@ namespace SoccerStatistics.Api.WebApi.Controllers
 {
     public class RoundsController : ApiControllerBase
     {
+        /// <summary>
+        /// Endpoint GetById Round  
+        /// </summary>
         private readonly ILogger<RoundsController> _logger;
         /// <summary>
         /// Constructor  with Mediator and Logger

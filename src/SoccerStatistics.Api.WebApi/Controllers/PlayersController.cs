@@ -12,7 +12,7 @@ namespace SoccerStatistics.Api.WebApi.Controllers
     {
         private readonly ILogger _logger;
         /// <summary>
-        /// Constructor
+        /// Constructor  with Mediator and Logger
         /// </summary>
         /// <param name="mediator"></param>
         /// <param name="logger"></param>

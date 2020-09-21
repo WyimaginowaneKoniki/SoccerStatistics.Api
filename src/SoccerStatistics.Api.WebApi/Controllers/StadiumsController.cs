@@ -11,6 +11,11 @@ namespace SoccerStatistics.Api.WebApi.Controllers
     public class StadiumsController : ApiControllerBase
     {
         private readonly ILogger<StadiumsController> _logger;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="mediator"></param>
+        /// <param name="logger"></param>
         public StadiumsController(IMediator mediator, ILogger<StadiumsController> logger) : base(mediator)
         {
             _logger = logger;

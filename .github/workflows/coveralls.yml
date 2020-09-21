@@ -1,5 +1,5 @@
 name: Coveralls
- 
+
 on:
   push:
     branches:
@@ -9,10 +9,10 @@ on:
     branches:
       - master
       - develop
- 
+
 jobs:
-  build: 
-    runs-on: ubuntu-latest 
+  build:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET Core
@@ -20,7 +20,9 @@ jobs:
         with:
           dotnet-version: 3.1.101
       - name: Generate coverage report
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+        run: |
+          cd ./tests/SoccerStatistics.Api.IntegrationTests/
+          dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
       - name: Publish coverage report to coveralls.io
         uses: coverallsapp/github-action@v1.0.1
         with:

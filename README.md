@@ -1,5 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NetCoreVersion: 3.1](https://img.shields.io/static/v1?label=.Net%20Core&message=3.1&color=informational)](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+[![Coverage Status](https://coveralls.io/repos/github/WyimaginowaneKoniki/SoccerStatistics.Api/badge.svg?branch=master)](https://coveralls.io/github/WyimaginowaneKoniki/SoccerStatistics.Api?branch=master)
 # SoccerStatistics REST API
 
 ## Overview

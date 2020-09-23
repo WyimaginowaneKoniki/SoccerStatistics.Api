@@ -3,7 +3,7 @@
     public enum InteractionType
     {
         Goal,
-        Change,
+        Substitution,
         Foul,
         ShotOnGoal
     }

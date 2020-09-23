@@ -20,11 +20,16 @@ namespace SoccerStatistics.Api.Database.Repositories
                                        .Include(m => m.Activities)
                                        .Include(m => m.InteractionsBetweenPlayers)
                                        .Include(m => m.TeamOneStats)
-                                           .ThenInclude(t => t.Team)
-                                               .ThenInclude(t => t.Players)
                                        .Include(m => m.TeamTwoStats)
-                                           .ThenInclude(t => t.Team)
-                                               .ThenInclude(t => t.Players)
+                                       .Include(m => m.ExtraTime)
+                                       .Include(m => m.Overtime)
+                                            .ThenInclude(o => o.PenaltyKicks)
+                                                .ThenInclude(p => p.Goalkeeper)
+                                       .Include(m => m.Overtime)
+                                            .ThenInclude(o => o.PenaltyKicks)
+                                                .ThenInclude(p => p.Shooter)
+                                       .Include(m => m.Overtime)
+                                            .ThenInclude(o => o.ExtraTime)
                                        .SingleOrDefaultAsync(match => match.Id == id);
     }
 }

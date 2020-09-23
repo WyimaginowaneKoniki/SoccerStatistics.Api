@@ -1,4 +1,5 @@
 ﻿using SoccerStatistics.Api.Database.Validations;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SoccerStatistics.Api.Database.Entities
@@ -16,6 +17,11 @@ namespace SoccerStatistics.Api.Database.Entities
         [StringLength(20)]
         [Formation]
         public string Formation { get; set; }
+        [Required]
+        [Range(10, 10)]
+        public IEnumerable<Formation> PlayersInFormation { get; set; }
+        [Required]
+        public IEnumerable<Bench> PlayersOnBench { get; set; }
         [Required]
         public Team Team { get; set; }
     }

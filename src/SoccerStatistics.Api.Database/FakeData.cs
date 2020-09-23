@@ -21,6 +21,11 @@ namespace SoccerStatistics.Api.Database
         private uint roundId = 1;
         private uint teamInLeagueId = 1;
         private uint leagueId = 1;
+        private uint benchId = 1;
+        private uint formationId = 1;
+        private uint extraTimeId = 1;
+        private uint overtimeId = 1;
+        private uint penaltyKickId = 1;
         #endregion
 
         public Faker<Player> GetFakePlayer()
@@ -127,7 +132,9 @@ namespace SoccerStatistics.Api.Database
                                     .Generate(f.Random.Int(minActivity, maxActivity)))
                 .RuleFor(m => m.InteractionsBetweenPlayers,
                         (f, m) => GetFakeInteraction(m.TeamOneStats.Team.Players.Concat(m.TeamTwoStats.Team.Players))
-                                    .Generate(f.Random.Int(minInteraction, maxInteraction)));
+                                    .Generate(f.Random.Int(minInteraction, maxInteraction)))
+                .RuleFor(m => m.ExtraTime, f => GetFakeExtraTime(45, 90).Generate(3))
+                .RuleFor(m => m.Overtime, (f, m) => GetFakeOverTime(m.TeamOneStats.Team.Players.Concat(m.TeamTwoStats.Team.Players)).Generate());
         }
 
         public Faker<Activity> GetFakeActivity(IEnumerable<Player> players)
@@ -171,8 +178,40 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(t => t.BallPossesion, f => f.Random.UInt(minPercentOfBallPossesion,
                                                                   maxPercentOfBallPossesion))
                 .RuleFor(t => t.Formation, f => GenerateFormation())
-                .RuleFor(t => t.Team, f => team);
+                .RuleFor(t => t.Team, f => team)
+                .RuleFor(t => t.PlayersOnBench, f => GetFakeBench(team.Players).Generate(10))
+                .RuleFor(t => t.PlayersInFormation, f => GetFakePlayersInFormation(team.Players).Generate(10));
         }
+
+        public Faker<Bench> GetFakeBench(IEnumerable<Player> players)
+        => new Faker<Bench>()
+                .RuleFor(b => b.Id, f => benchId++)
+                .RuleFor(b => b.Player, f => f.PickRandom(players));
+
+        public Faker<Formation> GetFakePlayersInFormation(IEnumerable<Player> players)
+        => new Faker<Formation>()
+                .RuleFor(fo => fo.Id, f => formationId++)
+                .RuleFor(fo => fo.Player, f => f.PickRandom(players))
+                .RuleFor(fo => fo.PositionNumber, f => f.Random.UInt(0, 10));
+
+        public Faker<ExtraTime> GetFakeExtraTime(uint minTimeAt, uint maxTimeAt)
+        => new Faker<ExtraTime>()
+                .RuleFor(e => e.Id, f => extraTimeId++)
+                .RuleFor(e => e.AdditionalTime, f => f.Random.UInt(1, 5))
+                .RuleFor(e => e.TimeAt, f => f.Random.UInt(minTimeAt, maxTimeAt));
+
+        public Faker<Overtime> GetFakeOverTime(IEnumerable<Player> players)
+        => new Faker<Overtime>()
+                .RuleFor(o => o.Id, f => overtimeId++)
+                .RuleFor(o => o.ExtraTime, f => GetFakeExtraTime(15, 30).Generate(2))
+                .RuleFor(o => o.PenaltyKicks, f => GetFakePenaltyKick(players).Generate(10));
+
+        public Faker<PenaltyKick> GetFakePenaltyKick(IEnumerable<Player> players)
+        => new Faker<PenaltyKick>()
+                .RuleFor(o => o.Id, f => penaltyKickId++)
+                .RuleFor(o => o.Shooter, f => f.PickRandom(players))
+                .RuleFor(o => o.Goalkeeper, f => f.PickRandom(players))
+                .RuleFor(o => o.IsGoal, f => f.Random.Bool());
 
         public Faker<Round> GetFakeRound(League league)
         {

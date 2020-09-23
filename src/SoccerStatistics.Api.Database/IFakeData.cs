@@ -14,6 +14,11 @@ namespace SoccerStatistics.Api.Database
         Faker<Activity> GetFakeActivity(IEnumerable<Player> players);
         Faker<InteractionBetweenPlayers> GetFakeInteraction(IEnumerable<Player> players);
         Faker<TeamInMatchStats> GetFakeTeamInMatchStats(Team team);
+        Faker<Bench> GetFakeBench(IEnumerable<Player> players);
+        Faker<Formation> GetFakePlayersInFormation(IEnumerable<Player> players);
+        Faker<ExtraTime> GetFakeExtraTime(uint minTimeAt, uint maxTimeAt);
+        Faker<Overtime> GetFakeOverTime(IEnumerable<Player> players);
+        Faker<PenaltyKick> GetFakePenaltyKick(IEnumerable<Player> players);
         Faker<Round> GetFakeRound(League league);
         Faker<League> GetFakeLeague(IEnumerable<Team> teams);
         Faker<TeamInLeague> GetFakeTeamInLeague(League league, Team team);

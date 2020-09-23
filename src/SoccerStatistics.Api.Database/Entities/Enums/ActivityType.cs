@@ -5,13 +5,11 @@
         MissedShot,
         RedCard,
         YellowCard,
-        Substitution,
         Injury,
         CornerKick,
         PenaltyKick,
         FreeKick,
         Offside,
-        Clearances,
-        Squad
+        Clearances
     }
 }

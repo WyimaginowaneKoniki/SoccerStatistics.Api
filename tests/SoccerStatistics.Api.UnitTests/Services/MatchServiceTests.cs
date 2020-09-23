@@ -19,6 +19,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
     public class MatchServiceTests
     {
         private readonly Mock<IMatchRepository> _matchRepository;
+        private readonly Mock<ITeamInMatchStatsRepository> _teamInMatchStatsRepository;
         private readonly IMapper _mapper;
         private readonly IMatchService _service;
         private readonly IFakeData _fakeData;
@@ -34,11 +35,16 @@ namespace SoccerStatistics.Api.UnitTests.Services
                 cfg.AddProfile<AutoMapperRoundProfile>();
                 cfg.AddProfile<AutoMapperMatchProfile>();
                 cfg.AddProfile<AutoMapperInteractionBetweenPlayersProfile>();
+                cfg.AddProfile<AutoMapperFormationProfile>();
+                cfg.AddProfile<AutoMapperExtraTimeProfile>();
+                cfg.AddProfile<AutoMapperOvertimeProfile>();
+                cfg.AddProfile<AutoMapperPenaltyKickProfile>();
             });
 
             _mapper = new Mapper(configuration);
             _matchRepository = new Mock<IMatchRepository>();
-            _service = new MatchService(_matchRepository.Object, _mapper);
+            _teamInMatchStatsRepository = new Mock<ITeamInMatchStatsRepository>();
+            _service = new MatchService(_matchRepository.Object, _teamInMatchStatsRepository.Object, _mapper);
 
             _fakeData = new FakeData();
         }
@@ -57,6 +63,11 @@ namespace SoccerStatistics.Api.UnitTests.Services
             _matchRepository.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
             _matchRepository.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(fakeMatch);
 
+            _teamInMatchStatsRepository.Reset();
+            _teamInMatchStatsRepository.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ThrowsAsync(new ArgumentException());
+            _teamInMatchStatsRepository.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(fakeMatch.TeamOneStats);
+            _teamInMatchStatsRepository.Setup(r => r.GetByIdAsync(2)).ReturnsAsync(fakeMatch.TeamTwoStats);
+
             MatchDTO expectedMatch = _mapper.Map<MatchDTO>(fakeMatch);
             FillTeamsInMatchStats(fakeMatch, expectedMatch);
                         
@@ -69,6 +80,8 @@ namespace SoccerStatistics.Api.UnitTests.Services
 
             testMatch.Should().NotBeNull();
             testMatch.Should().BeEquivalentTo(expectedMatch);
+
+            _teamInMatchStatsRepository.Verify(r => r.GetByIdAsync(It.IsInRange<uint>(1u, 2u, Moq.Range.Inclusive)), Times.Exactly(2));
         }
 
         [Fact]
@@ -78,7 +91,7 @@ namespace SoccerStatistics.Api.UnitTests.Services
             MatchDTO testMatch = null;
 
             _matchRepository.Reset();
-            _matchRepository.Setup(r => r.GetByIdAsync(It.IsAny<uint>())).ReturnsAsync((Match)null);
+            _teamInMatchStatsRepository.Reset();
 
             // Act
             var err = await Record.ExceptionAsync(async
@@ -134,9 +147,6 @@ namespace SoccerStatistics.Api.UnitTests.Services
             statsDTO.PenaltyKicks = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.PenaltyKick && stats.Team.Players.Contains(x.Player)).Count();
 
-            statsDTO.Players = _mapper.Map<IEnumerable<PlayerBasicDTO>>(match.Activities
-                .Where(x => x.ActivityType == ActivityType.Squad && stats.Team.Players.Contains(x.Player)).Select(x => x.Player));
-
             statsDTO.RedCards = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.RedCard && stats.Team.Players.Contains(x.Player)).Count();
 
@@ -155,12 +165,15 @@ namespace SoccerStatistics.Api.UnitTests.Services
             statsDTO.ShotsOnGoalPercentage = statsDTO.ShotsOnGoalPercentage != 0 ? (uint)(statsDTO.ShotsOnGoal / statsDTO.ShotsOnGoalPercentage) : 0;
 
             statsDTO.Substitutions = _mapper.Map<IEnumerable<InteractionBetweenPlayersDTO>>(match.InteractionsBetweenPlayers
-                .Where(x => x.InteractionType == InteractionType.Change && stats.Team.Players.Contains(x.Player1)));
+                .Where(x => x.InteractionType == InteractionType.Substitution && stats.Team.Players.Contains(x.Player1)));
 
             statsDTO.Team = _mapper.Map<TeamBasicDTO>(stats.Team);
 
             statsDTO.YellowCards = (uint)match.Activities
                 .Where(x => x.ActivityType == ActivityType.YellowCard && stats.Team.Players.Contains(x.Player)).Count();
+
+            statsDTO.PlayersOnBench = _mapper.Map<IEnumerable<PlayerBasicDTO>>(stats.PlayersOnBench.Select(x => x.Player));
+            statsDTO.PlayersInFormation = _mapper.Map<IEnumerable<FormationDTO>>(stats.PlayersInFormation);
         }
     }
 }

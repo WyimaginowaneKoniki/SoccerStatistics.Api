@@ -27,10 +27,10 @@ namespace SoccerStatistics.Api.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SoccerStatisticsDbContext>(options 
+            services.AddDbContext<SoccerStatisticsDbContext>(options
                 => options.UseSqlServer(Configuration["Database:ConnectionString"]));
 
-            services.AddControllers()   
+            services.AddControllers()
                     .AddJsonOptions(x =>
                     {
                         // change json response formatting
@@ -45,11 +45,8 @@ namespace SoccerStatistics.Api.WebApi
                     Title = "SoccerStatisticsApi",
                     Description = "API of Football World",
                 });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
 
-            });
+        });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -61,7 +58,7 @@ namespace SoccerStatistics.Api.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SoccerStatisticsDbContext dbContext, 
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SoccerStatisticsDbContext dbContext,
             ILogger<Startup> logger, IDataInitializer dataInitializer)
         {
             var isDbNotExsited = dbContext.Database.EnsureCreated();
@@ -94,7 +91,7 @@ namespace SoccerStatistics.Api.WebApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
-              
+                c.RoutePrefix = "api/swagger";
             });
         }
     }

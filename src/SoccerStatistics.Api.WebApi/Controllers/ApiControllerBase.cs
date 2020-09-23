@@ -6,29 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
-    /// <summary>
-    /// Base Api Controller
-    /// </summary>
+
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
     public abstract class ApiControllerBase : ControllerBase
     {
         private readonly IMediator _mediator;
-        /// <summary>
-        /// Base constructor with Mediator
-        /// </summary>
-        /// <param name="mediator"></param>
+
         protected ApiControllerBase(IMediator mediator)
         {
             _mediator = mediator;
         }
-        /// <summary>
-        /// Command Task of Mediator
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="command"></param>
-        /// <returns></returns>
+
         protected async Task<TResult> CommandAsync<TResult>(IRequest<TResult> command)
             => await _mediator.Send(command);
 

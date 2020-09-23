@@ -7,17 +7,12 @@ using System.Threading.Tasks;
 
 namespace SoccerStatistics.Api.WebApi.Controllers
 {
+
     public class RoundsController : ApiControllerBase
     {
-        /// <summary>
-        /// Endpoint GetById Round  
-        /// </summary>
+       
         private readonly ILogger<RoundsController> _logger;
-        /// <summary>
-        /// Constructor  with Mediator and Logger
-        /// </summary>
-        /// <param name="mediator"></param>
-        /// <param name="logger"></param>
+
         public RoundsController(IMediator mediator, ILogger<RoundsController> logger) : base(mediator) 
         { 
             _logger = logger;

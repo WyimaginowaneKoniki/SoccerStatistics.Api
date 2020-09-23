@@ -1,8 +1,5 @@
 ﻿namespace SoccerStatistics.Api.WebApi
 {
-    /// <summary>
-    ///  Codes of Loggining Events
-    /// </summary>
     public class LoggingEvents
     {
         public const int GenerateItems = 1000;

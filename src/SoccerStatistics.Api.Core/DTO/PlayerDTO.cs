@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoccerStatistics.Api.Database.Entities;
+using System;
 
 namespace SoccerStatistics.Api.Core.DTO
 {

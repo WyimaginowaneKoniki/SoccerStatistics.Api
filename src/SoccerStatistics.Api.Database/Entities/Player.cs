@@ -18,6 +18,8 @@ namespace SoccerStatistics.Api.Database.Entities
         public uint Height { get; set; }
         [Required]
         public uint Weight { get; set; }
+        [Required]
+        public PlayerPosition Position { get; set; }
         [Column(TypeName = "Date")]
         public DateTime Birthday { get; set; }
         [StringLength(55)]

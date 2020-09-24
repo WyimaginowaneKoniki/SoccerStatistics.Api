@@ -9,6 +9,7 @@ namespace SoccerStatistics.Api.Core.DTO
         public string Surname { get; set; }
         public uint Height { get; set; }
         public uint Weight { get; set; }
+        public PlayerPosition Position { get; set; }
         public DateTime Birthday { get; set; }
         public uint Age { get; set; }
         public string Nationality { get; set; }

@@ -41,6 +41,7 @@ namespace SoccerStatistics.Api.Database
                 .RuleFor(p => p.Surname, f => f.Name.LastName())
                 .RuleFor(p => p.Height, f => f.Random.UInt(minHeight, maxHeight))
                 .RuleFor(p => p.Weight, f => f.Random.UInt(minWeight, maxWeight))
+                .RuleFor(p => p.Position, f => f.PickRandom<PlayerPosition>())
                 .RuleFor(p => p.Birthday, f => f.Date.Past(maxAge,
                                                             DateTime.Now.AddYears(-minAge)))
                 .RuleFor(p => p.Nationality, f => f.Address.Country())
